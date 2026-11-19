@@ -422,7 +422,7 @@ function renderFeed() {
 
 function renderStats() {
   const t = state.totals;
-  $("#s-spent").textContent = `${usd(state.budget.spent_today_usd)} / ${usd(state.budget.daily_usd)}`;
+  $("#s-spent").textContent = `$${state.budget.spent_today_usd.toFixed(2)} / $${state.budget.daily_usd.toFixed(2)}`;
   $("#s-bought").textContent = t.purchases ?? 0;
   $("#s-junk").textContent = (t.rejected ?? 0) + (t.failed ?? 0);
   $("#s-rebuys").textContent = t.rebuys ?? 0;
