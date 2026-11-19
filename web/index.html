@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Swarm Budget — farm machines that check before they act</title>
+  <meta name="description" content="A farm fleet that pays Telegraph for each answer it needs, rejects answers about the wrong place or market, and buys again before it moves." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+  <script type="importmap">
+    { "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+    } }
+  </script>
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <span class="mark" aria-hidden="true"></span>
+      <div>
+        <h1>Farm machines that pay for an answer before they move, and refuse the wrong ones.</h1>
+        <p class="sub">Five machines on a real farm in <b id="farm-label">Kerman, California</b> share one budget. Each decision buys answers on
+          <a href="https://telegraphprotocol.com" target="_blank" rel="noopener">Telegraph</a>, checks they are about the right place,
+          market and hour, and buys again from another miner when they are not.</p>
+      </div>
+    </div>
+    <dl class="stats">
+      <div><dt>Spent today</dt><dd id="s-spent">–</dd></div>
+      <div><dt>Answers bought</dt><dd id="s-bought">–</dd></div>
+      <div><dt>Junk refused</dt><dd id="s-junk">–</dd></div>
+      <div><dt>Re-buys</dt><dd id="s-rebuys">–</dd></div>
+    </dl>
+  </header>
+
+  <main class="layout">
+    <section class="stage">
+      <div id="scene" aria-label="3D view of the farm and its machines"></div>
+      <div id="labels"></div>
+      <p class="honest">Machines are simulated. Every answer, payment and receipt is real Telegraph testnet traffic, paid from escrow on Ethereum Sepolia.</p>
+      <div class="controls">
+        <div class="machines" id="machines"></div>
+        <form id="try" class="try">
+          <label>Try your own farm
+            <input name="farm" placeholder="Salinas, California" required maxlength="80" />
+          </label>
+          <label>Packhouse town
+            <input name="packhouse" placeholder="Monterey, California" maxlength="80" />
+          </label>
+          <button type="submit">Run the fleet there</button>
+        </form>
+      </div>
+    </section>
+
+    <aside class="ledger">
+      <div class="ledger-head">
+        <h2>Ledger</h2>
+        <span id="busy" class="busy" hidden></span>
+      </div>
+      <ol id="feed" class="feed"></ol>
+    </aside>
+  </main>
+
+  <footer class="foot">
+    <span>Node <a id="node-link" target="_blank" rel="noopener">devnode.telegraphprotocol.com</a></span>
+    <span>Payer <code id="payer">–</code></span>
+    <span><a href="https://github.com/neromtoobad/swarm-budget" target="_blank" rel="noopener">Source</a></span>
+  </footer>
+
+  <template id="t-decision">
+    <li class="decision">
+      <header><span class="who"></span><span class="outcome"></span><time></time></header>
+      <p class="summary"></p>
+      <ul class="buys"></ul>
+    </li>
+  </template>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
