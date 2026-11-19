@@ -69,3 +69,14 @@ test("place matching uses coordinates when present", () => {
   assert.equal(placeMatches("Fresno, California, United States", FRESNO).ok, true);
   assert.equal(placeMatches("Berlin, Germany", FRESNO).ok, false);
 });
+
+test("same town name in another country is refused (TxLens answered Kerman, Iran for Kerman, California)", () => {
+  // Real answer, 2026-11-19, evidence/junk-STORM_ALERT-kerman-iran.json
+  const resp = { ok: true, status: 200, body: { miner_id: "9002", result: { location: "Kerman, Kerman, Iran", risk_level: "LOW", peak_gust_kmh: 21 } } };
+  const v = judge(resp, { intent: "STORM_ALERT_GENERAL", params: { location: "Kerman, California" }, place: KERMAN });
+  assert.equal(v.verdict, "rejected");
+  assert.match(v.checks[0].why, /different place/);
+  const ok = judge({ ...resp, body: { ...resp.body, result: { ...resp.body.result, location: "Kerman, California, United States" } } },
+    { intent: "STORM_ALERT_GENERAL", params: {}, place: KERMAN });
+  assert.equal(ok.verdict, "accepted");
+});

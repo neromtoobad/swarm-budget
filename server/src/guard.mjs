@@ -26,6 +26,8 @@ const norm = (s) => String(s ?? "").toLowerCase().normalize("NFKD").replace(/[^\
 
 // Does an echoed place name refer to the place we asked about?
 // place = { name: "Kerman", region: "California", country: "United States", lat, lon }
+const COUNTRY_ALIASES = { "United States": ["USA", "US", "United States of America"], "United Kingdom": ["UK", "GB", "Great Britain"] };
+
 export function placeMatches(echo, place, maxKm = 120) {
   if (!echo) return { ok: null, why: "no place echoed" };
   const pts = coordsInText(echo);
@@ -36,9 +38,17 @@ export function placeMatches(echo, place, maxKm = 120) {
       : { ok: false, why: `answer is about a place ${Math.round(d).toLocaleString("en-US")} km away` };
   }
   const e = norm(echo);
-  const tokens = [place.name, place.region].filter(Boolean).map(norm);
-  if (tokens.some((t) => t && e.includes(t.trim()))) return { ok: true, why: `echoed "${echo}"` };
-  return { ok: false, why: `answer is about "${echo}", not ${[place.name, place.region].filter(Boolean).join(", ")}` };
+  const ours = [place.name, place.region].filter(Boolean).join(", ");
+  if (!(place.name && e.includes(norm(place.name).trim()))) return { ok: false, why: `answer is about "${echo}", not ${ours}` };
+  // Same town name is not enough: "Kerman, California" and "Kerman, Iran" both say Kerman.
+  // If the echo names a region or country, one of them has to be ours.
+  const rest = String(echo).split(",").slice(1).map((x) => norm(x).trim()).filter(Boolean);
+  if (rest.length) {
+    const want = [place.region, place.country, ...(COUNTRY_ALIASES[place.country] ?? [])].filter(Boolean).map((x) => norm(x).trim());
+    if (!rest.some((r) => want.some((w) => r === w || r.includes(w) || w.includes(r))))
+      return { ok: false, why: `answer is about "${echo}": same town name, different place (asked ${ours})` };
+  }
+  return { ok: true, why: `echoed "${echo}"` };
 }
 
 const fail = (why) => ({ pass: false, why });
