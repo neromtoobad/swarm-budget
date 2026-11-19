@@ -1,12 +1,14 @@
 # Swarm Budget: farm machines that pay for an answer before they move, and refuse the wrong ones
 
-**Live:** not deployed yet, so run it locally (below) · **Video:** not recorded yet · **Built at:** Telegraph Hackathon Season II, Nov 2026 (Track 03 Apps & Agents; missions 11 Autonomous Systems and 06 Resources & Agriculture)
+**Live:** [swarm.nerom.site](https://swarm.nerom.site) · **Video:** not recorded yet · **Built at:** Telegraph Hackathon Season II, Nov 2026 (Track 03 Apps & Agents; missions 11 Autonomous Systems and 06 Resources & Agriculture)
 
 **Proof:** every answer the fleet uses is a paid Telegraph purchase. Its signal record on the public node names our wallet as the buyer, for example
 [`/engine/v1/signal/0x2be2…99a8`](https://devnode.telegraphprotocol.com/engine/v1/signal/0x2be2cfc707ea4c40e67676a0b3366e0cf9f30dd8287f04a3d3a98df3597199a8),
 paid from escrow by [`0x8482…A78E`](https://devnode.telegraphprotocol.com/v1/ledger/account/0x8482e592d6b28d3f5b713cc4576d6ce216b2a78e).
 
-![The farm and its ledger: Kite holds on 45.7 km/h gusts after the guard refused an answer about Kerman, Iran](docs/screenshot.png)
+![The farm as a 3D model, the fleet dock, and today's budget with paid receipts](docs/screenshot.png)
+
+![Haul's inspection card: the answer, each guard check, then the stamp](docs/inspection.png)
 
 Five simulated machines work a real farm location in Kerman, California: a spray drone, a charging rover, a delivery truck, a
 scout drone and an auditor. They share one daily budget. Before any machine acts, it buys the answers it needs on Telegraph
@@ -16,10 +18,10 @@ hour and unit. If an answer fails, the machine buys again from a different miner
 ## For judges: verify in 2 minutes
 | Do this | You see |
 |---|---|
-| `npm install && npm test` | 14 tests. Guard tests run on real answers saved in `evidence/`, including the Kerman, Iran one |
+| `npm install && npm test` | 16 tests. Guard tests run on real answers saved in `evidence/`, including the Kerman, Iran one |
 | `node tools/check-live.mjs` (against a running app) | PASS/FAIL for each claim below, read from the app and the public Telegraph node |
-| Open the app and click **Run now** on Kite | Purchases stream into the ledger. Each has a signal link to the node and an escrow receipt |
-| Click **Send to a bad miner** on Mule | First purchase goes to Grid Elering (Estonia) for a California node. The guard refuses it and re-buys from a CAISO miner |
+| Open the app and click **Run now** on Kite | The camera moves to Kite and a pulse leaves the telegraph mast. A card opens with the miner's answer, each guard check ticks in, then **Accepted** or **Refused**. The receipt lands on the right with a signal link to the node and the escrow receipt |
+| Click **Bad miner** on Mule | First purchase goes to Grid Elering (Estonia) for a California node. The guard refuses it and re-buys from a CAISO miner |
 | Type a farm in **Try your own farm** | Four machines decide for a new place on new, live answers |
 
 ## What the guard caught on the live network
@@ -28,25 +30,28 @@ hour and unit. If an answer fails, the machine buys again from a different miner
 | Storm alert for Kerman, California | `"Kerman, Kerman, Iran"`, gusts 21 km/h (TxLens, PREFLIGHT) | refused: same town name, different place. By coordinates, the real farm had **45.7 km/h**. See `evidence/name-vs-coordinates-STORM_ALERT.json` |
 | CAISO price at `TH_ZP26_GEN-APND` | Grid Elering answer with no node and no currency | refused, then bought again: CAISO NP15 failed (500), ZK CAISO accepted at $57.33/MWh. See `evidence/rebuy-GRID_POWER_PRICE_GENERAL-714106.json` |
 | Satellite read of the farm | an answer about Illinois / "no image supplied" | refused: wrong place, or no imagery was analysed. See `evidence/rebuy-SATELLITE_IMAGERY_ANALYSIS_GENERAL-7445.json` |
+| Satellite read of the farm | PREFLIGHT: "Image fetched; the vision model was unavailable", with no reading | refused: an answer with no reading is not imagery analysis. Before this check, Lark irrigated on it. See `evidence/junk-SATELLITE-no-reading.json` |
 | Satellite read under cloud | "dense cloud cover… impossible to observe the fields" | counted as **inconclusive**, so irrigation keeps its schedule. See `test/fleet.test.mjs` |
 
 ## Claims (every one checkable today)
 | Claim | Where in code | Check |
 |---|---|---|
-| Pays Telegraph per answer with an EIP-191 signed escrow authorization in `X-PAYMENT` | `server/src/telegraph.mjs:65`, `:94`, `:98` | check-live: "every purchase carries a Telegraph signal hash and an escrow receipt" |
-| Keeps the escrow receipt (`X-PAYMENT-RESPONSE`) for every purchase | `server/src/telegraph.mjs:107`, `server/src/store.mjs:16` | ledger rows show `receipt …` and `epoch …` |
-| Judges every answer before use | `server/src/buyer.mjs:52`, `server/src/guard.mjs:134` | `npm test` |
-| Refuses a same-name town in another region or country | `server/src/guard.mjs:49` | test "same town name in another country is refused" |
-| Re-buys from the next compatible miner, ranked by our own pass rate per miner | `server/src/buyer.mjs:21-35`, `:69` | check-live: "guard has refused… and a re-buy followed" |
-| Never acts on a refused answer | `server/src/fleet.mjs` (`get()` returns only accepted results) | check-live: "no machine acted on a refused answer" |
-| One shared daily budget; purchases stop when it is spent | `server/src/server.mjs:25` | check-live: "daily budget is enforced" |
-| Weather asks use coordinates, because names resolved to the wrong country | `server/src/fleet.mjs:79-80`, `:144` | `evidence/name-vs-coordinates-STORM_ALERT.json` |
-| Satellite read passes real NASA GIBS imagery of the farm to the miner | `server/src/fleet.mjs:128` | ledger row "Satellite read", the question carries `image_url=` |
+| Pays Telegraph per answer with an EIP-191 signed escrow authorization in `X-PAYMENT` | `server/src/telegraph.mjs:67` (`askEscrow`), `:97`, `:101` | check-live: "every purchase carries a Telegraph signal hash and an escrow receipt" |
+| Keeps the escrow receipt (`X-PAYMENT-RESPONSE`) for every purchase | `server/src/telegraph.mjs:110`, `server/src/store.mjs:21` | each receipt row shows `receipt …` and `epoch …` |
+| Judges every answer before use | `server/src/buyer.mjs:57`, `server/src/guard.mjs:137` | `npm test` |
+| Refuses a same-name town in another region or country | `server/src/guard.mjs:41-47` | test "same town name in another country is refused" |
+| Refuses a satellite answer that holds no reading | `server/src/guard.mjs:113-114` | test "a satellite answer with no reading is refused" |
+| Re-buys from the next compatible miner, ranked by our own pass rate per miner | `server/src/buyer.mjs:20-35`, `:75` | check-live: "guard has refused… and a re-buy followed" |
+| Never acts on a refused answer | `server/src/fleet.mjs:66-70` (`get()` returns only accepted results) | check-live: "no machine acted on a refused answer" |
+| One shared daily budget; purchases stop when it is spent | `server/src/server.mjs:24-29`, `server/src/buyer.mjs:48-51` | check-live: "daily budget is enforced" |
+| Weather asks use coordinates, because names resolved to the wrong country | `server/src/fleet.mjs:77-78` | `evidence/name-vs-coordinates-STORM_ALERT.json` |
+| Satellite read passes real NASA GIBS imagery of the farm to the miner | `server/src/fleet.mjs:127-130` | the "Satellite read" question carries `image_url=` |
+| The page animates a purchase only when one happened: the pulse starts on the server's `asking` event and lands on its `purchase` event | `server/src/server.mjs:38-39`, `web/app.js:399` | watch the network tab: one `/api/stream` event per pulse |
 
 ## Not built yet
-- Real hardware. The machines are simulated: positions and motion in the 3D view are animation only.
+- Real hardware. The machines are simulated: positions and motion in the 3D view are animation only. Motion follows real outcomes (Kite sprays only after an accepted "act", Haul leaves only when the drive fits), but nothing physical moves.
 - x402 "exact" rail in production. The client supports it (`server/src/telegraph.mjs`, `ask()`), but the public facilitator timed out on settle during the event, so the app pays through escrow.
-- Live deployment and demo video.
+- Demo video.
 
 ## What's real
 | Part | Status | Proof |
@@ -54,13 +59,24 @@ hour and unit. If an answer fails, the machine buys again from a different miner
 | Telegraph purchases | real, testnet node, escrow rail | signal links in the ledger; `tools/check-live.mjs` |
 | Payment | 5 test USDC deposited to the escrow Diamond `0x72a7…a08b` on Ethereum Sepolia | [ledger account](https://devnode.telegraphprotocol.com/v1/ledger/account/0x8482e592d6b28d3f5b713cc4576d6ce216b2a78e) |
 | Guard, re-buy, budget, decisions | real code on every purchase | `server/src/guard.mjs`, `buyer.mjs`, `fleet.mjs` |
-| Farm location geocoding | Open-Meteo geocoding, used only to set up a typed farm. It never feeds a decision | `server/src/fleet.mjs:37` |
+| Farm location geocoding | Open-Meteo geocoding, used only to set up a typed farm. It never feeds a decision | `server/src/fleet.mjs:35-43` |
 | Machines, 3D farm | **simulated**: there are no drones. The UI and this README say so | `web/index.html` ("Machines are simulated…") |
 
 ## The problem
 An autonomous machine that buys data has no way to tell a good answer from a confident one about the wrong place. On the
 live network we saw a storm answer for Kerman, Iran instead of Kerman, California, an Estonian grid price for a California
 node, and a satellite answer about Illinois. A spray drone acting on the first one would have used the wrong wind data.
+
+## The page
+- **The farm** is a 3D model (three.js) of the Kerman plot: orchard, lettuce, vines, a pivot irrigator, barn, cold store,
+  charging canopy and a telegraph mast. The five machines sit on it.
+- **A purchase is a pulse** on the wire between the mast and the machine. It starts when the server begins an ask and lands
+  when the answer comes back. No purchase, no pulse.
+- **The inspection card** opens over the machine: the question in plain words, who answered, what they said, each guard
+  check, then a stamp: Accepted, Refused or No answer.
+- **Receipts** (right) show today's spend against the budget and each decision's purchases, with signal and escrow links.
+- **Below the fold:** what the guard refused, every miner's record, one real decision as the four-step example, "Try your
+  own farm", and the escrow account numbers read from the node.
 
 ## How it works
 1. A machine starts a decision (`server/src/fleet.mjs`, `decide()`), on its own loop or from a visitor.
@@ -80,7 +96,7 @@ node, and a satellite answer about Illinois. A spray drone acting on the first o
 ## Trust model & limitations
 - One server-held testnet key pays for everything (`EVM_PRIVATE_KEY`). Visitors never sign anything. Their paid actions are rate-limited (8 decisions and 3 farm runs per IP per hour) and capped by the daily budget.
 - The guard checks consistency with the question. It cannot prove a gust reading is true. The auditor machine (Ledger) later checks yesterday's spray call against recorded weather.
-- "Send to a bad miner" points the first purchase at miners we saw fail before (`server/src/server.mjs:77`). The refusal itself still comes from the guard on the live answer.
+- The **Bad miner** button points the first purchase at miners we saw fail before (`server/src/server.mjs:81`). The refusal itself still comes from the guard on the live answer.
 
 ## Run it
 ```bash

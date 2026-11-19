@@ -4,18 +4,18 @@ No wallet or sign-in needed. Everything below runs against the public Telegraph 
 
 | Do this | You see |
 |---|---|
-| Open the app and click **Run now** on Kite | Two purchases stream in (storm alert, rain forecast), each with a signal link and an escrow receipt. Kite sprays or holds and says why, with numbers |
-| Click any `signal 0x…` link in the ledger | The node's own record of that answer. `wallet_address` is the fleet's payer |
-| Click **Send to a bad miner** on Mule | The first answer comes from an Estonian grid miner for a California node. It is refused in red, and the next purchase is a re-buy from a CAISO miner |
+| Open the app and click **Run now** on Kite | Two purchases (storm alert, rain forecast). For each, a card opens over Kite with the answer and the guard checks, then a stamp. Kite sprays or holds and the receipt says why, with numbers |
+| Click any `signal 0x…` link in the receipts | The node's own record of that answer. `wallet_address` is the fleet's payer |
+| Click **Bad miner** on Mule | The first answer comes from an Estonian grid miner for a California node. It is refused in red, and the next purchase is a re-buy from a CAISO miner |
 | Type `Salinas, California` in **Try your own farm** | A new location, new live answers, four decisions |
 | `node tools/check-live.mjs <app-url>` | PASS/FAIL per claim, checked against the node, not just our database |
 | `npm test` | Guard tests built on real junk answers saved in `evidence/` |
 
 ## Failure cases to try
 - **Wrong place:** `evidence/junk-STORM_ALERT-kerman-iran.json`. Two miners answered for Kerman, Iran. The test "same town name in another country is refused" replays it.
-- **Wrong market:** Mule's **Send to a bad miner**.
-- **No imagery analysed:** Lark's **Send to a bad miner**.
-- **Budget spent:** set `DAILY_BUDGET_USD=0.02` and run Kite twice. The second decision pays for nothing, because the buyer stops before paying (`server/src/buyer.mjs:44-47`), and the drone stays on the pad.
+- **Wrong market:** Mule's **Bad miner** button.
+- **No imagery analysed:** `evidence/junk-SATELLITE-no-reading.json` ("the vision model was unavailable"), replayed by the test "a satellite answer with no reading is refused". Lark's **Bad miner** button sends to TxLens 9002; at the moment the node returns 503 for that direct ask, which the page shows as "No answer" and nothing is charged.
+- **Budget spent:** set `DAILY_BUDGET_USD=0.02` and run Kite twice. The second decision pays for nothing, because the buyer stops before paying (`server/src/buyer.mjs:48-51`), and the drone stays on the pad.
 
 ## Rubric (Telegraph H2 /rules)
 | Criterion | Where we meet it |
