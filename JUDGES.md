@@ -15,7 +15,7 @@ No wallet or sign-in needed. Everything below runs against the public Telegraph 
 - **Wrong place:** `evidence/junk-STORM_ALERT-kerman-iran.json`. Two miners answered for Kerman, Iran. The test "same town name in another country is refused" replays it.
 - **Wrong market:** Mule's **Send to a bad miner**.
 - **No imagery analysed:** Lark's **Send to a bad miner**.
-- **Budget spent:** set `DAILY_BUDGET_USD=0.02` and run Kite twice. The second decision ends with "today's intelligence budget… is spent" and the drone stays on the pad.
+- **Budget spent:** set `DAILY_BUDGET_USD=0.02` and run Kite twice. The second decision pays for nothing, because the buyer stops before paying (`server/src/buyer.mjs:44-47`), and the drone stays on the pad.
 
 ## Rubric (Telegraph H2 /rules)
 | Criterion | Where we meet it |
