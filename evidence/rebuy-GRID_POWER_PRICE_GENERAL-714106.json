@@ -1,0 +1,57 @@
+{
+  "intent": "GRID_POWER_PRICE_GENERAL",
+  "params": {
+    "node_or_zone": "TH_ZP26_GEN-APND",
+    "interval_start": "2026-11-19T14:00:00Z"
+  },
+  "minerId": "714106",
+  "ok": true,
+  "status": 200,
+  "ms": 8735,
+  "body": {
+    "miner_id": "714106",
+    "miner_name": "ZK CAISO Day-Ahead Hub Prices",
+    "endpoint": "/price",
+    "result": {
+      "lmp_usd_per_mwh": 57.32756,
+      "node_or_zone": "TH_ZP26_GEN-APND",
+      "market": "DAM",
+      "interval_start": "2026-11-19T14:00:00Z",
+      "currency": "USD"
+    },
+    "result_shape": "intent",
+    "format_version": 1,
+    "field_status": {
+      "lmp_usd_per_mwh": "ok",
+      "node_or_zone": "ok",
+      "market": "ok",
+      "interval_start": "ok",
+      "currency": "ok"
+    },
+    "input": {
+      "node_or_zone": "TH_ZP26_GEN-APND",
+      "interval_start": "2026-11-19T14:00:00Z"
+    },
+    "input_schema_version": 1,
+    "cost_usd": 0.01,
+    "duration_ms": 1947,
+    "timestamp": "2026-11-19T13:06:38.242062715Z",
+    "reasoning": "Intent: miner zk-caisodam given by the caller\nMiner: The user is asking for the grid power price, and the intent GRID_POWER_PRICE_GENERAL is explicitly matched by the /price endpoint. The provided parameters 'node_or_zone' and 'interval_start' directly map to the required query parameters for this endpoint.",
+    "intent": "GRID_POWER_PRICE_GENERAL",
+    "intent_version": 2,
+    "signal_hash": "0xa327cc097887833be76dd6d65e2d1330e6e5ad5f385ba59402db6aa44998058e"
+  },
+  "receipt": {
+    "receipt_hash": "0x05bbdd494690979b8549eb06d31ef2979ce48fb74522cc3adb7c45c95602cbc5",
+    "rail": "escrow",
+    "payer": "0x8482e592d6b28d3f5b713cc4576d6ce216b2a78e",
+    "miner": "5238",
+    "intent": "GRID_POWER_PRICE_GENERAL",
+    "amount_uusdc": "10000",
+    "epoch_id": 17,
+    "settlement": "epoch",
+    "chain": "telegraph",
+    "timestamp": 1795093600
+  },
+  "rail": "escrow"
+}

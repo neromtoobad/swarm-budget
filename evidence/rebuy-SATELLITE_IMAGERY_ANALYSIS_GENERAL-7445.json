@@ -1,0 +1,57 @@
+{
+  "intent": "SATELLITE_IMAGERY_ANALYSIS_GENERAL",
+  "params": {
+    "location": "Kerman, California",
+    "question": "Is there standing water or flooding in the fields?"
+  },
+  "minerId": "7445",
+  "ok": true,
+  "status": 200,
+  "ms": 6479,
+  "body": {
+    "miner_id": "7445",
+    "miner_name": "VisionWire Satellite Imagery Analysis",
+    "endpoint": "/satellite",
+    "result": {
+      "location": null,
+      "findings": null,
+      "capture_date": null,
+      "summary": "No image or video URL was supplied to analyse. Pass the media as ?image_url= or ?video_url=. Include its URL in ?question= instead if you prefer.",
+      "brief": null
+    },
+    "result_shape": "intent",
+    "format_version": 3,
+    "field_status": {
+      "location": "missing",
+      "findings": "missing",
+      "capture_date": "missing",
+      "summary": "ok",
+      "brief": "missing"
+    },
+    "input": {
+      "location": "Kerman, California",
+      "question": "Is there standing water or flooding in the fields?"
+    },
+    "input_schema_version": 3,
+    "cost_usd": 0.01,
+    "duration_ms": 398,
+    "timestamp": "2026-11-19T13:06:43.925470573Z",
+    "reasoning": "Intent: miner visionwire-satellite-imagery given by the caller\nMiner: The user is asking a question about a specific location that requires satellite imagery analysis. The VisionWire Satellite Imagery Analysis miner has an endpoint at /satellite that accepts a question and location for analysis, which aligns with the SATELLITE_IMAGERY_ANALYSIS_GENERAL intent. The question and location provided by the user are directly mapped to the 'question' parameter of the miner's endpoint.",
+    "intent": "SATELLITE_IMAGERY_ANALYSIS_GENERAL",
+    "intent_version": 1,
+    "signal_hash": "0x47c4059722ef943430e1d88e4872b2ca561bc35d3749755eb540cf516f7894f8"
+  },
+  "receipt": {
+    "receipt_hash": "0x0105c548dd759461705bfa4d97dc67688ab0083c06329f37c5f5ead7252da079",
+    "rail": "escrow",
+    "payer": "0x8482e592d6b28d3f5b713cc4576d6ce216b2a78e",
+    "miner": "4442",
+    "intent": "SATELLITE_IMAGERY_ANALYSIS_GENERAL",
+    "amount_uusdc": "10000",
+    "epoch_id": 17,
+    "settlement": "epoch",
+    "chain": "telegraph",
+    "timestamp": 1795093607
+  },
+  "rail": "escrow"
+}
