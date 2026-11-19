@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Swarm Budget — farm machines that check before they act</title>
-  <meta name="description" content="A farm fleet that pays Telegraph for each answer it needs, rejects answers about the wrong place or market, and buys again before it moves." />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Swarm Budget: farm machines that pay for an answer before they move</title>
+  <meta name="description" content="A farm fleet that pays Telegraph for each answer it needs, refuses answers about the wrong place or market, and buys again before it moves." />
+  <meta name="theme-color" content="#d6e9fb" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23FFD426'/%3E%3Cpath d='M9 16.5l5 5 9-11' fill='none' stroke='%2310150F' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Host+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/style.css" />
   <script type="importmap">
     { "imports": {
@@ -17,66 +19,139 @@
   </script>
 </head>
 <body>
-  <header class="top">
-    <div class="brand">
-      <span class="mark" aria-hidden="true"></span>
-      <div>
-        <h1>Farm machines that pay for an answer before they move, and refuse the wrong ones.</h1>
-        <p class="sub">Five machines on a real farm in <b id="farm-label">Kerman, California</b> share one budget. Each decision buys answers on
-          <a href="https://telegraphprotocol.com" target="_blank" rel="noopener">Telegraph</a>, checks they are about the right place,
-          market and hour, and buys again from another miner when they are not.</p>
-      </div>
+  <section class="hero" id="top">
+    <div class="stage">
+      <div id="scene" aria-label="3D model of the farm and its five machines"></div>
+      <div id="tags"></div>
+      <button class="whole" id="whole" hidden>Show the whole farm</button>
     </div>
-    <dl class="stats">
-      <div><dt>Spent today</dt><dd id="s-spent">–</dd></div>
-      <div><dt>Answers bought</dt><dd id="s-bought">–</dd></div>
-      <div><dt>Junk refused</dt><dd id="s-junk">–</dd></div>
-      <div><dt>Re-buys</dt><dd id="s-rebuys">–</dd></div>
-    </dl>
-  </header>
 
-  <main class="layout">
-    <section class="stage">
-      <div id="scene" aria-label="3D view of the farm and its machines"></div>
-      <div id="labels"></div>
-      <p class="honest">Machines are simulated. Every answer, payment and receipt is real Telegraph testnet traffic, paid from escrow on Ethereum Sepolia.</p>
-      <div class="controls">
-        <div class="machines" id="machines"></div>
-        <form id="try" class="try">
-          <label>Try your own farm
-            <input name="farm" placeholder="Salinas, California" required maxlength="80" />
-          </label>
-          <label>Packhouse town
-            <input name="packhouse" placeholder="Monterey, California" maxlength="80" />
-          </label>
-          <button type="submit">Run the fleet there</button>
-        </form>
+    <header class="bar">
+      <a class="brand" href="#top">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#FFD426"/><path d="M9 16.5l5 5 9-11" fill="none" stroke="#10150F" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Swarm Budget</span>
+      </a>
+      <nav class="links">
+        <a href="#guard">What it refused</a>
+        <a href="#how">How it works</a>
+        <a href="#try">Try your farm</a>
+        <a href="#verify">Verify</a>
+      </nav>
+      <span class="live" id="live"><i></i><span>Telegraph testnet</span></span>
+    </header>
+
+    <div class="pitch">
+      <h1 id="h1">Farm machines that pay for an answer before they move.</h1>
+      <p class="sub">Five machines on a farm in <b id="farm-label">Kerman, California</b> share one daily budget. Each buys the answer it needs on Telegraph, checks it is about the right place, market and hour, and buys again from another miner when it is not.</p>
+      <p class="honest"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.2"/><path d="M8 7.2v4M8 4.8v.2"/></svg>Machines are simulated. Answers, payments and receipts are real.</p>
+    </div>
+
+    <div class="dock" id="dock" aria-label="The fleet"></div>
+
+    <aside class="ledger" aria-label="Budget and receipts">
+      <div class="budget">
+        <div class="budget-top">
+          <span class="lbl">Spent today</span>
+          <span class="busy" id="busy" hidden></span>
+        </div>
+        <div class="money"><span id="s-spent">$0.00</span><small id="s-cap">of $3.00</small></div>
+        <div class="meter"><i id="s-bar"></i></div>
+        <dl class="trio">
+          <div><dd id="s-bought">0</dd><dt>answers bought</dt></div>
+          <div><dd id="s-junk">0</dd><dt>refused</dt></div>
+          <div><dd id="s-rebuys">0</dd><dt>asked again</dt></div>
+        </dl>
+      </div>
+      <div class="feed-head">
+        <h2>Receipts</h2>
+        <div class="seg" role="tablist">
+          <button class="on" data-filter="all" role="tab">All</button>
+          <button data-filter="refused" role="tab">With refusals</button>
+        </div>
+      </div>
+      <ol class="feed" id="feed"></ol>
+    </aside>
+  </section>
+
+  <main class="below">
+    <section class="sec" id="guard">
+      <div class="sec-head reveal">
+        <h2>What the guard refused</h2>
+        <p>Every answer is checked against the question before a machine may use it. These are real answers from the network that failed the check.</p>
+      </div>
+      <div class="guard-grid">
+        <div class="rate reveal">
+          <div class="rate-big"><b id="g-refused">0</b><span>of <i id="g-total">0</i> answers refused</span></div>
+          <ul class="bars" id="g-bars"></ul>
+        </div>
+        <ul class="refusals" id="g-list"></ul>
+      </div>
+      <div class="board reveal">
+        <h3>Every miner the fleet has bought from</h3>
+        <div class="board-rows" id="g-board"></div>
       </div>
     </section>
 
-    <aside class="ledger">
-      <div class="ledger-head">
-        <h2>Ledger</h2>
-        <span id="busy" class="busy" hidden></span>
+    <section class="sec" id="how">
+      <div class="sec-head reveal">
+        <h2>How one decision is made</h2>
+        <p id="how-sub">The same four steps, every time. The example below is the fleet's own latest decision.</p>
       </div>
-      <ol id="feed" class="feed"></ol>
-    </aside>
+      <ol class="steps" id="steps"></ol>
+    </section>
+
+    <section class="sec" id="try">
+      <div class="try reveal">
+        <div class="try-copy">
+          <h2>Try your own farm</h2>
+          <p>Type a town. Four machines decide there on new, live answers. It spends from the same daily budget, so it is limited to 3 runs an hour.</p>
+          <form id="try-form">
+            <label><span>Farm town</span><input name="farm" placeholder="Salinas, California" required maxlength="80" autocomplete="off" /></label>
+            <label><span>Packhouse town</span><input name="packhouse" placeholder="Monterey, California" maxlength="80" autocomplete="off" /></label>
+            <button class="btn" type="submit">Run the fleet there</button>
+          </form>
+        </div>
+        <ul class="try-out" id="try-out">
+          <li class="try-empty">Results appear here, one machine at a time. Each run buys about 5 answers.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="sec" id="verify">
+      <div class="sec-head reveal">
+        <h2>Verify it yourself</h2>
+        <p>Nothing here needs a wallet. The Telegraph node keeps its own record of every answer and every charge.</p>
+      </div>
+      <div class="proof">
+        <article class="pcard reveal">
+          <h3>The escrow account</h3>
+          <p>The fleet pays from one escrow balance on Ethereum Sepolia. These numbers come from the node.</p>
+          <dl id="v-ledger"><div><dt>Deposited</dt><dd>…</dd></div><div><dt>Spent</dt><dd>…</dd></div><div><dt>Left</dt><dd>…</dd></div></dl>
+          <a class="more" id="v-ledger-link" target="_blank" rel="noopener">Open the account on the node</a>
+        </article>
+        <article class="pcard reveal">
+          <h3>A signed answer</h3>
+          <p>Each purchase has a signal record on the node that names the buyer's wallet.</p>
+          <div class="hash" id="v-signal">…</div>
+          <a class="more" id="v-signal-link" target="_blank" rel="noopener">Open the latest signal</a>
+        </article>
+        <article class="pcard reveal">
+          <h3>Run the checks</h3>
+          <p>One script checks each claim against this app and the node, and prints pass or fail.</p>
+          <pre><code>npm test
+node tools/check-live.mjs <span id="v-origin"></span></code></pre>
+          <span class="more plain">Payer <code id="payer">…</code></span>
+        </article>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span>Swarm Budget, built for Telegraph Hackathon Season II.</span>
+      <span>Node <a id="node-link" target="_blank" rel="noopener">devnode.telegraphprotocol.com</a></span>
+    </footer>
   </main>
 
-  <footer class="foot">
-    <span>Node <a id="node-link" target="_blank" rel="noopener">devnode.telegraphprotocol.com</a></span>
-    <span>Payer <code id="payer">–</code></span>
-    <span><a href="https://github.com/neromtoobad/swarm-budget" target="_blank" rel="noopener">Source</a></span>
-  </footer>
-
-  <template id="t-decision">
-    <li class="decision">
-      <header><span class="who"></span><span class="outcome"></span><time></time></header>
-      <p class="summary"></p>
-      <ul class="buys"></ul>
-    </li>
-  </template>
-
+  <div class="toasts" id="toasts"></div>
   <script type="module" src="/app.js"></script>
 </body>
 </html>

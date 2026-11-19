@@ -1,550 +1,503 @@
-// Swarm Budget front end: a low-poly farm in three.js, driven by the server's real decisions and purchases.
-import * as THREE from "three";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+// Swarm Budget front end. Everything shown comes from the server: /api/state for history, /api/stream for live events.
+import { createScene, machineThumb } from "/scene.js";
 
-const $ = (s) => document.querySelector(s);
-const C = { paper: 0xf5f1e6, ink: 0x1c1e18, field: 0x6f8f3e, field2: 0x8da858, soil: 0xc8ae7e, road: 0xd9cfb8, ok: 0x2f7d4f, bad: 0xc4422b, hold: 0xb7791f, coin: 0xe3a82b };
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+const clip = (s, n) => (String(s).length > n ? `${String(s).slice(0, n - 1).trimEnd()}…` : String(s));
+const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+const num = (v) => (v == null || Number.isNaN(Number(v)) ? "?" : String(Math.round(Number(v) * 10) / 10));
+const sleep = (ms) => (document.hidden ? Promise.resolve() : new Promise((r) => setTimeout(r, ms)));
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const desktop = () => innerWidth > 1020;
+
+const ROLE = { kite: "Spray drone", lark: "Scout drone", mule: "Field rover", haul: "Delivery truck", ledger: "Auditor" };
 const INTENT = {
   STORM_ALERT_GENERAL: "Storm alert", WEATHER_FORECAST_GENERAL: "Rain forecast", GRID_POWER_PRICE_GENERAL: "Power price",
   ROUTE_ETA_GENERAL: "Drive time", SATELLITE_IMAGERY_ANALYSIS_GENERAL: "Satellite read", WEATHER_FORECAST_VERIFY_GENERAL: "Yesterday's weather",
   TASK_EXECUTION_QUALITY_GENERAL: "Decision audit", WEATHER_CHECK_TEMPERATURE: "Temperature",
 };
-const BREAKABLE = { mule: "Elering, an Estonian grid miner", lark: "a satellite miner that answered for Illinois before" };
-
-let state = null;
-let NODE = "https://devnode.telegraphprotocol.com";
-
-// ---------- scene ----------
-const host = $("#scene");
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-host.appendChild(renderer.domElement);
-
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(C.paper);
-scene.fog = new THREE.Fog(C.paper, 70, 140);
-const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 400);
-camera.position.set(34, 38, 52);
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.target.set(-3, 0, 2);
-controls.enableDamping = true;
-controls.maxPolarAngle = 1.2;
-controls.minDistance = 30;
-controls.maxDistance = 180;
-controls.enablePan = false;
-
-scene.add(new THREE.HemisphereLight(0xfffbea, 0xb9a77a, 1.6));
-const sun = new THREE.DirectionalLight(0xffffff, 2.2);
-sun.position.set(-30, 50, 25);
-sun.castShadow = true;
-sun.shadow.mapSize.set(2048, 2048);
-Object.assign(sun.shadow.camera, { left: -50, right: 50, top: 40, bottom: -40 });
-scene.add(sun);
-
-const mat = (color, extra = {}) => new THREE.MeshStandardMaterial({ color, roughness: 0.9, flatShading: true, ...extra });
-const box = (w, h, d, color, extra) => {
-  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat(color, extra));
-  m.castShadow = m.receiveShadow = true;
-  return m;
+const ASK = {
+  STORM_ALERT_GENERAL: "Is a storm or strong wind coming?", WEATHER_FORECAST_GENERAL: "How likely is rain in the next 6 hours?",
+  GRID_POWER_PRICE_GENERAL: "What does power cost this hour?", ROUTE_ETA_GENERAL: "How long is the drive to the packhouse?",
+  SATELLITE_IMAGERY_ANALYSIS_GENERAL: "Is there standing water in the fields?", WEATHER_FORECAST_VERIFY_GENERAL: "What did the weather do yesterday?",
+  TASK_EXECUTION_QUALITY_GENERAL: "Was yesterday's spray call right?",
 };
-const cyl = (rt, rb, h, color, seg = 12) => {
-  const m = new THREE.Mesh(new THREE.CylinderGeometry(rt, rb, h, seg), mat(color));
-  m.castShadow = m.receiveShadow = true;
-  return m;
+const OUT = { act: "Acted", hold: "Held", unverified: "Stayed put" };
+const BREAK = {
+  mule: "Send the first purchase to an Estonian grid miner that answered for a California node before",
+  lark: "Send the first purchase to a satellite miner that answered for the wrong place before",
+};
+const ICON = {
+  ok: '<svg viewBox="0 0 16 16"><path d="M3.5 8.6l3 3 6-7.2"/></svg>',
+  no: '<svg viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8"/></svg>',
+  ext: '<svg viewBox="0 0 16 16"><path d="M6 3.5h6.5V10M12.5 3.5L4 12"/></svg>',
+  play: '<svg viewBox="0 0 16 16"><path d="M5 3.2v9.6l7.8-4.8z" fill="currentColor" stroke="none"/></svg>',
 };
 
-// ground and fields
-const ground = new THREE.Mesh(new THREE.PlaneGeometry(220, 160), mat(0xe9e1c9));
-ground.rotation.x = -Math.PI / 2;
-ground.receiveShadow = true;
-scene.add(ground);
+let state, scene, NODE = "https://devnode.telegraphprotocol.com", selected = null;
+const THUMB = {}, tags = {}, units = {}, tagState = {};
+const nameOf = (id) => state.machines.find((m) => m.id === id)?.name ?? id;
+const isHome = (farm) => farm === state.farm.id;
 
-const BLOCKS = [
-  { x: -22, z: -12, w: 18, d: 14, c: C.field },
-  { x: -2, z: -12, w: 18, d: 14, c: C.field2 },
-  { x: -22, z: 6, w: 18, d: 16, c: C.field2 }, // block 3, the spray target
-  { x: -2, z: 8, w: 14, d: 12, c: C.soil },
-];
-BLOCKS.forEach((b, i) => {
-  const base = box(b.w, 0.3, b.d, C.soil);
-  base.position.set(b.x, 0.15, b.z);
-  scene.add(base);
-  if (b.c === C.soil) return;
-  for (let r = 0; r < Math.floor(b.d / 1.6); r++) {
-    const row = box(b.w - 1, 0.7, 0.8, b.c);
-    row.position.set(b.x, 0.55, b.z - b.d / 2 + 1 + r * 1.6);
-    scene.add(row);
-  }
-  if (i === 2) {
-    const sign = box(2.6, 1.4, 0.15, 0xfffdf7);
-    sign.position.set(b.x + b.w / 2 + 0.6, 1.4, b.z + b.d / 2 - 1);
-    scene.add(sign);
-  }
-});
-
-// road to the packhouse
-const road = box(70, 0.12, 4, C.road);
-road.position.set(30, 0.07, 18);
-scene.add(road);
-const yard = box(16, 0.12, 14, C.road);
-yard.position.set(16, 0.07, 4);
-scene.add(yard);
-for (let x = 0; x < 60; x += 5) {
-  const dash = box(2, 0.14, 0.25, 0xfffdf7);
-  dash.position.set(x + 4, 0.09, 18);
-  scene.add(dash);
-}
-
-// barn
-const barn = new THREE.Group();
-const walls = box(7, 4, 6, 0xb54a35);
-walls.position.y = 2;
-const roof = new THREE.Mesh(new THREE.CylinderGeometry(4.2, 4.2, 6.6, 3, 1), mat(0x3a3a33));
-roof.rotation.set(Math.PI / 2, 0, Math.PI / 2);
-roof.scale.set(1, 1, 0.55);
-roof.position.y = 5;
-roof.castShadow = true;
-barn.add(walls, roof);
-barn.position.set(20, 0, -6);
-scene.add(barn);
-
-// trees along the edge
-for (let i = 0; i < 16; i++) {
-  const t = new THREE.Group();
-  const trunk = cyl(0.25, 0.3, 1.4, 0x7a5a3a, 6);
-  trunk.position.y = 0.7;
-  const top = new THREE.Mesh(new THREE.IcosahedronGeometry(1.4 + (i % 3) * 0.3, 0), mat(i % 2 ? 0x55753a : 0x6b8b44));
-  top.position.y = 2.4;
-  top.castShadow = true;
-  t.add(trunk, top);
-  t.position.set(-34 + i * 4.2, 0, -24 + Math.sin(i) * 1.2);
-  scene.add(t);
-}
-
-// machines
-function drone(color) {
-  const g = new THREE.Group();
-  const body = box(1.6, 0.5, 1.6, color);
-  g.add(body);
-  const rotors = [];
-  for (const [x, z] of [[1, 1], [1, -1], [-1, 1], [-1, -1]]) {
-    const arm = box(1.4, 0.12, 0.18, C.ink);
-    arm.position.set(x * 0.7, 0.1, z * 0.7);
-    arm.rotation.y = Math.atan2(z, x) * -1;
-    const rotor = new THREE.Mesh(new THREE.CylinderGeometry(0.75, 0.75, 0.05, 16), mat(0x2b2d27, { transparent: true, opacity: 0.55 }));
-    rotor.position.set(x * 1.2, 0.35, z * 1.2);
-    g.add(arm, rotor);
-    rotors.push(rotor);
-  }
-  g.userData.rotors = rotors;
-  return g;
-}
-function pad(x, z, color = 0xfffdf7) {
-  const p = cyl(1.8, 1.8, 0.15, color, 24);
-  p.position.set(x, 0.12, z);
-  scene.add(p);
-  return p;
-}
-function rover() {
-  const g = new THREE.Group();
-  const body = box(2.6, 1, 1.8, 0xd6c37a);
-  body.position.y = 0.9;
-  const panel = box(2.4, 0.08, 1.9, 0x2e4b78);
-  panel.position.y = 1.5;
-  panel.rotation.z = 0.12;
-  g.add(body, panel);
-  for (const x of [-0.9, 0, 0.9]) for (const z of [-1, 1]) {
-    const w = cyl(0.38, 0.38, 0.3, C.ink, 10);
-    w.rotation.x = Math.PI / 2;
-    w.position.set(x, 0.38, z);
-    g.add(w);
-  }
-  return g;
-}
-function truck() {
-  const g = new THREE.Group();
-  const cab = box(1.8, 1.8, 2.2, 0x2f5d8a);
-  cab.position.set(2.2, 1.3, 0);
-  const box1 = box(4.2, 2.4, 2.4, 0xfffdf7);
-  box1.position.set(-0.8, 1.6, 0);
-  const stripe = box(4.22, 0.3, 2.42, C.ok);
-  stripe.position.set(-0.8, 1.1, 0);
-  g.add(cab, box1, stripe);
-  for (const x of [-2.2, 0.2, 2.2]) for (const z of [-1.15, 1.15]) {
-    const w = cyl(0.45, 0.45, 0.3, C.ink, 10);
-    w.rotation.x = Math.PI / 2;
-    w.position.set(x, 0.45, z);
-    g.add(w);
-  }
-  return g;
-}
-function kiosk() {
-  const g = new THREE.Group();
-  const b = box(2.6, 2.4, 2.6, 0xfffdf7);
-  b.position.y = 1.2;
-  const r = box(3.1, 0.25, 3.1, C.ink);
-  r.position.y = 2.5;
-  const mast = cyl(0.06, 0.06, 2.6, C.ink, 6);
-  mast.position.y = 3.9;
-  const tip = new THREE.Mesh(new THREE.SphereGeometry(0.22, 12, 8), mat(C.coin, { emissive: C.coin, emissiveIntensity: 0.2 }));
-  tip.position.y = 5.2;
-  g.add(b, r, mast, tip);
-  g.userData.tip = tip;
-  return g;
-}
-
-const ringFor = (x, z) => {
-  const ring = new THREE.Mesh(new THREE.RingGeometry(2.1, 2.5, 32), new THREE.MeshBasicMaterial({ color: C.coin, transparent: true, opacity: 0, side: THREE.DoubleSide }));
-  ring.rotation.x = -Math.PI / 2;
-  ring.position.set(x, 0.25, z);
-  scene.add(ring);
-  return ring;
-};
-
-const M = {
-  kite: { obj: drone(0xe3a82b), home: new THREE.Vector3(-8, 0.5, 18) },
-  lark: { obj: drone(0x5b8bb5), home: new THREE.Vector3(-2, 0.5, 22) },
-  mule: { obj: rover(), home: new THREE.Vector3(10, 0, 0) },
-  haul: { obj: truck(), home: new THREE.Vector3(18, 0, 10) },
-  ledger: { obj: kiosk(), home: new THREE.Vector3(24, 0, 2) },
-};
-pad(M.kite.home.x, M.kite.home.z);
-pad(M.lark.home.x, M.lark.home.z);
-const charger = box(0.6, 2, 0.6, 0x3a3a33);
-charger.position.set(10, 1, -2.4);
-scene.add(charger);
-for (const [id, m] of Object.entries(M)) {
-  m.obj.position.copy(m.home);
-  m.ring = ringFor(m.home.x, m.home.z);
-  m.mode = "idle"; // idle | thinking | act | hold | unverified
-  m.since = 0;
-  m.id = id;
-  scene.add(m.obj);
-}
-M.haul.obj.rotation.y = 0;
-
-// coins: one per purchase, rising if accepted, red and falling if refused
-const coins = [];
-const coinGeo = new THREE.CylinderGeometry(0.7, 0.7, 0.18, 24);
-function spawnCoin(machine, verdict) {
-  const m = M[machine];
-  if (!m) return;
-  const good = verdict === "accepted";
-  const c = new THREE.Mesh(coinGeo, new THREE.MeshStandardMaterial({ color: good ? C.coin : C.bad, metalness: 0.4, roughness: 0.35, transparent: true }));
-  c.rotation.x = Math.PI / 2;
-  const p = new THREE.Vector3();
-  m.obj.getWorldPosition(p);
-  c.position.copy(p).add(new THREE.Vector3(0, 3, 0));
-  c.userData = { t: 0, good, vx: (Math.random() - 0.5) * 0.6 }; // jitter is cosmetic only
-  scene.add(c);
-  coins.push(c);
-}
-
-// HTML tags that follow each machine
-const labels = {};
-function makeTag(id, name) {
-  const el = document.createElement("div");
-  el.className = "tag";
-  el.innerHTML = `<b>${name}</b> <span class="st">waiting</span>`;
-  $("#labels").appendChild(el);
-  labels[id] = el;
-}
-
-function setMode(id, mode, text) {
-  const m = M[id];
-  if (!m) return;
-  m.mode = mode;
-  m.since = clock.elapsedTime;
-  const tag = labels[id];
-  if (tag) {
-    tag.className = `tag ${mode}`;
-    tag.querySelector(".st").textContent = text;
-  }
-  const ringColor = { thinking: C.coin, act: C.ok, hold: C.hold, unverified: C.bad }[mode];
-  m.ring.material.color.setHex(ringColor ?? C.coin);
-  m.ring.material.opacity = ringColor ? 0.8 : 0;
-}
-
-const clock = new THREE.Clock();
-const tmp = new THREE.Vector3();
-function animate() {
-  const t = clock.elapsedTime;
-  const dt = Math.min(clock.getDelta(), 0.05);
-
-  // Kite: sprays block 3 in passes when it acted, otherwise sits on its pad
-  {
-    const m = M.kite, o = m.obj, age = t - m.since;
-    const flying = m.mode === "thinking" || (m.mode === "act" && age < 40);
-    let target = m.home.clone();
-    if (m.mode === "thinking") target.y = 2.2 + Math.sin(t * 2) * 0.2;
-    if (m.mode === "act" && age < 40) {
-      const b = BLOCKS[2];
-      const lane = Math.floor(age / 4) % 8;
-      const along = ((age % 4) / 4) * (b.w - 2) - (b.w - 2) / 2;
-      target.set(b.x + (lane % 2 ? -along : along), 3.2, b.z - b.d / 2 + 1.5 + lane * 1.8);
-    }
-    o.position.lerp(target, 0.06);
-    o.userData.rotors.forEach((r) => (r.rotation.y += flying ? 0.9 : 0));
-  }
-  // Lark: climbs and circles over the fields while it is looking
-  {
-    const m = M.lark, o = m.obj, age = t - m.since;
-    const up = m.mode === "thinking" || age < 20;
-    const target = up && m.mode !== "idle" ? new THREE.Vector3(-12 + Math.cos(t * 0.4) * 14, 12, -2 + Math.sin(t * 0.4) * 10) : m.home.clone();
-    o.position.lerp(target, 0.03);
-    o.userData.rotors.forEach((r) => (r.rotation.y += o.position.y > 0.8 ? 0.9 : 0));
-  }
-  // Haul: drives off toward the packhouse when it acted
-  {
-    const m = M.haul, o = m.obj, age = t - m.since;
-    if (m.mode === "act" && age < 18) {
-      const k = age / 18;
-      const x = k < 0.15 ? 18 : 18 + ((k - 0.15) / 0.85) * 60;
-      o.position.lerp(tmp.set(x, 0, k < 0.15 ? 10 + (k / 0.15) * 8 : 18), 0.08);
-    } else o.position.lerp(m.home, 0.05);
-  }
-  // Mule: plugs into the charger when it charges now
-  {
-    const m = M.mule, o = m.obj;
-    const target = m.mode === "act" ? tmp.set(10, 0, -1) : m.home;
-    o.position.lerp(target, 0.04);
-    if (m.mode === "thinking") o.rotation.y = Math.sin(t * 3) * 0.08;
-  }
-  // Ledger: the mast blinks while it is buying
-  {
-    const tip = M.ledger.obj.userData.tip;
-    tip.material.emissiveIntensity = M.ledger.mode === "thinking" ? 0.5 + Math.sin(t * 8) * 0.5 : 0.2;
-  }
-  for (const m of Object.values(M)) if (m.mode === "thinking") m.ring.material.opacity = 0.5 + Math.sin(t * 5) * 0.3;
-
-  for (let i = coins.length - 1; i >= 0; i--) {
-    const c = coins[i], u = c.userData;
-    u.t += dt;
-    if (u.good) {
-      c.position.y += dt * 2.2;
-      c.rotation.z += dt * 4;
-    } else {
-      c.position.y += u.t < 0.5 ? dt * 2 : -dt * 6 * u.t;
-      c.position.x += u.vx * dt;
-      c.rotation.y += dt * 8;
-    }
-    c.material.opacity = Math.max(0, 1 - u.t / 2.6);
-    if (u.t > 2.6 || c.position.y < 0) {
-      scene.remove(c);
-      c.material.dispose();
-      coins.splice(i, 1);
-    }
-  }
-
-  controls.update();
-  renderer.render(scene, camera);
-
-  // place tags
-  const rect = host.getBoundingClientRect();
-  for (const [id, el] of Object.entries(labels)) {
-    M[id].obj.getWorldPosition(tmp);
-    tmp.y += id === "ledger" ? 6 : id === "haul" ? 3.6 : 2.6;
-    tmp.project(camera);
-    const inView = tmp.z < 1 && Math.abs(tmp.x) < 1.05 && Math.abs(tmp.y) < 1.05;
-    el.style.opacity = inView ? 1 : 0;
-    el.style.left = `${((tmp.x + 1) / 2) * rect.width}px`;
-    el.style.top = `${((1 - tmp.y) / 2) * rect.height}px`;
-  }
-  requestAnimationFrame(animate);
-}
-
-function resize() {
-  const w = host.clientWidth, h = host.clientHeight;
-  renderer.setSize(w, h, false);
-  camera.aspect = w / h;
-  // keep the whole farm in frame on narrow screens: pull the camera back as the view gets taller
-  const back = Math.min(2.4, Math.max(1, 1.5 / camera.aspect));
-  camera.position.copy(controls.target).add(new THREE.Vector3(32, 36, 50).multiplyScalar(back));
-  camera.updateProjectionMatrix();
-  $("#labels").style.top = `${host.offsetTop}px`;
-}
-new ResizeObserver(resize).observe(host);
-
-// ---------- ledger UI ----------
-const usd = (n) => `$${Number(n || 0).toFixed(n && n < 0.1 ? 4 : 2)}`;
+// ───────── formatting
+const usd = (n) => `$${Number(n || 0).toFixed(2)}`;
 const ago = (iso) => {
   const s = (Date.now() - Date.parse(iso)) / 1000;
-  if (s < 60) return "just now";
-  if (s < 3600) return `${Math.round(s / 60)} min ago`;
+  if (s < 50) return "just now";
+  if (s < 3600) return `${Math.max(1, Math.round(s / 60))} min ago`;
   if (s < 86400) return `${Math.round(s / 3600)} h ago`;
-  return new Date(iso).toLocaleDateString();
+  return new Date(iso).toLocaleDateString(undefined, { month: "short", day: "numeric" });
 };
-const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-const nameOf = (id) => state?.machines.find((m) => m.id === id)?.name ?? id;
+const short = (h, n = 10) => `${String(h).slice(0, n)}…`;
+function said(p) {
+  const r = p.result;
+  if (p.status !== 200 || !r) return `No answer: ${noAnswer(p)}`;
+  const place = typeof r.location === "string" && /[a-z]/i.test(r.location) ? ` for ${r.location}` : "";
+  switch (p.intent) {
+    case "STORM_ALERT_GENERAL": return `Gusts up to ${num(r.peak_gust_kmh)} km/h, risk ${String(r.risk_level ?? "?").toLowerCase()}${place}`;
+    case "WEATHER_FORECAST_GENERAL": return `${num(r.precipitation_probability_pct)}% chance of rain${place}`;
+    case "GRID_POWER_PRICE_GENERAL": return r.lmp_usd_per_mwh != null ? `$${Number(r.lmp_usd_per_mwh).toFixed(2)} per MWh${r.node_or_zone ? ` at ${r.node_or_zone}` : ", with no node named"}` : "A price with no number in it";
+    case "ROUTE_ETA_GENERAL": return r.duration != null ? `${Math.round(r.duration / 60)} minutes by road` : "No drive time in the answer";
+    case "SATELLITE_IMAGERY_ANALYSIS_GENERAL": return clip(r.brief || r.summary || "No reading in the answer", 130);
+    case "WEATHER_FORECAST_VERIFY_GENERAL": return `${num(r.precipitation_mm)} mm of rain, high of ${num(r.temp_max_c)} °C`;
+    case "TASK_EXECUTION_QUALITY_GENERAL": return clip(`${r.verdict ?? ""}. ${r.reason ?? ""}`.replace(/^\. /, "") || "No verdict in the answer", 130);
+  }
+  return "An answer came back";
+}
+const whyOf = (p) => {
+  const fails = (p.checks || []).filter((c) => !c.pass).map((c) => c.why);
+  return p.verdict === "accepted" ? (p.checks || []).map((c) => c.why).join(" · ") : fails.join(" · ") || "no usable answer";
+};
+const noAnswer = (p) => {
+  const e = p.result?.error ? String(p.result.error).replace(/_/g, " ") : "";
+  return p.status ? `the node returned ${p.status}${e ? ` (${e})` : ""}` : e || "the request timed out";
+};
+function countTo(el, to, fmt = (v) => String(Math.round(v))) {
+  const from = Number(el.dataset.v ?? 0);
+  el.dataset.v = to;
+  if (from === to || reduced || document.hidden) return void (el.textContent = fmt(to));
+  let t0;
+  const step = (now) => {
+    t0 ??= now;
+    const k = Math.max(0, Math.min(1, (now - t0) / 800));
+    el.textContent = fmt(from + (to - from) * (1 - Math.pow(1 - k, 3)));
+    if (k < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
 
+// ───────── ledger
 function buyRow(p) {
   const li = document.createElement("li");
-  li.className = `buy ${p.verdict}`;
-  const failed = (p.checks || []).filter((c) => !c.pass).map((c) => c.why);
-  const why = p.verdict === "accepted"
-    ? (p.checks || []).map((c) => c.why).slice(0, 2).join(" · ")
-    : `Refused: ${failed.join(" · ") || "no answer"}`;
-  const miner = p.miner_name ? `${esc(p.miner_name)}${p.miner_id ? ` <span class="muted">#${esc(p.miner_id)}</span>` : ""}` : "no miner";
-  const route = p.attempt > 1 ? `re-buy ${p.attempt - 1}` : p.routed === "direct" ? "sent direct" : "Telegraph routed";
+  li.className = `by ${p.verdict}`;
+  const route = p.attempt > 1 ? `<em>asked again</em>` : p.routed === "direct" ? `<em>sent direct</em>` : "";
   const proof = [
-    p.signal_hash ? `<a href="${NODE}/engine/v1/signal/${encodeURIComponent(p.signal_hash)}" target="_blank" rel="noopener" title="Open the signed answer on the Telegraph node">signal ${esc(p.signal_hash.slice(0, 14))}…</a>` : null,
-    p.receipt_hash ? `receipt ${esc(String(p.receipt_hash).slice(0, 12))}…` : null,
-    p.epoch_id != null ? `epoch ${esc(p.epoch_id)}` : null,
-  ].filter(Boolean).join(" · ");
-  li.innerHTML = `<span class="dot"></span>
-    <span class="what"><b>${esc(INTENT[p.intent] ?? p.intent)}</b> from ${miner} · ${route}</span>
-    <span class="cost">${p.cost_usd ? usd(p.cost_usd) : "$0"}</span>
-    <span class="why">${esc(why)}</span>
-    ${proof ? `<span class="proof">${proof}</span>` : ""}`;
+    p.signal_hash ? `<a href="${NODE}/engine/v1/signal/${encodeURIComponent(p.signal_hash)}" target="_blank" rel="noopener" title="Open this answer's record on the Telegraph node">signal ${esc(short(p.signal_hash))}${ICON.ext}</a>` : "",
+    p.receipt_hash ? `<span title="Escrow receipt ${esc(p.receipt_hash)}">receipt ${esc(short(p.receipt_hash))}</span>` : "",
+    p.epoch_id != null ? `<span>epoch ${esc(p.epoch_id)}</span>` : "",
+  ].join("");
+  li.innerHTML = `<span class="mk">${p.verdict === "accepted" ? ICON.ok : ICON.no}</span>
+    <div class="by-main"><b>${esc(INTENT[p.intent] ?? p.intent)}</b> <span>${p.miner_name ? `from ${esc(p.miner_name)}` : "no miner answered"}</span>${route}</div>
+    <span class="by-cost">${p.cost_usd ? usd(p.cost_usd) : "no charge"}</span>
+    <div class="by-why">${p.verdict === "accepted" ? esc(said(p)) : p.verdict === "failed" ? `No answer: ${esc(noAnswer(p))}` : `Refused: ${esc(whyOf(p))}`}</div>
+    ${proof ? `<div class="by-proof">${proof}</div>` : ""}`;
   return li;
 }
-
-function decisionCard(d) {
-  const li = $("#t-decision").content.firstElementChild.cloneNode(true);
-  li.dataset.key = d.id ?? `live-${d.machine}`;
-  li.classList.add(d.outcome ?? "thinking");
-  const farm = d.farm && d.farm !== "kerman-ca" ? ` · ${d.farm.replace(/-/g, " ")}` : "";
-  li.querySelector(".who").textContent = nameOf(d.machine) + farm;
-  li.querySelector(".outcome").textContent = d.outcome ? { act: "acted", hold: "held", unverified: "no verified answer" }[d.outcome] : "buying answers…";
-  li.querySelector("time").textContent = d.at ? `${ago(d.at)}${d.trigger && d.trigger !== "auto" ? ` · ${d.trigger.replace(/-/g, " ")}` : ""}` : "";
-  li.querySelector(".summary").textContent = d.summary ?? "";
-  const ul = li.querySelector(".buys");
-  (d.purchases || []).forEach((p) => ul.appendChild(buyRow(p)));
+function receipt(d) {
+  const li = document.createElement("li");
+  const ps = d.purchases || [];
+  const refused = ps.filter((p) => p.verdict !== "accepted").length;
+  li.className = `rc ${d.outcome ?? "thinking"}${refused ? " has-refusal" : ""}`;
+  if (d.id) li.dataset.id = d.id;
+  const where = d.farm && state && !isHome(d.farm) ? `<span class="where">${esc(d.farm.replace(/-/g, " "))}</span>` : "";
+  li.innerHTML = `<div class="rc-head"><img src="${THUMB[d.machine] ?? ""}" alt="" /><b>${esc(nameOf(d.machine))}</b>
+      <span class="chip ${d.outcome ?? "thinking"}">${d.outcome ? OUT[d.outcome] : "Buying answers"}</span>${where}
+      <time ${d.at ? `datetime="${esc(d.at)}"` : ""}>${d.at ? ago(d.at) : ""}</time></div>
+    <p class="rc-sum">${esc(d.summary ?? "")}</p><ul class="rc-buys"></ul><div class="rc-foot"></div>`;
+  const ul = $(".rc-buys", li);
+  ps.forEach((p) => ul.appendChild(buyRow(p)));
+  if (d.outcome) {
+    const how = { visitor: "run by a visitor", "break-a-miner": "bad-miner test", "try-your-farm": "visitor's farm", auto: "on its own schedule" }[d.trigger] ?? "";
+    const got = ps.filter((p) => p.status === 200).length, rej = ps.filter((p) => p.verdict === "rejected").length, none = ps.length - got;
+    const bits = [got ? `Paid ${usd(d.cost_usd)} for ${got} answer${got === 1 ? "" : "s"}` : "Nothing paid", rej ? `${rej} refused` : "", none ? `${none} ask${none === 1 ? "" : "s"} got no answer` : ""].filter(Boolean);
+    $(".rc-foot", li).innerHTML = `<span>${bits.join(", ")}</span><span>${how}</span>`;
+  }
   return li;
 }
-
 function renderFeed() {
   const feed = $("#feed");
-  feed.replaceChildren(...(state.decisions.length ? state.decisions.map(decisionCard) : [Object.assign(document.createElement("li"), { className: "empty", textContent: "No decisions yet. Run a machine below." })]));
+  feed.replaceChildren(...state.decisions.map(receipt));
+  if (!state.decisions.length) feed.innerHTML = `<li class="feed-empty">No decisions yet. Pick a machine and run it.</li>`;
 }
-
 function renderStats() {
-  const t = state.totals;
-  $("#s-spent").textContent = `$${state.budget.spent_today_usd.toFixed(2)} / $${state.budget.daily_usd.toFixed(2)}`;
-  $("#s-bought").textContent = t.purchases ?? 0;
-  $("#s-junk").textContent = (t.rejected ?? 0) + (t.failed ?? 0);
-  $("#s-rebuys").textContent = t.rebuys ?? 0;
-}
-
-function renderMachines() {
-  const wrap = $("#machines");
-  wrap.replaceChildren(...state.machines.map((m) => {
-    const div = document.createElement("div");
-    div.className = "mc";
-    div.innerHTML = `<h3>${esc(m.name)}</h3><p>${esc(m.job)}</p><div class="row"><button data-run="${m.id}">Run now</button>${BREAKABLE[m.id] ? `<button class="ghost" data-break="${m.id}" title="First purchase goes to ${esc(BREAKABLE[m.id])}">Send to a bad miner</button>` : ""}</div>`;
-    return div;
-  }));
-}
-
-function machineStatesFromHistory() {
-  for (const m of state.machines) {
-    const last = state.decisions.find((d) => d.machine === m.id && d.farm === state.farm.id);
-    if (last) setMode(m.id, "idle", { act: "acted", hold: "held", unverified: "no verified answer" }[last.outcome] + ` · ${ago(last.at)}`);
-  }
-}
-
-async function loadState() {
-  state = await fetch("/api/state?limit=30").then((r) => r.json());
-  NODE = state.node || NODE;
-  $("#node-link").href = `${NODE}/engine/v1/intents`;
-  $("#node-link").textContent = new URL(NODE).host;
-  $("#payer").textContent = state.payer;
-  $("#farm-label").textContent = state.farm.label;
-  renderStats();
-  renderFeed();
-}
-
-function toast(msg) {
-  const el = Object.assign(document.createElement("div"), { className: "toast", textContent: msg });
-  document.body.appendChild(el);
-  setTimeout(() => el.remove(), 4200);
+  const t = state.totals, b = state.budget;
+  countTo($("#s-spent"), b.spent_today_usd, (v) => usd(v));
+  $("#s-cap").textContent = `of ${usd(b.daily_usd)}`;
+  $("#s-bar").style.width = `${Math.min(100, (b.spent_today_usd / b.daily_usd) * 100)}%`;
+  countTo($("#s-bought"), t.answered ?? 0);
+  countTo($("#s-junk"), t.rejected ?? 0);
+  countTo($("#s-rebuys"), t.rebuys ?? 0);
 }
 function setBusy(label) {
   const b = $("#busy");
   b.hidden = !label;
-  b.textContent = label ? `${label} is buying answers` : "";
+  b.textContent = label ? `${label} is buying` : "";
 }
 
+// ───────── dock and tags
+function renderDock() {
+  $("#dock").replaceChildren(...state.machines.map((m, i) => {
+    const el = document.createElement("article");
+    el.className = "unit";
+    el.dataset.id = m.id;
+    el.style.animationDelay = `${0.25 + i * 0.07}s`;
+    el.innerHTML = `<i class="state"></i>
+      <div class="unit-top"><img src="${THUMB[m.id]}" alt="" /><div><h3>${esc(m.name)}</h3><small>${ROLE[m.id] ?? ""}</small></div></div>
+      <p class="unit-say job">${esc(m.job)}</p>
+      <div class="unit-btns"><button class="btn" data-run="${m.id}">${ICON.play}Run now</button>${BREAK[m.id] ? `<button class="btn quiet" data-break="${m.id}" title="${esc(BREAK[m.id])}">Bad miner</button>` : ""}</div>`;
+    units[m.id] = el;
+    return el;
+  }));
+}
+function setUnit(id, cls, text) {
+  const el = units[id];
+  if (!el) return;
+  el.className = `unit ${cls}${selected === id ? " sel" : ""}`;
+  if (text != null) {
+    const p = $(".unit-say", el);
+    p.textContent = text;
+    p.classList.toggle("job", cls === "idle");
+  }
+}
+function makeTag(m) {
+  const el = document.createElement("div");
+  el.innerHTML = `<div class="tag-in"><i class="dot"></i><span>${esc(m.name)}</span><span class="st"></span></div><div class="insp"></div>`;
+  el.addEventListener("click", () => select(m.id));
+  $("#tags").appendChild(el);
+  tags[m.id] = el;
+  tagState[m.id] = { cls: "idle", text: "", open: false };
+  paintTag(m.id);
+}
+function paintTag(id) {
+  const s = tagState[id], el = tags[id];
+  el.className = `tag ${s.cls}${selected === id ? " sel" : ""}${s.open ? " open" : ""}`;
+  $(".st", el).textContent = s.text;
+}
+function setTag(id, patch) {
+  Object.assign(tagState[id], patch);
+  paintTag(id);
+}
+// The camera goes to the machine the visitor picked, else to the one that is deciding, else back to the whole farm.
+function aim() {
+  const id = selected ?? auto;
+  scene.focus(id);
+  $(".hero").classList.toggle("zoom", Boolean(id));
+  $("#whole").hidden = !selected;
+}
+function select(id) {
+  selected = selected === id ? null : id;
+  for (const k of Object.keys(tags)) { paintTag(k); units[k]?.classList.toggle("sel", selected === k); }
+  aim();
+}
+
+// ───────── the inspection card over a machine
+let waitTimer;
+function inspClose(id) {
+  clearInterval(waitTimer);
+  setTag(id, { open: false });
+  $("#tags").classList.remove("solo");
+}
+function inspAsk(id, a) {
+  setTag(id, { open: true });
+  $("#tags").classList.add("solo");
+  clearInterval(waitTimer);
+  const t0 = Date.now();
+  // real seconds since the request left; some miners take most of a minute
+  waitTimer = setInterval(() => { const w = $(".insp .wait", tags[id]); if (w) w.textContent = `${Math.round((Date.now() - t0) / 1000)} s`; }, 1000);
+  $(".insp", tags[id]).innerHTML = `<div class="insp-top"><b>${esc(nameOf(id))}</b><span>${a.attempt > 1 ? `asks again, try ${a.attempt} of 3` : "pays to ask"}</span><em class="wait"></em></div>
+    <div class="insp-q">${esc(ASK[a.intent] ?? INTENT[a.intent] ?? a.intent)}</div>
+    <div class="insp-from">${a.routed === "direct" ? `Sent to ${esc(a.miner_name ?? "a different miner")}` : "Telegraph picks the miner"}<span class="dots"><i></i><i></i><i></i></span></div>`;
+}
+async function inspAnswer(id, p) {
+  if (!tagState[id].open) inspAsk(id, p);
+  clearInterval(waitTimer);
+  const box = $(".insp", tags[id]);
+  $(".insp-top span", box).textContent = p.status === 200 ? "got an answer" : "got nothing back";
+  $(".wait", box).textContent = p.cost_usd ? `paid ${usd(p.cost_usd)}` : "no charge";
+  $(".insp-from", box).textContent = p.miner_name ? `Answered by ${p.miner_name}` : "No miner answered";
+  box.insertAdjacentHTML("beforeend", `<div class="insp-said">${esc(said(p))}</div><ul class="insp-checks"></ul>`);
+  const ul = $(".insp-checks", box);
+  for (const c of p.checks || []) {
+    await sleep(240);
+    ul.insertAdjacentHTML("beforeend", `<li class="${c.pass ? "pass" : "fail"}">${c.pass ? ICON.ok : ICON.no}<span>${esc(cap(p.verdict === "failed" ? "Nothing to check" : c.why))}</span></li>`);
+  }
+  await sleep(280);
+  box.insertAdjacentHTML("beforeend", `<div class="insp-end"><span class="stamp ${p.verdict}">${p.verdict === "accepted" ? "Accepted" : p.verdict === "failed" ? "No answer" : "Refused"}</span></div>`);
+  await sleep(1500);
+}
+
+// ───────── sections below the fold
+function renderGuard() {
+  const t = state.totals;
+  countTo($("#g-refused"), t.rejected ?? 0);
+  $("#g-total").textContent = t.answered ?? 0;
+  $("#g-bars").innerHTML = state.junk.map((j) => `<li><span>${esc(INTENT[j.intent] ?? j.intent)}</span><small>${j.junk} of ${j.bought} refused</small>
+      <div class="track"><i data-w="${(j.junk / j.bought) * 100}"></i></div></li>`).join("") || `<li>No answers bought yet.</li>`;
+  requestAnimationFrame(() => $$("#g-bars i").forEach((i) => (i.style.width = `${i.dataset.w}%`)));
+  $("#g-list").innerHTML = state.refusals.map((r, i) => `<li class="rf reveal in" style="--d:${i * 0.05}s"><span class="x">${ICON.no}</span>
+      <p>${esc(cap(r.checks.filter((c) => !c.pass).map((c) => c.why).join(". ")))}</p>
+      <div class="meta"><span>${esc(INTENT[r.intent] ?? r.intent)} for ${esc(nameOf(r.machine))}</span><span>from ${esc(r.miner_name ?? "unknown miner")}</span><span>${ago(r.at)}</span>
+      ${r.signal_hash ? `<a href="${NODE}/engine/v1/signal/${encodeURIComponent(r.signal_hash)}" target="_blank" rel="noopener">signal ${esc(short(r.signal_hash))}${ICON.ext}</a>` : ""}</div></li>`).join("")
+    || `<li class="rf-empty">Nothing refused yet. Run Mule with "Bad miner" to see a refusal happen.</li>`;
+  $("#g-board").innerHTML = state.miners.map((m) => {
+    const pips = "<i></i>".repeat(Math.min(m.accepted, 14)) + '<i class="r"></i>'.repeat(Math.min(m.rejected, 14)) + '<i class="f"></i>'.repeat(Math.min(m.failed, 14));
+    // same rule the buyer uses to skip a miner: never accepted, refused twice or more
+    const cut = m.accepted === 0 && m.rejected >= 2;
+    const verdict = cut ? "no longer bought from" : [`${m.accepted} accepted`, m.rejected ? `${m.rejected} refused` : "", m.failed ? `${m.failed} failed` : ""].filter(Boolean).join(" · ");
+    return `<div class="brow"><span class="intent">${esc(INTENT[m.intent] ?? m.intent)}</span><span class="who">${esc(m.miner_name ?? "unnamed")}<small>#${esc(m.miner_id)}</small></span>
+      <span class="pips">${pips}</span><span class="verdict${cut ? " cut" : ""}">${verdict}</span></div>`;
+  }).join("") || `<div class="brow"><span class="intent">No purchases yet</span></div>`;
+}
+function renderSteps() {
+  const ex = state.decisions.find((d) => d.purchases.some((p) => p.verdict === "rejected") && d.purchases.some((p) => p.verdict === "accepted")) ?? state.decisions.find((d) => d.purchases.length);
+  const bad = ex?.purchases.find((p) => p.verdict === "rejected"), good = ex?.purchases.find((p) => p.verdict === "accepted"), first = ex?.purchases[0];
+  const eg = (label, body, cls = "") => (ex ? `<div class="eg ${cls}"><small>${label}</small>${body}</div>` : "");
+  const steps = [
+    ["Ask", "The machine asks Telegraph one question. Telegraph routes it to its top-ranked miner for that kind of answer.",
+      first && eg(`${esc(nameOf(ex.machine))} asked`, esc(ASK[first.intent] ?? first.intent))],
+    ["Pay", "It pays about one cent from the shared escrow balance and keeps the signed receipt.",
+      first && eg("Receipt", `${usd(first.cost_usd)} · <span class="mono">${esc(short(first.receipt_hash ?? "none", 14))}</span>${first.epoch_id != null ? ` · epoch ${esc(first.epoch_id)}` : ""}`)],
+    ["Check", "The guard compares the answer with the question: the place, the market, the hour and the units.",
+      bad ? eg(`Refused, from ${esc(bad.miner_name ?? "a miner")}`, esc(cap(whyOf(bad))), "bad") : good && eg(`Accepted, from ${esc(good.miner_name ?? "a miner")}`, esc(cap(whyOf(good))))],
+    ["Act, or buy again", "A pass lets the machine act. A fail sends the same question to another miner, up to two more times.",
+      ex && eg(`${esc(nameOf(ex.machine))}: ${OUT[ex.outcome].toLowerCase()}`, esc(ex.summary))],
+  ];
+  $("#steps").innerHTML = steps.map(([h, p, e], i) => `<li class="step reveal in${i === 0 ? " on" : ""}" style="--d:${i * 0.06}s"><h3>${h}</h3><p>${p}</p>${e || ""}</li>`).join("");
+  $("#how-sub").textContent = ex ? `The same four steps, every time. The example in each card is a real decision ${nameOf(ex.machine)} made ${ago(ex.at)}.` : "The same four steps, every time.";
+}
+async function renderVerify() {
+  const sig = state.decisions.flatMap((d) => d.purchases).find((p) => p.signal_hash);
+  $("#v-signal").textContent = sig?.signal_hash ?? "No purchases yet";
+  if (sig) $("#v-signal-link").href = `${NODE}/engine/v1/signal/${sig.signal_hash}`;
+  $("#v-ledger-link").href = `${NODE}/v1/ledger/account/${state.payer.toLowerCase()}`;
+  $("#v-origin").textContent = location.origin;
+  $("#payer").textContent = state.payer;
+  $("#node-link").href = `${NODE}/engine/v1/intents`;
+  $("#node-link").textContent = new URL(NODE).host;
+  const l = await fetch("/api/ledger").then((r) => r.json()).catch(() => null);
+  if (!l || l.error) return;
+  const u = (v) => usd(Number(v || 0) / 1e6);
+  const spent = Number(l.charged || 0) + Number(l.unbilled || 0);
+  $("#v-ledger").innerHTML = `<div><dt>Deposited</dt><dd>${u(l.deposited)}</dd></div><div><dt>Spent</dt><dd>${u(spent)}</dd></div><div><dt>Left</dt><dd>${u(l.available)}</dd></div>`;
+}
+
+// ───────── actions
+function toast(msg) {
+  const el = Object.assign(document.createElement("div"), { className: "toast", textContent: msg });
+  $("#toasts").appendChild(el);
+  setTimeout(() => el.remove(), 5200);
+}
 async function post(path, body) {
   const r = await fetch(path, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
   const j = await r.json().catch(() => ({}));
-  if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
+  if (!r.ok) throw new Error(j.error || `Something went wrong (HTTP ${r.status})`);
   return j;
 }
-
 document.addEventListener("click", async (e) => {
   const btn = e.target.closest("button[data-run],button[data-break]");
-  if (!btn) return;
-  const id = btn.dataset.run || btn.dataset.break;
-  btn.disabled = true;
-  try {
-    await post("/api/decide", { machine: id, breakMiner: Boolean(btn.dataset.break) });
-  } catch (err) { toast(err.message); }
-  btn.disabled = false;
+  if (btn) {
+    e.stopPropagation();
+    const id = btn.dataset.run || btn.dataset.break;
+    const row = $$("button", btn.parentElement);
+    row.forEach((b) => (b.disabled = true));
+    try { await post("/api/decide", { machine: id, breakMiner: Boolean(btn.dataset.break) }); } catch (err) { toast(err.message); }
+    row.forEach((b) => (b.disabled = false));
+    return;
+  }
+  const unit = e.target.closest(".unit");
+  if (unit) return select(unit.dataset.id);
+  const seg = e.target.closest(".seg button");
+  if (seg) {
+    $$(".seg button").forEach((b) => b.classList.toggle("on", b === seg));
+    $("#feed").classList.toggle("only-refused", seg.dataset.filter === "refused");
+  }
 });
+$("#whole").addEventListener("click", () => selected && select(selected));
+addEventListener("keydown", (e) => e.key === "Escape" && selected && select(selected));
 
-$("#try").addEventListener("submit", async (e) => {
+let trying = false, auto = null;
+const tryRow = (machine) => {
+  let li = $(`#try-out [data-m="${machine}"]`);
+  if (!li) {
+    li = document.createElement("li");
+    li.className = "tr";
+    li.dataset.m = machine;
+    $("#try-out").appendChild(li);
+  }
+  return li;
+};
+const fillTry = (d) => {
+  tryRow(d.machine).innerHTML = `<img src="${THUMB[d.machine]}" alt="" /><b>${esc(nameOf(d.machine))}</b><span class="chip ${d.outcome ?? "thinking"}">${d.outcome ? OUT[d.outcome] : "Buying answers"}</span><p>${esc(d.summary ?? "")}</p>`;
+};
+$("#try-form").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const f = new FormData(e.target);
-  const btn = e.target.querySelector("button");
+  const f = new FormData(e.target), btn = $("button", e.target);
   btn.disabled = true;
-  btn.textContent = "Running 4 machines…";
+  btn.textContent = "Four machines are deciding…";
+  $("#try-out").replaceChildren();
+  trying = true;
   try {
     const r = await post("/api/try", { farm: f.get("farm"), packhouse: f.get("packhouse") });
-    toast(`Done for ${r.farm.label}: ${r.decisions.map((d) => `${nameOf(d.machine)} ${d.outcome}`).join(", ")}`);
-  } catch (err) { toast(err.message); }
+    $("#try-out").replaceChildren();
+    r.decisions.forEach(fillTry);
+    toast(`Done for ${r.farm.label}. The full receipts are in the ledger.`);
+  } catch (err) {
+    $("#try-out").innerHTML = `<li class="try-empty">${esc(err.message)}</li>`;
+  }
+  trying = false;
   btn.disabled = false;
   btn.textContent = "Run the fleet there";
 });
 
-// ---------- live stream ----------
-const live = new Map(); // machine -> card element while a decision is in flight
+// ───────── live stream. Events for one machine are played in order, so the page can take its time showing each.
+const chains = {}, live = new Map();
+const enqueue = (key, fn) => (chains[key] = (chains[key] ?? Promise.resolve()).then(fn).catch((err) => console.error(err)));
 function liveCard(machine, farm) {
   if (live.has(machine)) return live.get(machine);
-  const card = decisionCard({ machine, farm, purchases: [] });
-  $("#feed").querySelector(".empty")?.remove();
+  const card = receipt({ machine, farm, purchases: [] });
+  $(".feed-empty")?.remove();
   $("#feed").prepend(card);
   live.set(machine, card);
   return card;
 }
-
-function connect() {
-  const es = new EventSource("/api/stream");
-  es.onmessage = async (msg) => {
-    const ev = JSON.parse(msg.data);
-    if (ev.type === "hello") setBusy(ev.busy);
+async function refresh() {
+  const s = await fetch("/api/state?limit=30").then((r) => r.json());
+  state = { ...state, ...s };
+  renderStats();
+  renderGuard();
+  renderSteps();
+  renderVerify();
+}
+function onEvent(ev) {
+  if (ev.type === "hello") return setBusy(ev.busy ? nameOf(String(ev.busy).split(" ")[0].toLowerCase()) : null);
+  const id = ev.machine ?? ev.purchase?.machine ?? ev.decision?.machine;
+  const farm = ev.farm ?? ev.purchase?.farm ?? ev.decision?.farm;
+  const home = isHome(farm);
+  enqueue(id, async () => {
     if (ev.type === "thinking") {
-      setBusy(nameOf(ev.machine));
-      liveCard(ev.machine, ev.farm);
-      if (ev.farm === state.farm.id) setMode(ev.machine, "thinking", "buying answers…");
+      setBusy(nameOf(id));
+      liveCard(id, farm);
+      if (!home) return void (trying && fillTry({ machine: id }));
+      setUnit(id, "thinking", "Buying the answers it needs…");
+      setTag(id, { cls: "thinking", text: "buying answers" });
+      scene.setMode(id, "thinking");
+      auto = id; // the camera follows the machine that is deciding
+      aim();
+    }
+    if (ev.type === "asking" && home) {
+      inspAsk(id, ev);
+      scene.request(id);
+      await sleep(350);
     }
     if (ev.type === "purchase") {
       const p = ev.purchase;
-      liveCard(p.machine, p.farm).querySelector(".buys").appendChild(buyRow(p));
-      if (p.farm === state.farm.id) spawnCoin(p.machine, p.verdict);
+      if (home) await Promise.race([scene.deliver(id, p.verdict), sleep(1500)]);
+      const card = liveCard(id, farm);
+      $(".rc-buys", card).appendChild(buyRow(p));
+      fetch("/api/state?limit=1").then((r) => r.json()).then((s) => { state.budget = s.budget; state.totals = s.totals; renderStats(); }).catch(() => {});
+      if (p.verdict !== "accepted") card.classList.add("has-refusal");
+      if (home) await inspAnswer(id, p);
     }
     if (ev.type === "decision") {
-      const d = ev.decision;
-      const card = live.get(d.machine);
-      const fresh = decisionCard(d);
-      if (card) card.replaceWith(fresh); else $("#feed").prepend(fresh);
-      live.delete(d.machine);
+      const d = ev.decision, fresh = receipt(d), card = live.get(id);
+      if (card) { fresh.classList.add("swap"); card.replaceWith(fresh); } else $("#feed").prepend(fresh);
+      live.delete(id);
       setBusy(null);
-      if (d.farm === state.farm.id) setMode(d.machine, d.outcome, { act: "acted", hold: "held", unverified: "no verified answer" }[d.outcome]);
-      const s = await fetch("/api/state?limit=1").then((r) => r.json());
-      state = { ...state, budget: s.budget, totals: s.totals, junk: s.junk, decisions: [d, ...state.decisions] };
-      renderStats();
+      state.decisions = [d, ...state.decisions.filter((x) => x.id !== d.id)];
+      if (home) {
+        inspClose(id);
+        setTag(id, { cls: d.outcome, text: OUT[d.outcome].toLowerCase() });
+        if (auto === id) setTimeout(() => { if (auto === id) { auto = null; aim(); } }, 1200);
+        setUnit(id, d.outcome, d.summary);
+        scene.setMode(id, d.outcome);
+      } else if (trying) fillTry(d);
+      await refresh();
     }
-  };
-  es.onerror = () => { es.close(); setTimeout(connect, 3000); };
+  });
+}
+function connect() {
+  const es = new EventSource("/api/stream");
+  es.onopen = () => { $("#live").classList.remove("off"); $("#live span").textContent = "Telegraph testnet"; };
+  es.onmessage = (m) => onEvent(JSON.parse(m.data));
+  es.onerror = () => { es.close(); $("#live").classList.add("off"); $("#live span").textContent = "Reconnecting"; setTimeout(connect, 3000); };
 }
 
-await loadState();
-for (const m of state.machines) makeTag(m.id, m.name);
-renderMachines();
-machineStatesFromHistory();
-resize();
-animate();
-connect();
+// ───────── layout: tell the scene which part of the hero is free for the farm
+function layout() {
+  const st = $(".stage").getBoundingClientRect();
+  if (desktop()) {
+    const dock = $("#dock").getBoundingClientRect(), led = $(".ledger").getBoundingClientRect(), pitch = $(".pitch").getBoundingClientRect();
+    const top = pitch.bottom - st.top - 84; // the farm's top-left corner is open sky, so it can tuck under the text
+    scene.setFrame({ x: 130, y: top, w: led.left - st.left - 140, h: dock.top - st.top - top - 4 });
+  } else scene.setFrame({ x: 4, y: 40, w: st.width - 8, h: st.height - 44 });
+}
+function placeTags(pos) {
+  const st = $(".stage"), W = st.clientWidth, maxX = desktop() ? $(".ledger").offsetLeft - 12 : W;
+  for (const [id, p] of Object.entries(pos)) {
+    const el = tags[id];
+    if (!el) continue;
+    let { x, y } = p;
+    if (tagState[id].open) {
+      const half = el.offsetWidth / 2 + 8;
+      x = Math.max(half, Math.min(maxX - half, x));
+      y = Math.max(el.offsetHeight + 74, y);
+    }
+    el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) translate(-50%, -100%)`;
+    el.style.opacity = p.show || tagState[id].open ? 1 : 0;
+    el.style.pointerEvents = p.show ? "" : "none";
+  }
+}
+
+// ───────── start
+async function start() {
+  const h1 = $("#h1");
+  h1.innerHTML = h1.textContent.split(" ").map((w, i) => `<span class="w" style="animation-delay:${0.05 + i * 0.045}s">${w}</span>`).join(" ");
+  [state] = await Promise.all([fetch("/api/state?limit=30").then((r) => r.json()), document.fonts.ready]);
+  NODE = state.node || NODE;
+  $("#farm-label").textContent = state.farm.label;
+  if (state.tick_seconds > 0) $("#live").title = `The fleet also decides on its own, one machine every ${Math.round(state.tick_seconds / 60)} minutes`;
+  for (const m of state.machines) THUMB[m.id] = machineThumb(m.id);
+  renderDock();
+  renderStats();
+  renderFeed();
+  scene = createScene($("#scene"), { low: !desktop() || navigator.hardwareConcurrency <= 4 });
+  for (const m of state.machines) makeTag(m);
+  scene.onFrame(placeTags);
+  layout();
+  let rz;
+  addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(layout, 120); });
+  // put each machine in the state its last decision left it in, without replaying the motion
+  for (const m of state.machines) {
+    const last = state.decisions.find((d) => d.machine === m.id && isHome(d.farm));
+    if (!last) continue;
+    scene.setMode(m.id, last.outcome, { settled: true });
+    setTag(m.id, { cls: last.outcome, text: OUT[last.outcome].toLowerCase() });
+    setUnit(m.id, last.outcome, last.summary);
+  }
+  renderGuard();
+  renderSteps();
+  renderVerify();
+  const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && (e.target.classList.add("in"), io.unobserve(e.target))), { threshold: 0.15 });
+  $$(".reveal:not(.in)").forEach((el) => io.observe(el));
+  let on = 0;
+  setInterval(() => {
+    const s = $$("#steps .step");
+    if (!s.length || s[0].getBoundingClientRect().top > innerHeight || s[0].getBoundingClientRect().bottom < 0) return;
+    on = (on + 1) % s.length;
+    s.forEach((el, i) => el.classList.toggle("on", i === on));
+  }, 2600);
+  setInterval(() => $$("#feed time[datetime]").forEach((t) => (t.textContent = ago(t.dateTime))), 30000);
+  connect();
+}
+start();
