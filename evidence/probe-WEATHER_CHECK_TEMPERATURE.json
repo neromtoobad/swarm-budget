@@ -1,0 +1,1448 @@
+{
+  "at": "2026-11-19T13:05:53.786Z",
+  "intent": "WEATHER_CHECK_TEMPERATURE",
+  "params": {
+    "location": "Kerman, California"
+  },
+  "miners": {
+    "count": 31,
+    "intent_id": "WEATHER_CHECK_TEMPERATURE",
+    "miners": [
+      {
+        "id": "170106",
+        "name": "7Timer Civil",
+        "slug": "wxk-7timer",
+        "description": "7Timer Civil -> temp_k_x100. Intent WEATHER_CHECK - Round Two Batch 7.\n",
+        "base_url": "https://omni-chat.13.237.89.59.sslip.io",
+        "capabilities": [
+          "WEATHER_CHECK_TEMPERATURE"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "1900999000",
+        "name": "ReferenceForge",
+        "slug": "referenceforge-numeric",
+        "description": "Original source-backed V2 subset. Weather accepts coordinates or exact 2026 Census US place name plus explicit state, with disclosed internal reference point. US NWS coverage and 1..48 hour forecast limits remain; no fuzzy place, street or global coverage.",
+        "base_url": "https://referenceforge.0xsaroj001.workers.dev",
+        "capabilities": [
+          "MACRO_ECONOMIC_INDICATOR_GENERAL",
+          "ONCHAIN_TX_LOOKUP_GENERAL",
+          "WALLET_BALANCE_CHECK_GENERAL",
+          "WEATHER_CHECK_TEMPERATURE",
+          "WEATHER_FORECAST_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "mapped in code to /v2/weather/current",
+        "mapping": "code",
+        "compatible_endpoints": [
+          "/v2/weather/current"
+        ]
+      },
+      {
+        "id": "20260821",
+        "name": "Amanat Weather Risk",
+        "slug": "amanat-weather-risk",
+        "description": "Parametric weather-risk signals for autonomous systems. Every answer carries a plain-language summary and the scalars behind it — temperature, wind, gusts, precipitation and a storm-risk score — so the same response can be graded by a Telegraph scoring module and acted on by a smart contract through an ERC-8183 job. Backed by Open-Meteo; no API key, no rate-limit surprises.\n",
+        "base_url": "https://amanat-miner.vercel.app",
+        "capabilities": [
+          "WEATHER_FORECAST_GENERAL",
+          "WEATHER_CHECK_TEMPERATURE",
+          "STORM_ALERT_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder: /forecast declares no request fields",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/forecast"
+        ]
+      },
+      {
+        "id": "33009",
+        "name": "Open-Meteo Marine Weather",
+        "slug": "wx-openmeteo-marine",
+        "description": "Open-Meteo marine conditions (wave height). Intent WEATHER_CHECK. Coastal lat/lon.\n",
+        "base_url": "https://marine-api.open-meteo.com",
+        "capabilities": [
+          "WEATHER_CHECK_TEMPERATURE"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "9002",
+        "name": "TxLens",
+        "slug": "txlens",
+        "description": "TxLens provides live, verifiable answers to on-chain and market questions from authoritative sources. Covering 123 intents across blockchain, finance, weather, content, security, and general intelligence domains—each answer includes source attribution and fetch timestamps for transparency.\n",
+        "base_url": "https://telegraph-onchain-tx-lookup-miner.onrender.com",
+        "capabilities": [
+          "ONCHAIN_TX_LOOKUP_GENERAL",
+          "GAS_PRICE_GENERAL",
+          "WALLET_BALANCE_CHECK_GENERAL",
+          "TOKEN_HOLDER_COUNT_GENERAL",
+          "TVL_LOOKUP_GENERAL",
+          "CRYPTO_PRICE_USD",
+          "STOCK_PRICE_US_EQUITY",
+          "GRID_POWER_PRICE_GENERAL",
+          "VALIDATOR_PERFORMANCE_VERIFY_GENERAL",
+          "CLOUD_RESOURCE_USAGE_GENERAL",
+          "DATACENTER_TELEMETRY_VERIFY_GENERAL",
+          "SENSOR_TELEMETRY_VERIFY_GENERAL",
+          "LIVE_PORT_CONGESTION_GENERAL",
+          "VESSEL_TELEMETRY_VERIFY_GENERAL",
+          "SATELLITE_IMAGERY_ANALYSIS_GENERAL",
+          "MINING_HASHPRICE_VERIFY_GENERAL",
+          "SSL_VERIFICATION_CERT",
+          "WEATHER_FORECAST_GENERAL",
+          "STORM_ALERT_GENERAL",
+          "IP_GEOLOCATION_GENERAL",
+          "ACADEMIC_SEARCH_GENERAL",
+          "FRAUD_DETECTION_GENERAL",
+          "WEB_SEARCH_GENERAL",
+          "CONTENT_EXTRACTION_GENERAL",
+          "TEXT_CLASSIFICATION_GENERAL",
+          "TEXT_GENERATION_GENERAL",
+          "LANGUAGE_GENERATION_GENERAL",
+          "RESEARCH_SYNTHESIS_GENERAL",
+          "CROSS_CHAIN_STATE_VERIFY_GENERAL",
+          "EVENT_OUTCOME_RESOLUTION_GENERAL",
+          "WEATHER_CHECK_TEMPERATURE",
+          "LANGUAGE_TRANSLATION_GENERAL",
+          "CHAT_COMPLETION_GENERAL",
+          "NEWS_SEARCH_GENERAL",
+          "NEWS_HEADLINES_GENERAL",
+          "FACT_CHECK_GENERAL",
+          "SENTIMENT_ANALYSIS_GENERAL",
+          "CONTENT_MODERATION_GENERAL",
+          "CVE_LOOKUP_CVSS",
+          "TELEGRAPH_KNOWLEDGE_GENERAL",
+          "TEXT_SUMMARIZATION_GENERAL",
+          "CHATBOT_CONVERSATION_GENERAL",
+          "SEMANTIC_SIMILARITY_GENERAL",
+          "GRAMMAR_SPELL_CHECK_GENERAL",
+          "AI_TEXT_DETECTION_GENERAL",
+          "RESEARCH_QUERY_GENERAL",
+          "THREAT_INTELLIGENCE_INDICATOR",
+          "PACKAGE_STATUS_GENERAL",
+          "URL_SCAN_VERDICT",
+          "CURRENCY_EXCHANGE_CONVERT",
+          "SANCTIONS_SCREENING_MATCH_GENERAL",
+          "VULNERABILITY_TRIAGE_GENERAL",
+          "SPORTS_SCORE_GENERAL",
+          "GAME_RESULT_GENERAL",
+          "ROUTE_ETA_GENERAL",
+          "REGULATORY_FILING_MONITOR_GENERAL",
+          "CREDIT_SCORE_VERIFY_GENERAL",
+          "MACRO_ECONOMIC_INDICATOR_GENERAL",
+          "WEATHER_FORECAST_VERIFY_GENERAL",
+          "CUSTOMER_TICKET_RESOLUTION_GENERAL",
+          "RETURN_POLICY_VERIFY_GENERAL",
+          "TASK_EXECUTION_QUALITY_GENERAL",
+          "CARRIER_SERVICEABILITY_GENERAL",
+          "DELIVERY_WINDOW_VERIFY_GENERAL",
+          "PAYMENT_METHOD_VERIFY_GENERAL",
+          "INVOICE_LEDGER_RECONCILE_GENERAL",
+          "URL_SAFE_GENERAL",
+          "MALWARE_DETECTION_HASH",
+          "DNS_RECORD_LOOKUP_GENERAL",
+          "THREAT_IP_REPUTATION_GENERAL",
+          "FX_NOW_CAD",
+          "FX_NOW_EUR",
+          "FX_NOW_SEK",
+          "TOKEN_TOTAL_SUPPLY_VERIFY_GENERAL",
+          "CORPORATE_REGISTRY_LOOKUP_GENERAL",
+          "EMAIL_SECURITY_GENERAL",
+          "SECURITY_REVIEW_GENERAL",
+          "LLM_OUTPUT_EVALUATION_GENERAL",
+          "CONTRACT_OBLIGATION_AUDIT_GENERAL",
+          "CODE_GENERATION_GENERAL",
+          "CODE_REVIEW_GENERAL",
+          "TEXT_AUTHENTICITY_CHECK_GENERAL",
+          "CRYPTO_TRANSFER_VERIFY_GENERAL",
+          "ONCHAIN_METRIC_VERIFY_GENERAL",
+          "QUESTION_ANSWERING_GENERAL",
+          "FINANCIAL_DATA_GENERAL",
+          "LOAN_INTEREST_RATE_QUOTE_GENERAL",
+          "SMART_CONTRACT_AUDIT_GENERAL",
+          "ENTITY_EXTRACTION_GENERAL",
+          "KEYWORD_EXTRACTION_GENERAL",
+          "B2B_IDENTITY_ENRICHMENT_GENERAL",
+          "SOCIAL_BOT_DETECTION_GENERAL",
+          "TRAVEL_DISRUPTION_GENERAL",
+          "CONTENT_VERIFICATION_GENERAL",
+          "PRODUCT_AUTHENTICITY_GENERAL",
+          "PLAGIARISM_DETECTION_GENERAL",
+          "DOCUMENT_AUTHENTICITY_GENERAL",
+          "SLA_COMPLIANCE_GENERAL",
+          "MEDIA_FORENSIC_VERIFY_GENERAL",
+          "MEDIA_AUTHENTICITY_CHECK_GENERAL",
+          "IMAGE_VERIFICATION_GENERAL",
+          "VIDEO_VERIFICATION_GENERAL",
+          "DEEPFAKE_DETECTION_GENERAL",
+          "IMAGE_CAPTIONING_GENERAL",
+          "AGENT_TASK_GENERAL",
+          "TASK_COMPLETION_GENERAL",
+          "WASH_TRADING_DETECTION_GENERAL",
+          "FRAUD_RISK_GENERAL",
+          "TRANSACTION_RISK_GENERAL",
+          "VENDOR_VERIFY_GENERAL",
+          "PURCHASE_ORDER_VERIFY_GENERAL",
+          "COMMERCE_PURCHASE_VERIFY_GENERAL",
+          "FARE_RULE_VERIFY_GENERAL",
+          "CODE_PATCH_VERIFY_GENERAL",
+          "REGRESSION_VERIFY_GENERAL",
+          "KYC_BIOMETRIC_LIVENESS_GENERAL",
+          "SHIPMENT_DELAY_RISK_GENERAL",
+          "SHIP_RATE_ETA_GENERAL",
+          "OPTIMAL_EXECUTION_ROUTE_GENERAL",
+          "WAREHOUSE_INVENTORY_GENERAL",
+          "SKU_IN_STOCK_GENERAL",
+          "LIVE_SHELF_PRICE_GENERAL",
+          "HOTEL_AVAILABILITY_GENERAL",
+          "FLIGHT_AVAILABILITY_GENERAL",
+          "AIR_QUALITY_INDEX_GENERAL",
+          "CRYPTO_YIELD_RATE_GENERAL",
+          "ASSET_RESERVE_ATTESTATION_GENERAL",
+          "LIQUIDITY_DEPTH_VERIFY_GENERAL",
+          "API_HEALTH_CHECK_GENERAL",
+          "SERVER_UPTIME_MONITOR_GENERAL",
+          "TWITTER_SEARCH_GENERAL",
+          "EMBEDDING_GENERATION_GENERAL",
+          "TEXT_TO_SPEECH_GENERAL",
+          "SPEECH_TO_TEXT_GENERAL",
+          "PORT_SCAN_AUDIT_GENERAL",
+          "TRAVEL_TRANSIT_LOCK_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /weather-check has no field for required param(s) location",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/weather-check"
+        ]
+      },
+      {
+        "id": "33002",
+        "name": "Open-Meteo Flood Weather",
+        "slug": "wx-openmeteo-flood",
+        "description": "Open-Meteo flood / river discharge. Intent WEATHER_CHECK. Direct Request shows lat + lon.\n",
+        "base_url": "https://flood-api.open-meteo.com",
+        "capabilities": [
+          "WEATHER_CHECK_TEMPERATURE"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "33008",
+        "name": "NWS Alerts Weather Check",
+        "slug": "wx-nws-alerts",
+        "description": "US NWS active alerts for a point. Intent WEATHER_CHECK. Direct Request shows point (lat,lon).\n",
+        "base_url": "https://api.weather.gov",
+        "capabilities": [
+          "WEATHER_CHECK_TEMPERATURE"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "4283",
+        "name": "Gauge",
+        "slug": "gauge-observed",
+        "description": "Observed values for parametric cover triggers, each cross-checked on two keyless public sources. Bitcoin hashprice at an exact block height (Blockstream and Blockchain.com must agree within 0.1%). Port waiting time for every Finnish port (Fintraffic Digitraffic port calls checked against AIS). Current air temperature at any named place (Open-Meteo and MET Norway must agree within 2 degrees Celsius). Asset price in US dollars (Kraken and Bitstamp, within 0.5%) and the euro rate of the US dollar (ECB daily reference and a second feed, within 1%). Returns a clear JSON error instead of a guess when it cannot answer.\n",
+        "base_url": "https://gauge.129.121.144.223.sslip.io",
+        "capabilities": [
+          "MINING_HASHPRICE_VERIFY_GENERAL",
+          "LIVE_PORT_CONGESTION_GENERAL",
+          "WEATHER_CHECK_TEMPERATURE",
+          "CRYPTO_PRICE_USD",
+          "FX_NOW_EUR"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "mapped in code to /temperature",
+        "mapping": "code",
+        "compatible_endpoints": [
+          "/temperature"
+        ]
+      },
+      {
+        "id": "170015",
+        "name": "Bright Sky DWD Station Temperature (observed)",
+        "slug": "wxk-brightsky",
+        "description": "Bright Sky DWD Station Temperature (observed) -> temp_k_x100 (2 m air temperature, kelvin x 100) at pinned lat/lon. Intent WEATHER_CHECK - one publisher per miner.\n",
+        "base_url": "https://omni-chat.13.237.89.59.sslip.io",
+        "capabilities": [
+          "WEATHER_CHECK_TEMPERATURE"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "4433",
+        "name": "LiveCert — Sourced Answers for Agents",
+        "slug": "livecert",
+        "description": "Sourced answers for agents and apps across 44 intents, each read live from a named primary source so the caller can check it. Every answer opens with a one-sentence answer, then returns the values as fields, the source and the time it was checked. Compliance: sanctions screening of people, companies and wallets against the OFAC SDN and UN lists with near-match scores; company register records (status, company number, register, registered address and agent, parents) from GLEIF and SEC EDGAR; SEC filings with acceptance times and each 10-Q or 10-K's own XBRL figures; URL reputation from Cloudflare and Quad9 threat DNS, each source named. Research: question answering with every claim cited, web search with dated reports, fact checks with the source URL and evidence sentence, and academic, clinical and news search. Markets: prices and market data for coins, tokens and listed companies, 10-K revenue and earnings, exchange rates and macroeconomic prints (US CPI and unemployment from BLS, the federal funds target range from the New York Fed, euro-area HICP from Eurostat and ECB rates). On-chain: transfer verification with confirmations and the burned base fee, transaction and contract activity across EVM chains, wallet balances, gas, token holders, ERC-20 total supply and burned balance read at a pinned block from two RPCs, any named value read at a stated block height (receipt gas and Transfer amounts, storage slots, balances, block gas), and cross-chain messages. Security: live TLS certificates, URL scans, CVE records, DNS records compared across two resolvers, security reviews of packages, sites and code, and fraud signals. Weather: forecasts, current conditions and storm risk. Also translation, IP geolocation, event outcomes, text extraction, sentiment and classification. A language model (Groq gpt-oss-120b, with two fallbacks) writes chat replies, code and security reviews and requested writing, and chooses sentiment labels, fact-check ratings, news briefs and, with no market or record, recalled event outcomes; each field is checked before it is served, the request is passed as data, and a keyless answer or an honest unknown is given when no model answers. Everything else is computed, not generated.",
+        "base_url": "https://miner-wine.vercel.app",
+        "capabilities": [
+          "SSL_VERIFICATION_CERT",
+          "STORM_ALERT_GENERAL",
+          "WEATHER_FORECAST_GENERAL",
+          "LANGUAGE_TRANSLATION_GENERAL",
+          "ACADEMIC_SEARCH_GENERAL",
+          "CONTENT_EXTRACTION_GENERAL",
+          "WALLET_BALANCE_CHECK_GENERAL",
+          "WEATHER_CHECK_TEMPERATURE",
+          "FACT_CHECK_GENERAL",
+          "ONCHAIN_TX_LOOKUP_GENERAL",
+          "CVE_LOOKUP_CVSS",
+          "CURRENCY_EXCHANGE_CONVERT",
+          "GAS_PRICE_GENERAL",
+          "FINANCIAL_DATA_GENERAL",
+          "FRAUD_DETECTION_GENERAL",
+          "TOKEN_HOLDER_COUNT_GENERAL",
+          "RESEARCH_QUERY_GENERAL",
+          "CRYPTO_PRICE_USD",
+          "CROSS_CHAIN_STATE_VERIFY_GENERAL",
+          "EVENT_OUTCOME_RESOLUTION_GENERAL",
+          "URL_SCAN_VERDICT",
+          "WEB_SEARCH_GENERAL",
+          "SENTIMENT_ANALYSIS_GENERAL",
+          "TEXT_CLASSIFICATION_GENERAL",
+          "RESEARCH_SYNTHESIS_GENERAL",
+          "SANCTIONS_SCREENING_MATCH_GENERAL",
+          "CORPORATE_REGISTRY_LOOKUP_GENERAL",
+          "REGULATORY_FILING_MONITOR_GENERAL",
+          "CRYPTO_TRANSFER_VERIFY_GENERAL",
+          "MACRO_ECONOMIC_INDICATOR_GENERAL",
+          "URL_SAFE_GENERAL",
+          "QUESTION_ANSWERING_GENERAL",
+          "DNS_RECORD_LOOKUP_GENERAL",
+          "TOKEN_TOTAL_SUPPLY_VERIFY_GENERAL",
+          "ONCHAIN_METRIC_VERIFY_GENERAL",
+          "CHAT_COMPLETION_GENERAL",
+          "CODE_REVIEW_GENERAL",
+          "SECURITY_REVIEW_GENERAL",
+          "SMART_CONTRACT_AUDIT_GENERAL",
+          "TEXT_GENERATION_GENERAL",
+          "IP_GEOLOCATION_GENERAL",
+          "NEWS_HEADLINES_GENERAL",
+          "NEWS_SEARCH_GENERAL",
+          "STOCK_PRICE_US_EQUITY"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "mapped in code to /weather-forecast",
+        "mapping": "code",
+        "compatible_endpoints": [
+          "/weather-forecast"
+        ]
+      },
+      {
+        "id": "20260828",
+        "name": "PREFLIGHT Infrastructure Signals",
+        "slug": "a1-preflight",
+        "description": "Deterministic infrastructure and on-chain signals for autonomous systems, each read live at question time. TLS verification performs a real handshake with chain, hostname and validity checks; URL safety combines redirects, headers and threat feeds; DNS records come from two independent DoH resolvers; uptime and API health are probed with per-phase timings. Gas, balances, transactions, token supply and pinned-block reads come straight from public JSON-RPC on Ethereum, Base, Arbitrum, OP Mainnet, Polygon, BNB Chain, Avalanche, Linea, Scroll, Gnosis, zkSync Era, Blast, Mantle, Celo, Sonic and Unichain. Prices, TVL, FX, geolocation, papers and CVEs come from named public sources, cited in each answer.\n",
+        "base_url": "https://preflight-ssl-verification.vercel.app",
+        "capabilities": [
+          "HOTEL_AVAILABILITY_GENERAL",
+          "FLIGHT_AVAILABILITY_GENERAL",
+          "TRAVEL_TRANSIT_LOCK_GENERAL",
+          "PACKAGE_STATUS_GENERAL",
+          "CREDIT_SCORE_VERIFY_GENERAL",
+          "DATACENTER_TELEMETRY_VERIFY_GENERAL",
+          "WAREHOUSE_INVENTORY_GENERAL",
+          "VESSEL_TELEMETRY_VERIFY_GENERAL",
+          "LIVE_PORT_CONGESTION_GENERAL",
+          "TWITTER_SEARCH_GENERAL",
+          "LIVE_SHELF_PRICE_GENERAL",
+          "SKU_IN_STOCK_GENERAL",
+          "KYC_BIOMETRIC_LIVENESS_GENERAL",
+          "CLOUD_RESOURCE_USAGE_GENERAL",
+          "SENSOR_TELEMETRY_VERIFY_GENERAL",
+          "RETURN_POLICY_VERIFY_GENERAL",
+          "TEXT_TO_SPEECH_GENERAL",
+          "PORT_SCAN_AUDIT_GENERAL",
+          "COMMERCE_PURCHASE_VERIFY_GENERAL",
+          "PURCHASE_ORDER_VERIFY_GENERAL",
+          "FARE_RULE_VERIFY_GENERAL",
+          "DELIVERY_WINDOW_VERIFY_GENERAL",
+          "SHIP_RATE_ETA_GENERAL",
+          "VIDEO_VERIFICATION_GENERAL",
+          "SPEECH_TO_TEXT_GENERAL",
+          "CARRIER_SERVICEABILITY_GENERAL",
+          "EMBEDDING_GENERATION_GENERAL",
+          "SATELLITE_IMAGERY_ANALYSIS_GENERAL",
+          "SOCIAL_BOT_DETECTION_GENERAL",
+          "WASH_TRADING_DETECTION_GENERAL",
+          "SLA_COMPLIANCE_GENERAL",
+          "PRODUCT_AUTHENTICITY_GENERAL",
+          "SHIPMENT_DELAY_RISK_GENERAL",
+          "IMAGE_VERIFICATION_GENERAL",
+          "MEDIA_AUTHENTICITY_CHECK_GENERAL",
+          "DEEPFAKE_DETECTION_GENERAL",
+          "MEDIA_FORENSIC_VERIFY_GENERAL",
+          "IMAGE_CAPTIONING_GENERAL",
+          "TRAVEL_DISRUPTION_GENERAL",
+          "SMART_CONTRACT_AUDIT_GENERAL",
+          "INVOICE_LEDGER_RECONCILE_GENERAL",
+          "DOCUMENT_AUTHENTICITY_GENERAL",
+          "PLAGIARISM_DETECTION_GENERAL",
+          "SSL_VERIFICATION_CERT",
+          "URL_SCAN_VERDICT",
+          "GAS_PRICE_GENERAL",
+          "WALLET_BALANCE_CHECK_GENERAL",
+          "ONCHAIN_TX_LOOKUP_GENERAL",
+          "CRYPTO_PRICE_USD",
+          "TVL_LOOKUP_GENERAL",
+          "CURRENCY_EXCHANGE_CONVERT",
+          "FX_NOW_EUR",
+          "FX_NOW_CAD",
+          "FX_NOW_SEK",
+          "IP_GEOLOCATION_GENERAL",
+          "STOCK_PRICE_US_EQUITY",
+          "ACADEMIC_SEARCH_GENERAL",
+          "CVE_LOOKUP_CVSS",
+          "VULNERABILITY_TRIAGE_GENERAL",
+          "DNS_RECORD_LOOKUP_GENERAL",
+          "TOKEN_TOTAL_SUPPLY_VERIFY_GENERAL",
+          "ONCHAIN_METRIC_VERIFY_GENERAL",
+          "URL_SAFE_GENERAL",
+          "SERVER_UPTIME_MONITOR_GENERAL",
+          "API_HEALTH_CHECK_GENERAL",
+          "CRYPTO_TRANSFER_VERIFY_GENERAL",
+          "LIQUIDITY_DEPTH_VERIFY_GENERAL",
+          "CRYPTO_YIELD_RATE_GENERAL",
+          "TOKEN_HOLDER_COUNT_GENERAL",
+          "WEATHER_CHECK_TEMPERATURE",
+          "WEATHER_FORECAST_GENERAL",
+          "STORM_ALERT_GENERAL",
+          "MACRO_ECONOMIC_INDICATOR_GENERAL",
+          "LOAN_INTEREST_RATE_QUOTE_GENERAL",
+          "PAYMENT_METHOD_VERIFY_GENERAL",
+          "GRID_POWER_PRICE_GENERAL",
+          "VALIDATOR_PERFORMANCE_VERIFY_GENERAL",
+          "ASSET_RESERVE_ATTESTATION_GENERAL",
+          "MINING_HASHPRICE_VERIFY_GENERAL",
+          "CORPORATE_REGISTRY_LOOKUP_GENERAL",
+          "EMAIL_SECURITY_GENERAL",
+          "THREAT_INTELLIGENCE_INDICATOR",
+          "THREAT_IP_REPUTATION_GENERAL",
+          "SANCTIONS_SCREENING_MATCH_GENERAL",
+          "WEATHER_FORECAST_VERIFY_GENERAL",
+          "FINANCIAL_DATA_GENERAL",
+          "SECURITY_REVIEW_GENERAL",
+          "REGULATORY_FILING_MONITOR_GENERAL",
+          "ROUTE_ETA_GENERAL",
+          "VENDOR_VERIFY_GENERAL",
+          "B2B_IDENTITY_ENRICHMENT_GENERAL",
+          "MALWARE_DETECTION_HASH",
+          "SENTIMENT_ANALYSIS_GENERAL",
+          "KEYWORD_EXTRACTION_GENERAL",
+          "GRAMMAR_SPELL_CHECK_GENERAL",
+          "LANGUAGE_TRANSLATION_GENERAL",
+          "TEXT_SUMMARIZATION_GENERAL",
+          "QUESTION_ANSWERING_GENERAL",
+          "NEWS_HEADLINES_GENERAL",
+          "NEWS_SEARCH_GENERAL",
+          "RESEARCH_QUERY_GENERAL",
+          "RESEARCH_SYNTHESIS_GENERAL",
+          "TELEGRAPH_KNOWLEDGE_GENERAL",
+          "WEB_SEARCH_GENERAL",
+          "SEMANTIC_SIMILARITY_GENERAL",
+          "ENTITY_EXTRACTION_GENERAL",
+          "TEXT_CLASSIFICATION_GENERAL",
+          "CONTENT_EXTRACTION_GENERAL",
+          "AIR_QUALITY_INDEX_GENERAL",
+          "GAME_RESULT_GENERAL",
+          "SPORTS_SCORE_GENERAL",
+          "EVENT_OUTCOME_RESOLUTION_GENERAL",
+          "CROSS_CHAIN_STATE_VERIFY_GENERAL",
+          "OPTIMAL_EXECUTION_ROUTE_GENERAL",
+          "TRANSACTION_RISK_GENERAL",
+          "FRAUD_DETECTION_GENERAL",
+          "FRAUD_RISK_GENERAL",
+          "CONTENT_MODERATION_GENERAL",
+          "CODE_REVIEW_GENERAL",
+          "CHAT_COMPLETION_GENERAL",
+          "CHATBOT_CONVERSATION_GENERAL",
+          "TEXT_GENERATION_GENERAL",
+          "LANGUAGE_GENERATION_GENERAL",
+          "CODE_GENERATION_GENERAL",
+          "AGENT_TASK_GENERAL",
+          "TASK_COMPLETION_GENERAL",
+          "LLM_OUTPUT_EVALUATION_GENERAL",
+          "TASK_EXECUTION_QUALITY_GENERAL",
+          "CUSTOMER_TICKET_RESOLUTION_GENERAL",
+          "CONTRACT_OBLIGATION_AUDIT_GENERAL",
+          "CODE_PATCH_VERIFY_GENERAL",
+          "REGRESSION_VERIFY_GENERAL",
+          "FACT_CHECK_GENERAL",
+          "CONTENT_VERIFICATION_GENERAL",
+          "TEXT_AUTHENTICITY_CHECK_GENERAL",
+          "AI_TEXT_DETECTION_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder: required field query has no canonical param",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/weather"
+        ]
+      },
+      {
+        "id": "20260826",
+        "name": "Isobar Weather",
+        "slug": "isobar-weather",
+        "description": "Deterministic current conditions and multi-day forecast data for any global location, drawn from Open-Meteo weather models. Answers include temperature in Celsius and Fahrenheit, apparent temperature, humidity, wind, precipitation, pressure, condition, and observation time.\n",
+        "base_url": "https://weather.isobars.xyz",
+        "capabilities": [
+          "WEATHER_CHECK_TEMPERATURE",
+          "WEATHER_FORECAST_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder: 2 endpoints can take the params",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/weather",
+          "/forecast"
+        ]
+      },
+      {
+        "id": "190098",
+        "name": "Wx 7timer",
+        "slug": "wx-7timer",
+        "description": "Semantic V2 miner for WEATHER_CHECK. PACK READY - meets 10 candidates; 7 keyless. Open-Meteo model variants share a host - count as 1 source if you enforce one-publisher-per-miner. Capture pin answers: Must satisfy catalog intent WEATHER_CHECK via upstream 7Timer",
+        "base_url": "http://www.7timer.info",
+        "capabilities": [
+          "WEATHER_CHECK_TEMPERATURE"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "78214",
+        "name": "SkyWire Observed Air Temperature",
+        "slug": "zk-airtemp",
+        "description": "Current observed air temperature from the nearest fresh NOAA METAR station within 30 km, with actual observation time, station identity, distance, requested and measurement coordinates and raw report disclosed. Explicit ICAO station requests query only that station and abstain if unavailable. City or coordinate requests fall back to a labeled MET Norway point-model estimate when no eligible observation is available. No interpolation or mixing of station and model temperatures.\n",
+        "base_url": "https://telegraph-sky.margyn.workers.dev",
+        "capabilities": [
+          "WEATHER_CHECK_TEMPERATURE"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder: location needs the request builder",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/weather-observed"
+        ]
+      },
+      {
+        "id": "33006",
+        "name": "Sunrise-Sunset Weather Check",
+        "slug": "wx-sunrise",
+        "description": "Sunrise/sunset times for a location. Intent WEATHER_CHECK. Direct Request shows lat + lng.\n",
+        "base_url": "https://api.sunrise-sunset.org",
+        "capabilities": [
+          "WEATHER_CHECK_TEMPERATURE"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "190100",
+        "name": "Wx Openmeteo",
+        "slug": "wx-openmeteo",
+        "description": "Semantic V2 miner for WEATHER_CHECK. PACK READY - meets 10 candidates; 7 keyless. Open-Meteo model variants share a host - count as 1 source if you enforce one-publisher-per-miner. Capture pin answers: Must satisfy catalog intent WEATHER_CHECK via upstream Open-Meteo (best match)",
+        "base_url": "https://api.open-meteo.com",
+        "capabilities": [
+          "WEATHER_CHECK_TEMPERATURE"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "33005",
+        "name": "Bright Sky Weather Check",
+        "slug": "wx-brightsky",
+        "description": "Bright Sky (DWD) current weather. Intent WEATHER_CHECK. Best coverage in Europe; defaults Berlin.\n",
+        "base_url": "https://api.brightsky.dev",
+        "capabilities": [
+          "WEATHER_CHECK_TEMPERATURE"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "9006",
+        "name": "Verity Current Weather Check",
+        "slug": "verity-current-weather",
+        "description": "Current weather for coordinates or a place name, with normalized temperatures, condition, humidity, dew point, pressure, precipitation, and wind.",
+        "base_url": "https://verity-production-fcf5.up.railway.app",
+        "capabilities": [
+          "WEATHER_CHECK_TEMPERATURE"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder: /weather declares no request fields",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/weather"
+        ]
+      },
+      {
+        "id": "0",
+        "name": "Lacre-Meteo (Transit-Integrity-Sealed Weather Forecast)",
+        "slug": "lacre-meteo",
+        "description": "Hourly weather forecast (temperature, wind speed) sourced from the public Open-Meteo API, sealed with Lacre Prime's Core profile (per-fragment HMAC-SHA256, deterministic purge) before being returned. Demonstrates transit-integrity as a layer beneath Telegraph's existing quality-verification pipeline: Telegraph's Validators already confirm a Miner's answer is a good answer; Lacre proves the answer an Agent actually receives is byte-for-byte the one this Miner produced, with no alteration on the final hop.\n",
+        "base_url": "https://lacreprime.dpdns.org",
+        "capabilities": [
+          "WEATHER_FORECAST_GENERAL",
+          "WEATHER_CHECK_TEMPERATURE"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder: /predict declares no request fields",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/predict"
+        ]
+      },
+      {
+        "id": "190099",
+        "name": "Wx Metno",
+        "slug": "wx-metno",
+        "description": "Semantic V2 miner for WEATHER_CHECK. PACK READY - meets 10 candidates; 7 keyless. Open-Meteo model variants share a host - count as 1 source if you enforce one-publisher-per-miner. Capture pin answers: Must satisfy catalog intent WEATHER_CHECK via upstream MET Norway",
+        "base_url": "https://api.met.no",
+        "capabilities": [
+          "WEATHER_CHECK_TEMPERATURE"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "302",
+        "name": "ChainSight — Universal Intelligence & Data Oracle",
+        "slug": "chainsight-oracle",
+        "description": "A single high-reliability provider that answers ANY request across conversation, search, research, verification, language, finance, crypto/on-chain, security, weather, logistics and IoT. Routes here for: general conversational questions and chat; open-ended Q&A and knowledge; web search and current news; deep research and academic/scholarly lookups; fact-checking and claim/content verification; translation, summarization, rewriting and text generation; sentiment, classification, moderation, AI-text and authenticity detection; live crypto prices, market cap, DeFi TVL and yields, fiat FX, gas, wallet balances, on-chain transactions, token supply and holders; stock and macro indicators; fraud, sanctions, threat-intel, CVE and vulnerability, URL/email/SSL security, code review and generation; weather, air-quality and geolocation; shipping, port, warehouse, package and vessel logistics; sensor, grid, datacenter and validator telemetry. Every answer is direct, grounded in a real source, number-first for quantitative intents, low-latency and never empty. Broad coverage with specialist-grade quality on each intent — a reliable default the router can trust for almost any question.",
+        "base_url": "https://hub.shadrakbessanh.me",
+        "capabilities": [
+          "MEDIA_AUTHENTICITY_CHECK_GENERAL",
+          "MEDIA_FORENSIC_VERIFY_GENERAL",
+          "MINING_HASHPRICE_VERIFY_GENERAL",
+          "NEWS_HEADLINES_GENERAL",
+          "NEWS_SEARCH_GENERAL",
+          "ONCHAIN_METRIC_VERIFY_GENERAL",
+          "ONCHAIN_TX_LOOKUP_GENERAL",
+          "OPTIMAL_EXECUTION_ROUTE_GENERAL",
+          "PACKAGE_STATUS_GENERAL",
+          "PAYMENT_METHOD_VERIFY_GENERAL",
+          "PLAGIARISM_DETECTION_GENERAL",
+          "PORT_SCAN_AUDIT_GENERAL",
+          "PRODUCT_AUTHENTICITY_GENERAL",
+          "QUESTION_ANSWERING_GENERAL",
+          "REGRESSION_VERIFY_GENERAL",
+          "REGULATORY_FILING_MONITOR_GENERAL",
+          "RESEARCH_QUERY_GENERAL",
+          "RESEARCH_SYNTHESIS_GENERAL",
+          "RETURN_POLICY_VERIFY_GENERAL",
+          "ROUTE_ETA_GENERAL",
+          "SANCTIONS_SCREENING_MATCH_GENERAL",
+          "SATELLITE_IMAGERY_ANALYSIS_GENERAL",
+          "SECURITY_REVIEW_GENERAL",
+          "SEMANTIC_SIMILARITY_GENERAL",
+          "SENSOR_TELEMETRY_VERIFY_GENERAL",
+          "SENTIMENT_ANALYSIS_GENERAL",
+          "SERVER_UPTIME_MONITOR_GENERAL",
+          "SHIPMENT_DELAY_RISK_GENERAL",
+          "SHIP_RATE_ETA_GENERAL",
+          "SKU_IN_STOCK_GENERAL",
+          "SLA_COMPLIANCE_GENERAL",
+          "SMART_CONTRACT_AUDIT_GENERAL",
+          "SOCIAL_BOT_DETECTION_GENERAL",
+          "SSL_VERIFICATION_CERT",
+          "STOCK_PRICE_US_EQUITY",
+          "STORM_ALERT_GENERAL",
+          "TASK_EXECUTION_QUALITY_GENERAL",
+          "TELEGRAPH_KNOWLEDGE_GENERAL",
+          "TEXT_AUTHENTICITY_CHECK_GENERAL",
+          "TEXT_CLASSIFICATION_GENERAL",
+          "TEXT_GENERATION_GENERAL",
+          "TEXT_SUMMARIZATION_GENERAL",
+          "THREAT_INTELLIGENCE_INDICATOR",
+          "THREAT_IP_REPUTATION_GENERAL",
+          "TOKEN_HOLDER_COUNT_GENERAL",
+          "TOKEN_TOTAL_SUPPLY_VERIFY_GENERAL",
+          "TRANSACTION_RISK_GENERAL",
+          "TRAVEL_DISRUPTION_GENERAL",
+          "TRAVEL_TRANSIT_LOCK_GENERAL",
+          "TVL_LOOKUP_GENERAL",
+          "URL_SAFE_GENERAL",
+          "URL_SCAN_VERDICT",
+          "VALIDATOR_PERFORMANCE_VERIFY_GENERAL",
+          "VENDOR_VERIFY_GENERAL",
+          "VESSEL_TELEMETRY_VERIFY_GENERAL",
+          "VIDEO_VERIFICATION_GENERAL",
+          "VULNERABILITY_TRIAGE_GENERAL",
+          "WALLET_BALANCE_CHECK_GENERAL",
+          "WAREHOUSE_INVENTORY_GENERAL",
+          "WASH_TRADING_DETECTION_GENERAL",
+          "WEATHER_CHECK_TEMPERATURE",
+          "WEATHER_FORECAST_GENERAL",
+          "WEATHER_FORECAST_VERIFY_GENERAL",
+          "WEB_SEARCH_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /wcheck has no field for required param(s) location",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/wcheck"
+        ]
+      },
+      {
+        "id": "170014",
+        "name": "MET Norway Locationforecast Temperature (modelled)",
+        "slug": "wxk-metno",
+        "description": "MET Norway Locationforecast Temperature (modelled) -> temp_k_x100 (2 m air temperature, kelvin x 100) at pinned lat/lon. Intent WEATHER_CHECK - one publisher per miner.\n",
+        "base_url": "https://omni-chat.13.237.89.59.sslip.io",
+        "capabilities": [
+          "WEATHER_CHECK_TEMPERATURE"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "7310043",
+        "name": "Atlas — public-data intelligence for routing, retail, weather, FX and CVEs",
+        "slug": "atlas-telegraph",
+        "description": "General-purpose intelligence provider backed by public, named sources. Driving time and distance from OpenStreetMap routing; live shelf price and stock from a retailer's public product feed; current temperature from Open-Meteo; USD reference rates from the ECB via Frankfurter; CVSS base scores from the NIST National Vulnerability Database. Every answer carries the engine, the source URL and the time it was checked, so a caller can audit it instead of trusting it.",
+        "base_url": "https://atlas-telegraph.jiacpunk.workers.dev",
+        "capabilities": [
+          "ROUTE_ETA_GENERAL",
+          "LIVE_SHELF_PRICE_GENERAL",
+          "SKU_IN_STOCK_GENERAL",
+          "WEATHER_CHECK_TEMPERATURE",
+          "FX_NOW_EUR",
+          "FX_NOW_CAD",
+          "FX_NOW_SEK",
+          "CVE_LOOKUP_CVSS",
+          "MACRO_ECONOMIC_INDICATOR_GENERAL",
+          "GAS_PRICE_GENERAL",
+          "TVL_LOOKUP_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "mapped in code to /weather",
+        "mapping": "code",
+        "compatible_endpoints": [
+          "/weather"
+        ]
+      },
+      {
+        "id": "730401",
+        "name": "SkyWire Source-Mapped Temperature",
+        "slug": "zk-sky-temp",
+        "description": "Current-hour air-temperature estimate at a caller's place or coordinates from MET Norway Locationforecast, with a separately timestamped independent nearby NOAA METAR observation when available. Primary Celsius value is source-copied, not averaged with different sites. Explicit source identity, model valid time, observation age, station distance and unavailable-data errors. Station metadata covers the global NOAA Aviation Weather Center catalogue.\n",
+        "base_url": "https://telegraph-sky.margyn.workers.dev",
+        "capabilities": [
+          "WEATHER_CHECK_TEMPERATURE"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder: location needs the request builder",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/weather"
+        ]
+      },
+      {
+        "id": "33010",
+        "name": "Environment Canada Weather",
+        "slug": "wx-canada",
+        "description": "Environment Canada citypage realtime. Intent WEATHER_CHECK. Direct Request shows city q.\n",
+        "base_url": "https://api.weather.gc.ca",
+        "capabilities": [
+          "WEATHER_CHECK_TEMPERATURE"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "190101",
+        "name": "Wx Wttr",
+        "slug": "wx-wttr",
+        "description": "Semantic V2 miner for WEATHER_CHECK. PACK READY - meets 10 candidates; 7 keyless. Open-Meteo model variants share a host - count as 1 source if you enforce one-publisher-per-miner. Capture pin answers: Must satisfy catalog intent WEATHER_CHECK via upstream wttr.in (WorldWeatherOnline)",
+        "base_url": "https://wttr.in",
+        "capabilities": [
+          "WEATHER_CHECK_TEMPERATURE"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "7001",
+        "name": "Solar DePIN Node",
+        "slug": "solar-depin-miner",
+        "description": "Decentralized solar energy telemetry and GPU compute node",
+        "base_url": "http://185.39.28.107:8000/",
+        "capabilities": [
+          "WEATHER_CHECK_TEMPERATURE"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder: /telemetry declares no request fields",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/telemetry"
+        ]
+      },
+      {
+        "id": "170013",
+        "name": "Open-Meteo Current Temperature (modelled)",
+        "slug": "wxk-openmeteo",
+        "description": "Open-Meteo Current Temperature (modelled) -> temp_k_x100 (2 m air temperature, kelvin x 100) at pinned lat/lon. Intent WEATHER_CHECK - one publisher per miner.\n",
+        "base_url": "https://omni-chat.13.237.89.59.sslip.io",
+        "capabilities": [
+          "WEATHER_CHECK_TEMPERATURE"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "170016",
+        "name": "NOAA AWC Nearest METAR Temperature (observed)",
+        "slug": "wxk-metar",
+        "description": "NOAA AWC Nearest METAR Temperature (observed) -> temp_k_x100 (2 m air temperature, kelvin x 100) at pinned lat/lon. Intent WEATHER_CHECK - one publisher per miner.\n",
+        "base_url": "https://omni-chat.13.237.89.59.sslip.io",
+        "capabilities": [
+          "WEATHER_CHECK_TEMPERATURE"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "33007",
+        "name": "Open-Meteo Air Quality",
+        "slug": "wx-openmeteo-aq",
+        "description": "Open-Meteo air quality (PM2.5 / AQI). Intent WEATHER_CHECK. Direct Request shows lat + lon.\n",
+        "base_url": "https://air-quality-api.open-meteo.com",
+        "capabilities": [
+          "WEATHER_CHECK_TEMPERATURE"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "7304",
+        "name": "SkyWire Current Weather",
+        "slug": "skywire-weather-check",
+        "description": "Current conditions for a named place, read live from the open-meteo API at request time and returned as one natural sentence: temperature, sky, feels-like, humidity and wind. Answers the WEATHER_CHECK intent for anywhere open-meteo can geocode. No API key, nothing cached that can go stale.\n",
+        "base_url": "https://telegraph-sky.margyn.workers.dev",
+        "capabilities": [
+          "WEATHER_CHECK_TEMPERATURE"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder: 2 endpoints can take the params",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/weather",
+          "/weather/{location}"
+        ]
+      }
+    ]
+  },
+  "ok": true,
+  "status": 200,
+  "ms": 8198,
+  "body": {
+    "miner_id": "7304",
+    "miner_name": "SkyWire Current Weather",
+    "endpoint": "/weather",
+    "result": {
+      "temperature_c": 10.4
+    },
+    "result_shape": "intent",
+    "format_version": 1,
+    "field_status": {
+      "temperature_c": "ok"
+    },
+    "input": {
+      "location": "Kerman, California"
+    },
+    "input_schema_version": 3,
+    "cost_usd": 0.01,
+    "duration_ms": 4628,
+    "timestamp": "2026-11-19T13:05:52.303949069Z",
+    "reasoning": "Intent: intent given by the caller\nMiner: The user is asking for the current temperature in Kerman, California. The SkyWire Current Weather miner has a /weather endpoint that accepts a location query parameter and serves the WEATHER_CHECK_TEMPERATURE intent. The provided location 'Kerman, California' is directly mapped to the 'location' query parameter.",
+    "intent": "WEATHER_CHECK_TEMPERATURE",
+    "intent_version": 1,
+    "signal_hash": "0x3063b1dee05e7f9f5efd53200f51f2f82458f92689cfa9a5997c84808fc98550",
+    "cost_usd_total": 0.01,
+    "delivery": "specialist",
+    "served_rank": 1,
+    "sources": [
+      {
+        "miner": "skywire-weather-check",
+        "intent": "WEATHER_CHECK_TEMPERATURE"
+      }
+    ],
+    "findings": {
+      "items": [
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "2026-11-19T13:05:52.260Z",
+          "name": "as_of",
+          "path": "$.as_of",
+          "type": "date",
+          "value": "2026-11-19T13:05:52.260Z"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "Nearby station observations from NOAA Aviation Weather Center METAR data (https://aviationweather.gov/). Station identity, distance and observation time are disclosed; the observation is not an on-site measurement at the requested point. Da...",
+          "name": "attribution",
+          "path": "$.attribution",
+          "type": "string",
+          "value": "Nearby station observations from NOAA Aviation Weather Center METAR data (https://aviationweather.gov/). Station identity, distance and observation time are disclosed; the observation is not an on-site measurement at the requested point. Data from MET Norway, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Values converted from SI units and summarised by SkyWire. Place coordinates from Wikidata, CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)."
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "57.8",
+          "name": "cloud_cover_percent",
+          "path": "$.cloud_cover_percent",
+          "type": "number",
+          "value": 57.8
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "partly cloudy",
+          "name": "condition",
+          "path": "$.condition",
+          "type": "string",
+          "value": "partly cloudy"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "https://www.wikidata.org/wiki/Q984605",
+          "name": "coordinate_source",
+          "path": "$.coordinate_source",
+          "type": "url",
+          "value": "https://www.wikidata.org/wiki/Q984605"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "United States",
+          "name": "country",
+          "path": "$.country",
+          "type": "string",
+          "value": "United States"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "0.6",
+          "name": "absolute_difference_c",
+          "path": "$.independent_check.absolute_difference_c",
+          "type": "number",
+          "value": 0.6
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "Nearby observed station versus point forecast; distinct sites and methods, not identical measurements",
+          "name": "comparison",
+          "path": "$.independent_check.comparison",
+          "type": "string",
+          "value": "Nearby observed station versus point forecast; distinct sites and methods, not identical measurements"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "WEATHER_CHECK_TEMPERATURE",
+          "name": "intent",
+          "path": "$.intent",
+          "type": "string",
+          "value": "WEATHER_CHECK_TEMPERATURE"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "36.7236",
+          "name": "latitude",
+          "path": "$.latitude",
+          "type": "number",
+          "value": 36.7236
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "Kerman",
+          "name": "location",
+          "path": "$.location",
+          "type": "string",
+          "value": "Kerman"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "-120.06",
+          "name": "longitude",
+          "path": "$.longitude",
+          "type": "number",
+          "value": -120.06
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "point_model_estimate",
+          "name": "measurement_kind",
+          "path": "$.measurement_kind",
+          "type": "string",
+          "value": "point_model_estimate"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "available",
+          "name": "compact_status",
+          "path": "$.model_access.compact_status",
+          "type": "string",
+          "value": "available"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=36.7236&lon=-120.06",
+          "name": "compact_url",
+          "path": "$.model_access.compact_url",
+          "type": "url",
+          "value": "https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=36.7236&lon=-120.06"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "not_attempted",
+          "name": "complete_status",
+          "path": "$.model_access.complete_status",
+          "type": "string",
+          "value": "not_attempted"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=36.7236&lon=-120.06",
+          "name": "complete_url",
+          "path": "$.model_access.complete_url",
+          "type": "url",
+          "value": "https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=36.7236&lon=-120.06"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "compact_then_complete",
+          "name": "retrieval_order",
+          "path": "$.model_access.retrieval_order",
+          "type": "string",
+          "value": "compact_then_complete"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=36.7236&lon=-120.06",
+          "name": "model_source_url",
+          "path": "$.model_source_url",
+          "type": "url",
+          "value": "https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=36.7236&lon=-120.06"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "10.4",
+          "name": "model_temperature_c",
+          "path": "$.model_temperature_c",
+          "type": "number",
+          "value": 10.4
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "2026-11-19T11:21:08Z",
+          "name": "model_updated_at",
+          "path": "$.model_updated_at",
+          "type": "date",
+          "value": "2026-11-19T11:21:08Z"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "2026-11-19T13:00:00Z",
+          "name": "model_valid_at",
+          "path": "$.model_valid_at",
+          "type": "date",
+          "value": "2026-11-19T13:00:00Z"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "noaa_complete_snapshot",
+          "name": "observation_retrieval",
+          "path": "$.observation_retrieval",
+          "type": "string",
+          "value": "noaa_complete_snapshot"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "https://aviationweather.gov/data/cache/metars.cache.csv.gz",
+          "name": "observation_source_url",
+          "path": "$.observation_source_url",
+          "type": "url",
+          "value": "https://aviationweather.gov/data/cache/metars.cache.csv.gz"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "available",
+          "name": "observation_status",
+          "path": "$.observation_status",
+          "type": "string",
+          "value": "available"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "88.7",
+          "name": "relative_humidity_percent",
+          "path": "$.relative_humidity_percent",
+          "type": "number",
+          "value": 88.7
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "Kerman, California",
+          "name": "requested_location",
+          "path": "$.requested_location",
+          "type": "string",
+          "value": "Kerman, California"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "MET Norway locationforecast",
+          "name": "source",
+          "path": "$.source",
+          "type": "string",
+          "value": "MET Norway locationforecast"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=36.7236&lon=-120.06",
+          "name": "source_url",
+          "path": "$.source_url",
+          "type": "url",
+          "value": "https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=36.7236&lon=-120.06"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "21.4",
+          "name": "distance_km",
+          "path": "$.station.distance_km",
+          "type": "number",
+          "value": 21.4
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "KFCH",
+          "name": "id",
+          "path": "$.station.id",
+          "type": "string",
+          "value": "KFCH"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "36.7338",
+          "name": "latitude",
+          "path": "$.station.latitude",
+          "type": "number",
+          "value": 36.7338
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "-119.8204",
+          "name": "longitude",
+          "path": "$.station.longitude",
+          "type": "number",
+          "value": -119.8204
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "2026-11-19T12:55:00.000Z",
+          "name": "observed_at",
+          "path": "$.station.observed_at",
+          "type": "date",
+          "value": "2026-11-19T12:55:00.000Z"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "METAR KFCH 191255Z AUTO 12015G21KT 6SM BR FEW013 BKN022 OVC027 11/11 A2984 RMK A01 P0002",
+          "name": "raw_metar",
+          "path": "$.station.raw_metar",
+          "type": "string",
+          "value": "METAR KFCH 191255Z AUTO 12015G21KT 6SM BR FEW013 BKN022 OVC027 11/11 A2984 RMK A01 P0002"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "11",
+          "name": "temperature_c",
+          "path": "$.station.temperature_c",
+          "type": "integer",
+          "value": 11
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "https://aviationweather.gov/data/cache/stations.cache.json.gz",
+          "name": "station_catalogue_source",
+          "path": "$.station_catalogue_source",
+          "type": "url",
+          "value": "https://aviationweather.gov/data/cache/stations.cache.json.gz"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "MET Norway's air-temperature forecast estimate for Kerman, California is 10.4 degrees Celsius, valid at 2026-11-19T13:00:00Z. An independent nearby station check is available in the station and independent_check fields; it represents a diff...",
+          "name": "summary",
+          "path": "$.summary",
+          "type": "string",
+          "value": "MET Norway's air-temperature forecast estimate for Kerman, California is 10.4 degrees Celsius, valid at 2026-11-19T13:00:00Z. An independent nearby station check is available in the station and independent_check fields; it represents a different site and method."
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "10.4",
+          "name": "temp_c",
+          "path": "$.temp_c",
+          "type": "number",
+          "value": 10.4
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "10.4",
+          "name": "temperature_c",
+          "path": "$.temperature_c",
+          "type": "number",
+          "value": 10.4
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "2026-11-19T13:00:00Z",
+          "name": "valid_at",
+          "path": "$.valid_at",
+          "type": "date",
+          "value": "2026-11-19T13:00:00Z"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "Q984605",
+          "name": "wikidata_id",
+          "path": "$.wikidata_id",
+          "type": "string",
+          "value": "Q984605"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "134.6",
+          "name": "wind_direction_deg",
+          "path": "$.wind_direction_deg",
+          "type": "number",
+          "value": 134.6
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "26.6",
+          "name": "wind_speed_kmh",
+          "path": "$.wind_speed_kmh",
+          "type": "number",
+          "value": 26.6
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "https://aviationweather.gov/",
+          "name": "url",
+          "path": "$.attribution",
+          "type": "url",
+          "value": "https://aviationweather.gov/"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "https://creativecommons.org/licenses/by/4.0/",
+          "name": "url",
+          "path": "$.attribution",
+          "type": "url",
+          "value": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "name": "url",
+          "path": "$.attribution",
+          "type": "url",
+          "value": "https://creativecommons.org/publicdomain/zero/1.0/"
+        }
+      ],
+      "raw_sha256": "bb608569613df4c279a668b3ac24118f88f407d014ce401c96f6471816fa1d55"
+    }
+  },
+  "receipt": {
+    "receipt_hash": "0xc7712fd59c8d11bc0cd6fe73c2da6d98f468c5cb71805dd469aeefd0b7841fa2",
+    "rail": "escrow",
+    "payer": "0x8482e592d6b28d3f5b713cc4576d6ce216b2a78e",
+    "miner": "5370",
+    "intent": "WEATHER_CHECK_TEMPERATURE",
+    "amount_uusdc": "10000",
+    "epoch_id": 17,
+    "settlement": "epoch",
+    "chain": "telegraph",
+    "timestamp": 1795093553
+  },
+  "rail": "escrow"
+}

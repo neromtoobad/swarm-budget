@@ -1,0 +1,1347 @@
+{
+  "at": "2026-11-19T13:05:43.153Z",
+  "intent": "WEATHER_FORECAST_VERIFY_GENERAL",
+  "params": {
+    "location": "Fresno, California",
+    "date": "2026-11-18"
+  },
+  "miners": {
+    "count": 26,
+    "intent_id": "WEATHER_FORECAST_VERIFY_GENERAL",
+    "miners": [
+      {
+        "id": "7613",
+        "name": "SkyWire Forecast Verify",
+        "slug": "skywire-forecast-verify",
+        "description": "Verifies a weather-forecast claim against the authoritative forecast, read live at request time. Name a place and the window and optionally a claim such as a temperature threshold or whether it will rain and the miner returns a verdict (correct, incorrect or partially correct) with the real figures or states the authoritative forecast when there is no claim to check. Forecast values come from MET Norway locationforecast 2.0 (CC BY 4.0 and NLOD 2.0) and the US National Weather Service, with place coordinates from Wikidata (CC0 1.0). Keyless, no API key ever. Serves the WEATHER_FORECAST_VERIFY intent.\n",
+        "base_url": "https://telegraph-sky.margyn.workers.dev",
+        "capabilities": [
+          "WEATHER_FORECAST_VERIFY_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder: /forecast-verify declares no request fields",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/forecast-verify"
+        ]
+      },
+      {
+        "id": "76003",
+        "name": "Open-Meteo AQ Forecast Verify",
+        "slug": "wxfv-om-aq",
+        "description": "Air quality forecast for verify. Intent WEATHER_FORECAST_VERIFY.\n",
+        "base_url": "https://air-quality-api.open-meteo.com",
+        "capabilities": [
+          "WEATHER_FORECAST_VERIFY_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location, date",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "76002",
+        "name": "Open-Meteo Daily Forecast Verify",
+        "slug": "wxfv-om-daily",
+        "description": "Daily forecast for verify. Intent WEATHER_FORECAST_VERIFY.\n",
+        "base_url": "https://api.open-meteo.com",
+        "capabilities": [
+          "WEATHER_FORECAST_VERIFY_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location, date",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "76001",
+        "name": "Open-Meteo Hourly Forecast Verify",
+        "slug": "wxfv-om",
+        "description": "Hourly forecast for verify. Intent WEATHER_FORECAST_VERIFY.\n",
+        "base_url": "https://api.open-meteo.com",
+        "capabilities": [
+          "WEATHER_FORECAST_VERIFY_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location, date",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "302",
+        "name": "ChainSight — Universal Intelligence & Data Oracle",
+        "slug": "chainsight-oracle",
+        "description": "A single high-reliability provider that answers ANY request across conversation, search, research, verification, language, finance, crypto/on-chain, security, weather, logistics and IoT. Routes here for: general conversational questions and chat; open-ended Q&A and knowledge; web search and current news; deep research and academic/scholarly lookups; fact-checking and claim/content verification; translation, summarization, rewriting and text generation; sentiment, classification, moderation, AI-text and authenticity detection; live crypto prices, market cap, DeFi TVL and yields, fiat FX, gas, wallet balances, on-chain transactions, token supply and holders; stock and macro indicators; fraud, sanctions, threat-intel, CVE and vulnerability, URL/email/SSL security, code review and generation; weather, air-quality and geolocation; shipping, port, warehouse, package and vessel logistics; sensor, grid, datacenter and validator telemetry. Every answer is direct, grounded in a real source, number-first for quantitative intents, low-latency and never empty. Broad coverage with specialist-grade quality on each intent — a reliable default the router can trust for almost any question.",
+        "base_url": "https://hub.shadrakbessanh.me",
+        "capabilities": [
+          "MEDIA_AUTHENTICITY_CHECK_GENERAL",
+          "MEDIA_FORENSIC_VERIFY_GENERAL",
+          "MINING_HASHPRICE_VERIFY_GENERAL",
+          "NEWS_HEADLINES_GENERAL",
+          "NEWS_SEARCH_GENERAL",
+          "ONCHAIN_METRIC_VERIFY_GENERAL",
+          "ONCHAIN_TX_LOOKUP_GENERAL",
+          "OPTIMAL_EXECUTION_ROUTE_GENERAL",
+          "PACKAGE_STATUS_GENERAL",
+          "PAYMENT_METHOD_VERIFY_GENERAL",
+          "PLAGIARISM_DETECTION_GENERAL",
+          "PORT_SCAN_AUDIT_GENERAL",
+          "PRODUCT_AUTHENTICITY_GENERAL",
+          "QUESTION_ANSWERING_GENERAL",
+          "REGRESSION_VERIFY_GENERAL",
+          "REGULATORY_FILING_MONITOR_GENERAL",
+          "RESEARCH_QUERY_GENERAL",
+          "RESEARCH_SYNTHESIS_GENERAL",
+          "RETURN_POLICY_VERIFY_GENERAL",
+          "ROUTE_ETA_GENERAL",
+          "SANCTIONS_SCREENING_MATCH_GENERAL",
+          "SATELLITE_IMAGERY_ANALYSIS_GENERAL",
+          "SECURITY_REVIEW_GENERAL",
+          "SEMANTIC_SIMILARITY_GENERAL",
+          "SENSOR_TELEMETRY_VERIFY_GENERAL",
+          "SENTIMENT_ANALYSIS_GENERAL",
+          "SERVER_UPTIME_MONITOR_GENERAL",
+          "SHIPMENT_DELAY_RISK_GENERAL",
+          "SHIP_RATE_ETA_GENERAL",
+          "SKU_IN_STOCK_GENERAL",
+          "SLA_COMPLIANCE_GENERAL",
+          "SMART_CONTRACT_AUDIT_GENERAL",
+          "SOCIAL_BOT_DETECTION_GENERAL",
+          "SSL_VERIFICATION_CERT",
+          "STOCK_PRICE_US_EQUITY",
+          "STORM_ALERT_GENERAL",
+          "TASK_EXECUTION_QUALITY_GENERAL",
+          "TELEGRAPH_KNOWLEDGE_GENERAL",
+          "TEXT_AUTHENTICITY_CHECK_GENERAL",
+          "TEXT_CLASSIFICATION_GENERAL",
+          "TEXT_GENERATION_GENERAL",
+          "TEXT_SUMMARIZATION_GENERAL",
+          "THREAT_INTELLIGENCE_INDICATOR",
+          "THREAT_IP_REPUTATION_GENERAL",
+          "TOKEN_HOLDER_COUNT_GENERAL",
+          "TOKEN_TOTAL_SUPPLY_VERIFY_GENERAL",
+          "TRANSACTION_RISK_GENERAL",
+          "TRAVEL_DISRUPTION_GENERAL",
+          "TRAVEL_TRANSIT_LOCK_GENERAL",
+          "TVL_LOOKUP_GENERAL",
+          "URL_SAFE_GENERAL",
+          "URL_SCAN_VERDICT",
+          "VALIDATOR_PERFORMANCE_VERIFY_GENERAL",
+          "VENDOR_VERIFY_GENERAL",
+          "VESSEL_TELEMETRY_VERIFY_GENERAL",
+          "VIDEO_VERIFICATION_GENERAL",
+          "VULNERABILITY_TRIAGE_GENERAL",
+          "WALLET_BALANCE_CHECK_GENERAL",
+          "WAREHOUSE_INVENTORY_GENERAL",
+          "WASH_TRADING_DETECTION_GENERAL",
+          "WEATHER_CHECK_TEMPERATURE",
+          "WEATHER_FORECAST_GENERAL",
+          "WEATHER_FORECAST_VERIFY_GENERAL",
+          "WEB_SEARCH_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /wfverify has no field for required param(s) location, date",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/wfverify"
+        ]
+      },
+      {
+        "id": "170040",
+        "name": "Bright Sky (DWD observations)",
+        "slug": "wnd-brightsky",
+        "description": "Bright Sky (DWD observations) -> wind_kmh_milli (Observed 10 m wind speed at that hour, km/h x1000). Intent WEATHER_FORECAST_VERIFY - one publisher per miner.\n",
+        "base_url": "https://omni-chat.13.237.89.59.sslip.io",
+        "capabilities": [
+          "WEATHER_FORECAST_VERIFY_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location, date",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "170043",
+        "name": "JMA AMeDAS",
+        "slug": "wnd-jma",
+        "description": "JMA AMeDAS -> wind_kmh_milli (Observed 10 m wind speed at that hour, km/h x1000). Intent WEATHER_FORECAST_VERIFY - one publisher per miner.\n",
+        "base_url": "https://omni-chat.13.237.89.59.sslip.io",
+        "capabilities": [
+          "WEATHER_FORECAST_VERIFY_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location, date",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "64174",
+        "name": "OathCast Forecast Verification",
+        "slug": "oathcast-forecast-verify",
+        "description": "Recorded weather for a named place and past day: the day's high and low in °C, precipitation in mm and the weather condition, from Open-Meteo's historical weather data. That is a model and reanalysis estimate for the location's grid cell (ECMWF IFS, ERA5-Land, ERA5), not a station reading. Also checks whether a supplied forecast verified within a stated tolerance.",
+        "base_url": "https://oathcastcourt.duckdns.org",
+        "capabilities": [
+          "WEATHER_FORECAST_VERIFY_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder: location needs the request builder",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/verify"
+        ]
+      },
+      {
+        "id": "76010",
+        "name": "Canada Weather Forecast Verify",
+        "slug": "wxfv-canada",
+        "description": "Environment Canada citypage for verify. Intent WEATHER_FORECAST_VERIFY.\n",
+        "base_url": "https://api.weather.gc.ca",
+        "capabilities": [
+          "WEATHER_FORECAST_VERIFY_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location, date",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "76006",
+        "name": "Open-Meteo Flood Forecast Verify",
+        "slug": "wxfv-om-flood",
+        "description": "Flood discharge forecast for verify. Intent WEATHER_FORECAST_VERIFY.\n",
+        "base_url": "https://flood-api.open-meteo.com",
+        "capabilities": [
+          "WEATHER_FORECAST_VERIFY_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location, date",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "170042",
+        "name": "ECCC climate-hourly",
+        "slug": "wnd-envcanada",
+        "description": "ECCC climate-hourly -> wind_kmh_milli (Observed 10 m wind speed at that hour, km/h x1000). Intent WEATHER_FORECAST_VERIFY - one publisher per miner.\n",
+        "base_url": "https://omni-chat.13.237.89.59.sslip.io",
+        "capabilities": [
+          "WEATHER_FORECAST_VERIFY_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location, date",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "170039",
+        "name": "Open-Meteo Historical (ERA5)",
+        "slug": "wnd-era5",
+        "description": "Open-Meteo Historical (ERA5) -> wind_kmh_milli (Observed 10 m wind speed at that hour, km/h x1000). Intent WEATHER_FORECAST_VERIFY - one publisher per miner.\n",
+        "base_url": "https://omni-chat.13.237.89.59.sslip.io",
+        "capabilities": [
+          "WEATHER_FORECAST_VERIFY_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location, date",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "9603",
+        "name": "Weather Forecast Verify (Open-Meteo)",
+        "slug": "weather-verify-openmeteo",
+        "description": "Point weather forecasts and recent observed weather from the Open-Meteo API (default best_match model blend). Answers \"what will the temperature/wind/precipitation be at latitude X longitude Y over the next N days\" (WEATHER_FORECAST) and \"did a forecast for latitude X longitude Y over the past N days verify against what was observed\" (WEATHER_FORECAST_VERIFY) with hourly and daily values in metric units.",
+        "base_url": "https://api.open-meteo.com",
+        "capabilities": [
+          "WEATHER_FORECAST_GENERAL",
+          "WEATHER_FORECAST_VERIFY_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /v1/forecast has no field for required param(s) location, date",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/v1/forecast"
+        ]
+      },
+      {
+        "id": "76007",
+        "name": "7Timer Forecast Verify",
+        "slug": "wxfv-7timer",
+        "description": "7Timer civil light forecast for verify. Intent WEATHER_FORECAST_VERIFY.\n",
+        "base_url": "https://www.7timer.info",
+        "capabilities": [
+          "WEATHER_FORECAST_VERIFY_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location, date",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "731004",
+        "name": "Counterproof Weather Verify",
+        "slug": "counterproof-weather-verify",
+        "description": "Reports the recorded weather for a place on a past date from the Open-Meteo archive (ERA5 reanalysis, no key): the day's high and low temperature in Celsius, precipitation in millimetres and the dominant condition, with the source named so a forecast can be checked against it.\n",
+        "base_url": "https://counterproof-weather.vercel.app",
+        "capabilities": [
+          "WEATHER_FORECAST_VERIFY_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder: location needs the request builder",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/verify"
+        ]
+      },
+      {
+        "id": "76009",
+        "name": "NWS Grid Forecast Verify",
+        "slug": "wxfv-nws",
+        "description": "NWS gridpoint forecast for verify. Intent WEATHER_FORECAST_VERIFY.\n",
+        "base_url": "https://api.weather.gov",
+        "capabilities": [
+          "WEATHER_FORECAST_VERIFY_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder: /query declares no request fields",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "501",
+        "name": "Telegraph Sentinel Risk Intelligence",
+        "slug": "sentinel-risk-oracle",
+        "description": "Autonomous pre-flight DeFi risk intelligence with live crypto pricing, protocol TVL, transaction risk, sanctions screening, onchain telemetry, and real-time web intelligence.",
+        "base_url": "https://telegraph-sentinel-ql8d.onrender.com",
+        "capabilities": [
+          "CRYPTO_PRICE_USD",
+          "TVL_LOOKUP_GENERAL",
+          "WEB_SEARCH_GENERAL",
+          "FRAUD_RISK_GENERAL",
+          "CRYPTO_YIELD_RATE_GENERAL",
+          "TRANSACTION_RISK_GENERAL",
+          "SANCTIONS_SCREENING_MATCH_GENERAL",
+          "GAS_PRICE_GENERAL",
+          "WALLET_BALANCE_CHECK_GENERAL",
+          "TOKEN_TOTAL_SUPPLY_VERIFY_GENERAL",
+          "TOKEN_HOLDER_COUNT_GENERAL",
+          "ONCHAIN_TX_LOOKUP_GENERAL",
+          "FINANCIAL_DATA_GENERAL",
+          "FRAUD_DETECTION_GENERAL",
+          "LIQUIDITY_DEPTH_VERIFY_GENERAL",
+          "THREAT_INTELLIGENCE_INDICATOR",
+          "CURRENCY_EXCHANGE_CONVERT",
+          "CVE_LOOKUP_CVSS",
+          "THREAT_IP_REPUTATION_GENERAL",
+          "NEWS_SEARCH_GENERAL",
+          "ACADEMIC_SEARCH_GENERAL",
+          "SENTIMENT_ANALYSIS_GENERAL",
+          "WEATHER_FORECAST_VERIFY_GENERAL",
+          "MINING_HASHPRICE_VERIFY_GENERAL",
+          "GRID_POWER_PRICE_GENERAL",
+          "SMART_CONTRACT_AUDIT_GENERAL",
+          "CHAT_COMPLETION_GENERAL",
+          "RESEARCH_QUERY_GENERAL",
+          "FACT_CHECK_GENERAL",
+          "CORPORATE_REGISTRY_LOOKUP_GENERAL",
+          "CODE_REVIEW_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder: /api/v1/miner/weather-forecast declares no request fields",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/api/v1/miner/weather-forecast"
+        ]
+      },
+      {
+        "id": "78131",
+        "name": "SkyWire Recorded Weather Verification",
+        "slug": "zk-wxobs",
+        "description": "Recorded daily station observations for a named place or caller coordinates and exact past date. NOAA GHCN-Daily primary with a bounded original ECCC daily-observation fallback when Canadian NOAA records are absent or unavailable; official ECCC CSV corroboration, IEM/NWS distribution checks, 50 km station limit, quality flags and provenance. Missing values and unresolved identities are withheld. No current forecast is substituted for a past observation.",
+        "base_url": "https://telegraph-sky.margyn.workers.dev",
+        "capabilities": [
+          "WEATHER_FORECAST_VERIFY_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder: location needs the request builder",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/forecast-verify"
+        ]
+      },
+      {
+        "id": "9002",
+        "name": "TxLens",
+        "slug": "txlens",
+        "description": "TxLens provides live, verifiable answers to on-chain and market questions from authoritative sources. Covering 123 intents across blockchain, finance, weather, content, security, and general intelligence domains—each answer includes source attribution and fetch timestamps for transparency.\n",
+        "base_url": "https://telegraph-onchain-tx-lookup-miner.onrender.com",
+        "capabilities": [
+          "ONCHAIN_TX_LOOKUP_GENERAL",
+          "GAS_PRICE_GENERAL",
+          "WALLET_BALANCE_CHECK_GENERAL",
+          "TOKEN_HOLDER_COUNT_GENERAL",
+          "TVL_LOOKUP_GENERAL",
+          "CRYPTO_PRICE_USD",
+          "STOCK_PRICE_US_EQUITY",
+          "GRID_POWER_PRICE_GENERAL",
+          "VALIDATOR_PERFORMANCE_VERIFY_GENERAL",
+          "CLOUD_RESOURCE_USAGE_GENERAL",
+          "DATACENTER_TELEMETRY_VERIFY_GENERAL",
+          "SENSOR_TELEMETRY_VERIFY_GENERAL",
+          "LIVE_PORT_CONGESTION_GENERAL",
+          "VESSEL_TELEMETRY_VERIFY_GENERAL",
+          "SATELLITE_IMAGERY_ANALYSIS_GENERAL",
+          "MINING_HASHPRICE_VERIFY_GENERAL",
+          "SSL_VERIFICATION_CERT",
+          "WEATHER_FORECAST_GENERAL",
+          "STORM_ALERT_GENERAL",
+          "IP_GEOLOCATION_GENERAL",
+          "ACADEMIC_SEARCH_GENERAL",
+          "FRAUD_DETECTION_GENERAL",
+          "WEB_SEARCH_GENERAL",
+          "CONTENT_EXTRACTION_GENERAL",
+          "TEXT_CLASSIFICATION_GENERAL",
+          "TEXT_GENERATION_GENERAL",
+          "LANGUAGE_GENERATION_GENERAL",
+          "RESEARCH_SYNTHESIS_GENERAL",
+          "CROSS_CHAIN_STATE_VERIFY_GENERAL",
+          "EVENT_OUTCOME_RESOLUTION_GENERAL",
+          "WEATHER_CHECK_TEMPERATURE",
+          "LANGUAGE_TRANSLATION_GENERAL",
+          "CHAT_COMPLETION_GENERAL",
+          "NEWS_SEARCH_GENERAL",
+          "NEWS_HEADLINES_GENERAL",
+          "FACT_CHECK_GENERAL",
+          "SENTIMENT_ANALYSIS_GENERAL",
+          "CONTENT_MODERATION_GENERAL",
+          "CVE_LOOKUP_CVSS",
+          "TELEGRAPH_KNOWLEDGE_GENERAL",
+          "TEXT_SUMMARIZATION_GENERAL",
+          "CHATBOT_CONVERSATION_GENERAL",
+          "SEMANTIC_SIMILARITY_GENERAL",
+          "GRAMMAR_SPELL_CHECK_GENERAL",
+          "AI_TEXT_DETECTION_GENERAL",
+          "RESEARCH_QUERY_GENERAL",
+          "THREAT_INTELLIGENCE_INDICATOR",
+          "PACKAGE_STATUS_GENERAL",
+          "URL_SCAN_VERDICT",
+          "CURRENCY_EXCHANGE_CONVERT",
+          "SANCTIONS_SCREENING_MATCH_GENERAL",
+          "VULNERABILITY_TRIAGE_GENERAL",
+          "SPORTS_SCORE_GENERAL",
+          "GAME_RESULT_GENERAL",
+          "ROUTE_ETA_GENERAL",
+          "REGULATORY_FILING_MONITOR_GENERAL",
+          "CREDIT_SCORE_VERIFY_GENERAL",
+          "MACRO_ECONOMIC_INDICATOR_GENERAL",
+          "WEATHER_FORECAST_VERIFY_GENERAL",
+          "CUSTOMER_TICKET_RESOLUTION_GENERAL",
+          "RETURN_POLICY_VERIFY_GENERAL",
+          "TASK_EXECUTION_QUALITY_GENERAL",
+          "CARRIER_SERVICEABILITY_GENERAL",
+          "DELIVERY_WINDOW_VERIFY_GENERAL",
+          "PAYMENT_METHOD_VERIFY_GENERAL",
+          "INVOICE_LEDGER_RECONCILE_GENERAL",
+          "URL_SAFE_GENERAL",
+          "MALWARE_DETECTION_HASH",
+          "DNS_RECORD_LOOKUP_GENERAL",
+          "THREAT_IP_REPUTATION_GENERAL",
+          "FX_NOW_CAD",
+          "FX_NOW_EUR",
+          "FX_NOW_SEK",
+          "TOKEN_TOTAL_SUPPLY_VERIFY_GENERAL",
+          "CORPORATE_REGISTRY_LOOKUP_GENERAL",
+          "EMAIL_SECURITY_GENERAL",
+          "SECURITY_REVIEW_GENERAL",
+          "LLM_OUTPUT_EVALUATION_GENERAL",
+          "CONTRACT_OBLIGATION_AUDIT_GENERAL",
+          "CODE_GENERATION_GENERAL",
+          "CODE_REVIEW_GENERAL",
+          "TEXT_AUTHENTICITY_CHECK_GENERAL",
+          "CRYPTO_TRANSFER_VERIFY_GENERAL",
+          "ONCHAIN_METRIC_VERIFY_GENERAL",
+          "QUESTION_ANSWERING_GENERAL",
+          "FINANCIAL_DATA_GENERAL",
+          "LOAN_INTEREST_RATE_QUOTE_GENERAL",
+          "SMART_CONTRACT_AUDIT_GENERAL",
+          "ENTITY_EXTRACTION_GENERAL",
+          "KEYWORD_EXTRACTION_GENERAL",
+          "B2B_IDENTITY_ENRICHMENT_GENERAL",
+          "SOCIAL_BOT_DETECTION_GENERAL",
+          "TRAVEL_DISRUPTION_GENERAL",
+          "CONTENT_VERIFICATION_GENERAL",
+          "PRODUCT_AUTHENTICITY_GENERAL",
+          "PLAGIARISM_DETECTION_GENERAL",
+          "DOCUMENT_AUTHENTICITY_GENERAL",
+          "SLA_COMPLIANCE_GENERAL",
+          "MEDIA_FORENSIC_VERIFY_GENERAL",
+          "MEDIA_AUTHENTICITY_CHECK_GENERAL",
+          "IMAGE_VERIFICATION_GENERAL",
+          "VIDEO_VERIFICATION_GENERAL",
+          "DEEPFAKE_DETECTION_GENERAL",
+          "IMAGE_CAPTIONING_GENERAL",
+          "AGENT_TASK_GENERAL",
+          "TASK_COMPLETION_GENERAL",
+          "WASH_TRADING_DETECTION_GENERAL",
+          "FRAUD_RISK_GENERAL",
+          "TRANSACTION_RISK_GENERAL",
+          "VENDOR_VERIFY_GENERAL",
+          "PURCHASE_ORDER_VERIFY_GENERAL",
+          "COMMERCE_PURCHASE_VERIFY_GENERAL",
+          "FARE_RULE_VERIFY_GENERAL",
+          "CODE_PATCH_VERIFY_GENERAL",
+          "REGRESSION_VERIFY_GENERAL",
+          "KYC_BIOMETRIC_LIVENESS_GENERAL",
+          "SHIPMENT_DELAY_RISK_GENERAL",
+          "SHIP_RATE_ETA_GENERAL",
+          "OPTIMAL_EXECUTION_ROUTE_GENERAL",
+          "WAREHOUSE_INVENTORY_GENERAL",
+          "SKU_IN_STOCK_GENERAL",
+          "LIVE_SHELF_PRICE_GENERAL",
+          "HOTEL_AVAILABILITY_GENERAL",
+          "FLIGHT_AVAILABILITY_GENERAL",
+          "AIR_QUALITY_INDEX_GENERAL",
+          "CRYPTO_YIELD_RATE_GENERAL",
+          "ASSET_RESERVE_ATTESTATION_GENERAL",
+          "LIQUIDITY_DEPTH_VERIFY_GENERAL",
+          "API_HEALTH_CHECK_GENERAL",
+          "SERVER_UPTIME_MONITOR_GENERAL",
+          "TWITTER_SEARCH_GENERAL",
+          "EMBEDDING_GENERATION_GENERAL",
+          "TEXT_TO_SPEECH_GENERAL",
+          "SPEECH_TO_TEXT_GENERAL",
+          "PORT_SCAN_AUDIT_GENERAL",
+          "TRAVEL_TRANSIT_LOCK_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /weather-forecast-verify has no field for required param(s) location, date",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/weather-forecast-verify"
+        ]
+      },
+      {
+        "id": "76021",
+        "name": "Open-Meteo Archive Hourly Wind",
+        "slug": "wxfv-om-archive-wind",
+        "description": "ERA5 archive hourly wind_speed_10m → wind_kmh_milli for pinned lat/lon/date/hour. Intent WEATHER_FORECAST_VERIFY — Usman truth-spec miner.\n",
+        "base_url": "https://omni-chat.13.237.89.59.sslip.io",
+        "capabilities": [
+          "WEATHER_FORECAST_VERIFY_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "76005",
+        "name": "Open-Meteo Ensemble Forecast Verify",
+        "slug": "wxfv-om-ens",
+        "description": "Ensemble forecast for verify. Intent WEATHER_FORECAST_VERIFY.\n",
+        "base_url": "https://ensemble-api.open-meteo.com",
+        "capabilities": [
+          "WEATHER_FORECAST_VERIFY_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location, date",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "76004",
+        "name": "Open-Meteo Marine Forecast Verify",
+        "slug": "wxfv-om-marine",
+        "description": "Marine forecast for verify. Intent WEATHER_FORECAST_VERIFY.\n",
+        "base_url": "https://marine-api.open-meteo.com",
+        "capabilities": [
+          "WEATHER_FORECAST_VERIFY_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location, date",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "79448",
+        "name": "SkyWire Original Recorded Weather",
+        "slug": "zk-wxrecord",
+        "description": "Recorded station weather for an exact past date. Original NOAA daily observations and licensed national daily sources, including SILO Australian station data only where per-value source code is zero. Interpolation and missing observations are withheld. A source-labelled station observing date is not guaranteed to use local midnight boundaries. No current forecast substitutes for a historical observation.",
+        "base_url": "https://telegraph-sky.margyn.workers.dev",
+        "capabilities": [
+          "WEATHER_FORECAST_VERIFY_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder: location needs the request builder",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/forecast-verify"
+        ]
+      },
+      {
+        "id": "170041",
+        "name": "AviationWeather METAR archive",
+        "slug": "wnd-metar",
+        "description": "AviationWeather METAR archive -> wind_kmh_milli (Observed 10 m wind speed at that hour, km/h x1000). Intent WEATHER_FORECAST_VERIFY - one publisher per miner.\n",
+        "base_url": "https://omni-chat.13.237.89.59.sslip.io",
+        "capabilities": [
+          "WEATHER_FORECAST_VERIFY_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location, date",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "76008",
+        "name": "Open-Meteo Archive Verify",
+        "slug": "wxfv-om-archive",
+        "description": "Historical archive daily max for verify. Intent WEATHER_FORECAST_VERIFY.\n",
+        "base_url": "https://archive-api.open-meteo.com",
+        "capabilities": [
+          "WEATHER_FORECAST_VERIFY_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder, no declared field for: /query has no field for required param(s) location, date",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/query"
+        ]
+      },
+      {
+        "id": "20260828",
+        "name": "PREFLIGHT Infrastructure Signals",
+        "slug": "a1-preflight",
+        "description": "Deterministic infrastructure and on-chain signals for autonomous systems, each read live at question time. TLS verification performs a real handshake with chain, hostname and validity checks; URL safety combines redirects, headers and threat feeds; DNS records come from two independent DoH resolvers; uptime and API health are probed with per-phase timings. Gas, balances, transactions, token supply and pinned-block reads come straight from public JSON-RPC on Ethereum, Base, Arbitrum, OP Mainnet, Polygon, BNB Chain, Avalanche, Linea, Scroll, Gnosis, zkSync Era, Blast, Mantle, Celo, Sonic and Unichain. Prices, TVL, FX, geolocation, papers and CVEs come from named public sources, cited in each answer.\n",
+        "base_url": "https://preflight-ssl-verification.vercel.app",
+        "capabilities": [
+          "HOTEL_AVAILABILITY_GENERAL",
+          "FLIGHT_AVAILABILITY_GENERAL",
+          "TRAVEL_TRANSIT_LOCK_GENERAL",
+          "PACKAGE_STATUS_GENERAL",
+          "CREDIT_SCORE_VERIFY_GENERAL",
+          "DATACENTER_TELEMETRY_VERIFY_GENERAL",
+          "WAREHOUSE_INVENTORY_GENERAL",
+          "VESSEL_TELEMETRY_VERIFY_GENERAL",
+          "LIVE_PORT_CONGESTION_GENERAL",
+          "TWITTER_SEARCH_GENERAL",
+          "LIVE_SHELF_PRICE_GENERAL",
+          "SKU_IN_STOCK_GENERAL",
+          "KYC_BIOMETRIC_LIVENESS_GENERAL",
+          "CLOUD_RESOURCE_USAGE_GENERAL",
+          "SENSOR_TELEMETRY_VERIFY_GENERAL",
+          "RETURN_POLICY_VERIFY_GENERAL",
+          "TEXT_TO_SPEECH_GENERAL",
+          "PORT_SCAN_AUDIT_GENERAL",
+          "COMMERCE_PURCHASE_VERIFY_GENERAL",
+          "PURCHASE_ORDER_VERIFY_GENERAL",
+          "FARE_RULE_VERIFY_GENERAL",
+          "DELIVERY_WINDOW_VERIFY_GENERAL",
+          "SHIP_RATE_ETA_GENERAL",
+          "VIDEO_VERIFICATION_GENERAL",
+          "SPEECH_TO_TEXT_GENERAL",
+          "CARRIER_SERVICEABILITY_GENERAL",
+          "EMBEDDING_GENERATION_GENERAL",
+          "SATELLITE_IMAGERY_ANALYSIS_GENERAL",
+          "SOCIAL_BOT_DETECTION_GENERAL",
+          "WASH_TRADING_DETECTION_GENERAL",
+          "SLA_COMPLIANCE_GENERAL",
+          "PRODUCT_AUTHENTICITY_GENERAL",
+          "SHIPMENT_DELAY_RISK_GENERAL",
+          "IMAGE_VERIFICATION_GENERAL",
+          "MEDIA_AUTHENTICITY_CHECK_GENERAL",
+          "DEEPFAKE_DETECTION_GENERAL",
+          "MEDIA_FORENSIC_VERIFY_GENERAL",
+          "IMAGE_CAPTIONING_GENERAL",
+          "TRAVEL_DISRUPTION_GENERAL",
+          "SMART_CONTRACT_AUDIT_GENERAL",
+          "INVOICE_LEDGER_RECONCILE_GENERAL",
+          "DOCUMENT_AUTHENTICITY_GENERAL",
+          "PLAGIARISM_DETECTION_GENERAL",
+          "SSL_VERIFICATION_CERT",
+          "URL_SCAN_VERDICT",
+          "GAS_PRICE_GENERAL",
+          "WALLET_BALANCE_CHECK_GENERAL",
+          "ONCHAIN_TX_LOOKUP_GENERAL",
+          "CRYPTO_PRICE_USD",
+          "TVL_LOOKUP_GENERAL",
+          "CURRENCY_EXCHANGE_CONVERT",
+          "FX_NOW_EUR",
+          "FX_NOW_CAD",
+          "FX_NOW_SEK",
+          "IP_GEOLOCATION_GENERAL",
+          "STOCK_PRICE_US_EQUITY",
+          "ACADEMIC_SEARCH_GENERAL",
+          "CVE_LOOKUP_CVSS",
+          "VULNERABILITY_TRIAGE_GENERAL",
+          "DNS_RECORD_LOOKUP_GENERAL",
+          "TOKEN_TOTAL_SUPPLY_VERIFY_GENERAL",
+          "ONCHAIN_METRIC_VERIFY_GENERAL",
+          "URL_SAFE_GENERAL",
+          "SERVER_UPTIME_MONITOR_GENERAL",
+          "API_HEALTH_CHECK_GENERAL",
+          "CRYPTO_TRANSFER_VERIFY_GENERAL",
+          "LIQUIDITY_DEPTH_VERIFY_GENERAL",
+          "CRYPTO_YIELD_RATE_GENERAL",
+          "TOKEN_HOLDER_COUNT_GENERAL",
+          "WEATHER_CHECK_TEMPERATURE",
+          "WEATHER_FORECAST_GENERAL",
+          "STORM_ALERT_GENERAL",
+          "MACRO_ECONOMIC_INDICATOR_GENERAL",
+          "LOAN_INTEREST_RATE_QUOTE_GENERAL",
+          "PAYMENT_METHOD_VERIFY_GENERAL",
+          "GRID_POWER_PRICE_GENERAL",
+          "VALIDATOR_PERFORMANCE_VERIFY_GENERAL",
+          "ASSET_RESERVE_ATTESTATION_GENERAL",
+          "MINING_HASHPRICE_VERIFY_GENERAL",
+          "CORPORATE_REGISTRY_LOOKUP_GENERAL",
+          "EMAIL_SECURITY_GENERAL",
+          "THREAT_INTELLIGENCE_INDICATOR",
+          "THREAT_IP_REPUTATION_GENERAL",
+          "SANCTIONS_SCREENING_MATCH_GENERAL",
+          "WEATHER_FORECAST_VERIFY_GENERAL",
+          "FINANCIAL_DATA_GENERAL",
+          "SECURITY_REVIEW_GENERAL",
+          "REGULATORY_FILING_MONITOR_GENERAL",
+          "ROUTE_ETA_GENERAL",
+          "VENDOR_VERIFY_GENERAL",
+          "B2B_IDENTITY_ENRICHMENT_GENERAL",
+          "MALWARE_DETECTION_HASH",
+          "SENTIMENT_ANALYSIS_GENERAL",
+          "KEYWORD_EXTRACTION_GENERAL",
+          "GRAMMAR_SPELL_CHECK_GENERAL",
+          "LANGUAGE_TRANSLATION_GENERAL",
+          "TEXT_SUMMARIZATION_GENERAL",
+          "QUESTION_ANSWERING_GENERAL",
+          "NEWS_HEADLINES_GENERAL",
+          "NEWS_SEARCH_GENERAL",
+          "RESEARCH_QUERY_GENERAL",
+          "RESEARCH_SYNTHESIS_GENERAL",
+          "TELEGRAPH_KNOWLEDGE_GENERAL",
+          "WEB_SEARCH_GENERAL",
+          "SEMANTIC_SIMILARITY_GENERAL",
+          "ENTITY_EXTRACTION_GENERAL",
+          "TEXT_CLASSIFICATION_GENERAL",
+          "CONTENT_EXTRACTION_GENERAL",
+          "AIR_QUALITY_INDEX_GENERAL",
+          "GAME_RESULT_GENERAL",
+          "SPORTS_SCORE_GENERAL",
+          "EVENT_OUTCOME_RESOLUTION_GENERAL",
+          "CROSS_CHAIN_STATE_VERIFY_GENERAL",
+          "OPTIMAL_EXECUTION_ROUTE_GENERAL",
+          "TRANSACTION_RISK_GENERAL",
+          "FRAUD_DETECTION_GENERAL",
+          "FRAUD_RISK_GENERAL",
+          "CONTENT_MODERATION_GENERAL",
+          "CODE_REVIEW_GENERAL",
+          "CHAT_COMPLETION_GENERAL",
+          "CHATBOT_CONVERSATION_GENERAL",
+          "TEXT_GENERATION_GENERAL",
+          "LANGUAGE_GENERATION_GENERAL",
+          "CODE_GENERATION_GENERAL",
+          "AGENT_TASK_GENERAL",
+          "TASK_COMPLETION_GENERAL",
+          "LLM_OUTPUT_EVALUATION_GENERAL",
+          "TASK_EXECUTION_QUALITY_GENERAL",
+          "CUSTOMER_TICKET_RESOLUTION_GENERAL",
+          "CONTRACT_OBLIGATION_AUDIT_GENERAL",
+          "CODE_PATCH_VERIFY_GENERAL",
+          "REGRESSION_VERIFY_GENERAL",
+          "FACT_CHECK_GENERAL",
+          "CONTENT_VERIFICATION_GENERAL",
+          "TEXT_AUTHENTICITY_CHECK_GENERAL",
+          "AI_TEXT_DETECTION_GENERAL"
+        ],
+        "cost_per_call": "0.00",
+        "protocol": "generic",
+        "compatible": true,
+        "compatibility_reason": "request builder: required field query has no canonical param",
+        "mapping": "llm",
+        "compatible_endpoints": [
+          "/weather-history"
+        ]
+      }
+    ]
+  },
+  "ok": true,
+  "status": 200,
+  "ms": 43497,
+  "body": {
+    "miner_id": "7613",
+    "miner_name": "SkyWire Forecast Verify",
+    "endpoint": "/forecast-verify",
+    "result": {
+      "location": "Fresno, California",
+      "date": "2026-11-18",
+      "temp_max_c": 14.444444,
+      "temp_min_c": 5.555556,
+      "precipitation_mm": 10.922,
+      "condition": null
+    },
+    "result_shape": "intent",
+    "format_version": 3,
+    "field_status": {
+      "location": "ok",
+      "date": "ok",
+      "temp_max_c": "ok",
+      "temp_min_c": "ok",
+      "precipitation_mm": "ok",
+      "condition": "missing"
+    },
+    "input": {
+      "location": "Fresno, California",
+      "date": "2026-11-18"
+    },
+    "input_schema_version": 3,
+    "cost_usd": 0.01,
+    "duration_ms": 23432,
+    "timestamp": "2026-11-19T13:05:38.366435745Z",
+    "reasoning": "Intent: intent given by the caller\nMiner: The user is asking to verify a past weather forecast for a specific location and date. The SkyWire Forecast Verify miner has an endpoint '/forecast-verify' that serves the WEATHER_FORECAST_VERIFY_GENERAL intent and accepts 'location' and 'date' as query parameters, which are provided in the user's request.",
+    "intent": "WEATHER_FORECAST_VERIFY_GENERAL",
+    "intent_version": 1,
+    "signal_hash": "0x3f26f3ab7f6a85ff32665ea0e58841e9522b6c89d7ad06c66a46d9fbf7afbb47",
+    "warnings": [
+      "The response does not include: Recorded weather condition",
+      "Some additional information was omitted from this response."
+    ],
+    "cost_usd_total": 0.01,
+    "delivery": "specialist",
+    "served_rank": 1,
+    "sources": [
+      {
+        "miner": "skywire-forecast-verify",
+        "intent": "WEATHER_FORECAST_VERIFY_GENERAL"
+      }
+    ],
+    "findings": {
+      "items": [
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "2026-11-19T13:05:38.354Z",
+          "name": "as_of",
+          "path": "$.as_of",
+          "type": "date",
+          "value": "2026-11-19T13:05:38.354Z"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "NOAA/National Weather Service daily climate reports, public-domain US Government information (https://www.weather.gov/disclaimer). Independently retrieved distribution copies: Iowa Environmental Mesonet, public domain, any lawful use (https...",
+          "name": "attribution",
+          "path": "$.attribution",
+          "type": "string",
+          "value": "NOAA/National Weather Service daily climate reports, public-domain US Government information (https://www.weather.gov/disclaimer). Independently retrieved distribution copies: Iowa Environmental Mesonet, public domain, any lawful use (https://mesonet.agron.iastate.edu/disclaimer.php). Values copied or converted from Fahrenheit/inches by SkyWire; not official modified government products; no endorsement."
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "https://www.weather.gov/disclaimer",
+          "name": "url",
+          "path": "$.attribution",
+          "type": "url",
+          "value": "https://www.weather.gov/disclaimer"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "https://www.wikidata.org/wiki/Q43301",
+          "name": "coordinate_source",
+          "path": "$.coordinate_source",
+          "type": "url",
+          "value": "https://www.wikidata.org/wiki/Q43301"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "2026-11-18",
+          "name": "date",
+          "path": "$.cross_check.date",
+          "type": "date",
+          "value": "2026-11-18"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "0",
+          "name": "precipitation_mm",
+          "path": "$.cross_check.differences.precipitation_mm",
+          "type": "integer",
+          "value": 0
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "0",
+          "name": "temp_max_c",
+          "path": "$.cross_check.differences.temp_max_c",
+          "type": "integer",
+          "value": 0
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "0",
+          "name": "temp_min_c",
+          "path": "$.cross_check.differences.temp_min_c",
+          "type": "integer",
+          "value": 0
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "Independent distributor, not necessarily an independent instrument or observing-day definition.",
+          "name": "independence",
+          "path": "$.cross_check.independence",
+          "type": "string",
+          "value": "Independent distributor, not necessarily an independent instrument or observing-day definition."
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "false",
+          "name": "precipitation_trace",
+          "path": "$.cross_check.precipitation_trace",
+          "type": "bool",
+          "value": false
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "\u0001\n945 \nCDUS46 KHNX 190821\nCLIFAT\n\nCLIMATE REPORT \nNATIONAL WEATHER SERVICE HANFORD\n1221 AM PST THU NOV 19 2026\n\n...................................\n\n...THE FRESNO CA CLIMATE SUMMARY FOR NOVEMBER 18 2026...\n\nCLIMATE NORMAL PERIOD 1991 TO 202...",
+          "name": "raw_product",
+          "path": "$.cross_check.raw_product",
+          "type": "string",
+          "value": "\u0001\n945 \nCDUS46 KHNX 190821\nCLIFAT\n\nCLIMATE REPORT \nNATIONAL WEATHER SERVICE HANFORD\n1221 AM PST THU NOV 19 2026\n\n...................................\n\n...THE FRESNO CA CLIMATE SUMMARY FOR NOVEMBER 18 2026...\n\nCLIMATE NORMAL PERIOD 1991 TO 2020\nCLIMATE RECORD PERIOD 1887 TO 2026\n\n\nWEATHER ITEM   OBSERVED TIME   RECORD YEAR NORMAL DEPARTURE LAST      \n                VALUE   (LST)  VALUE       VALUE  FROM      YEAR     \n                                                  NORMAL           \n...................................................................\nTEMPERATURE (F)                                                          \n YESTERDAY                                                           \n  MAXIMUM         58    332 PM  80    1932  64     -6       60       \n                                      2008                           \n  MINIMUM         42    428 AM  27    1961  45     -3       47       \n  AVERAGE         50                        54     -4       54     \n\nPRECIPITATION (IN)                                                    \n  YESTERDAY        0.43          3.55 1885   0.03   0.40     0.00     \n  MONTH TO DATE    1.11                      0.49   0.62     2.75     \n  SINCE OCT 1      1.39                      1.05   0.34     3.93     \n  SINCE JUL 1      1.39                      1.13   0.26     4.86     \n  SINCE JAN 1      5.93                      8.82  -2.89    10.31     \n\nSNOWFALL (IN)                                                              \n  YESTERDAY       MM             0.0    MM   0.0                      \n  MONTH TO DATE    T                         0.0                      \n  SINCE SEP 1      T                         0.0                      \n  SINCE JUL 1      0.0                       0.0                      \n\nDEGREE DAYS                                                           \n HEATING                                                              \n  YESTERDAY       15                        11      4       11        \n  MONTH TO DATE  115                       141    -26       56        \n  SINCE SEP 1    140                       199    -59      105        \n  SINCE JUL 1    140                       199    -59      105        \n\n COOLING                                                              \n  YESTERDAY        0                         0      0        0        \n  MONTH TO DATE    2                         1      1       22        \n  SINCE SEP 1    573                       473    100      530        \n  SINCE JAN 1   2726                      2206    520     2436        \n...................................................................\n\n\nWIND (MPH)                                                            \n  RESULTANT WIND SPEED  12   RESULTANT WIND DIRECTION   E (110)       \n  HIGHEST WIND SPEED    25   HIGHEST WIND DIRECTION    SE (120)       \n  HIGHEST GUST SPEED    37   HIGHEST GUST DIRECTION    SE (120)       \n  AVERAGE WIND SPEED    12.0                                        \n\n\nRELATIVE HUMIDITY (PERCENT)\n HIGHEST    89                                                        \n LOWEST     47                                                        \n AVERAGE    68                                                        \n\n..........................................................\n\n\nTHE FRESNO CA CLIMATE NORMALS FOR TODAY\n                         NORMAL    RECORD    YEAR                     \n MAXIMUM TEMPERATURE (F)   63        83      1932                      \n MINIMUM TEMPERATURE (F)   44        29      1961                      \n                                             1964                     \n                                             1994                     \n\n\nSUNRISE AND SUNSET                                                    \nNOVEMBER 19 2026......SUNRISE   641 AM PST   SUNSET   447 PM PST     \nNOVEMBER 20 2026......SUNRISE   642 AM PST   SUNSET   447 PM PST     \n\n\n-  INDICATES NEGATIVE NUMBERS.\nR  INDICATES RECORD WAS SET OR TIED.\nMM INDICATES DATA IS MISSING.\nT  INDICATES TRACE AMOUNT.\n\n\n\n\n$$"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "IEM independent distribution copy of the original NWS climate report",
+          "name": "source",
+          "path": "$.cross_check.source",
+          "type": "string",
+          "value": "IEM independent distribution copy of the original NWS climate report"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "FAT",
+          "name": "station_id",
+          "path": "$.cross_check.station_id",
+          "type": "string",
+          "value": "FAT"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "agrees_within_reporting_precision",
+          "name": "status",
+          "path": "$.cross_check.status",
+          "type": "string",
+          "value": "agrees_within_reporting_precision"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "0.3",
+          "name": "precipitation_mm",
+          "path": "$.cross_check.tolerances.precipitation_mm",
+          "type": "number",
+          "value": 0.3
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "0.6",
+          "name": "temperature_c",
+          "path": "$.cross_check.tolerances.temperature_c",
+          "type": "number",
+          "value": 0.6
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CLIFAT&sdate=2026-11-19&edate=2026-11-20&fmt=text&limit=4&order=asc",
+          "name": "url",
+          "path": "$.cross_check.url",
+          "type": "url",
+          "value": "https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CLIFAT&sdate=2026-11-19&edate=2026-11-20&fmt=text&limit=4&order=asc"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "10.922",
+          "name": "precipitation_mm",
+          "path": "$.cross_check.values.precipitation_mm",
+          "type": "number",
+          "value": 10.922
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "14.444444",
+          "name": "temp_max_c",
+          "path": "$.cross_check.values.temp_max_c",
+          "type": "number",
+          "value": 14.444444
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "WEATHER_FORECAST_VERIFY_GENERAL",
+          "name": "intent",
+          "path": "$.intent",
+          "type": "string",
+          "value": "WEATHER_FORECAST_VERIFY_GENERAL"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "Fresno, California",
+          "name": "location",
+          "path": "$.location",
+          "type": "string",
+          "value": "Fresno, California"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00093193%2CUSC00043256%2CUSC00043261%2CUSW00093242&startDate=2026-11-18&endDate=2026-11-18&dataTypes=TMAX%2CTMIN%2CPRCP%2CWT01%2CWT03%2CWT16%2CWT18&format...",
+          "name": "url",
+          "path": "$.noaa_archive_check.url",
+          "type": "url",
+          "value": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00093193%2CUSC00043256%2CUSC00043261%2CUSW00093242&startDate=2026-11-18&endDate=2026-11-18&dataTypes=TMAX%2CTMIN%2CPRCP%2CWT01%2CWT03%2CWT16%2CWT18&format=json&units=metric&includeAttributes=true&includeStationName=true&includeStationLocation=true"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "The date in the CLIMATE SUMMARY FOR header is retained exactly.",
+          "name": "note",
+          "path": "$.observing_day.note",
+          "type": "string",
+          "value": "The date in the CLIMATE SUMMARY FOR header is retained exactly."
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "000\nCDUS46 KHNX 190821\nCLIFAT\n\nCLIMATE REPORT \nNATIONAL WEATHER SERVICE HANFORD\n1221 AM PST THU NOV 19 2026\n\n...................................\n\n...THE FRESNO CA CLIMATE SUMMARY FOR NOVEMBER 18 2026...\n\nCLIMATE NORMAL PERIOD 1991 TO 2020\nC...",
+          "name": "raw_product",
+          "path": "$.raw_product",
+          "type": "string",
+          "value": "000\nCDUS46 KHNX 190821\nCLIFAT\n\nCLIMATE REPORT \nNATIONAL WEATHER SERVICE HANFORD\n1221 AM PST THU NOV 19 2026\n\n...................................\n\n...THE FRESNO CA CLIMATE SUMMARY FOR NOVEMBER 18 2026...\n\nCLIMATE NORMAL PERIOD 1991 TO 2020\nCLIMATE RECORD PERIOD 1887 TO 2026\n\n\nWEATHER ITEM   OBSERVED TIME   RECORD YEAR NORMAL DEPARTURE LAST      \n                VALUE   (LST)  VALUE       VALUE  FROM      YEAR     \n                                                  NORMAL           \n...................................................................\nTEMPERATURE (F)                                                          \n YESTERDAY                                                           \n  MAXIMUM         58    332 PM  80    1932  64     -6       60       \n                                      2008                           \n  MINIMUM         42    428 AM  27    1961  45     -3       47       \n  AVERAGE         50                        54     -4       54     \n\nPRECIPITATION (IN)                                                    \n  YESTERDAY        0.43          3.55 1885   0.03   0.40     0.00     \n  MONTH TO DATE    1.11                      0.49   0.62     2.75     \n  SINCE OCT 1      1.39                      1.05   0.34     3.93     \n  SINCE JUL 1      1.39                      1.13   0.26     4.86     \n  SINCE JAN 1      5.93                      8.82  -2.89    10.31     \n\nSNOWFALL (IN)                                                              \n  YESTERDAY       MM             0.0    MM   0.0                      \n  MONTH TO DATE    T                         0.0                      \n  SINCE SEP 1      T                         0.0                      \n  SINCE JUL 1      0.0                       0.0                      \n\nDEGREE DAYS                                                           \n HEATING                                                              \n  YESTERDAY       15                        11      4       11        \n  MONTH TO DATE  115                       141    -26       56        \n  SINCE SEP 1    140                       199    -59      105        \n  SINCE JUL 1    140                       199    -59      105        \n\n COOLING                                                              \n  YESTERDAY        0                         0      0        0        \n  MONTH TO DATE    2                         1      1       22        \n  SINCE SEP 1    573                       473    100      530        \n  SINCE JAN 1   2726                      2206    520     2436        \n...................................................................\n\n\nWIND (MPH)                                                            \n  RESULTANT WIND SPEED  12   RESULTANT WIND DIRECTION   E (110)       \n  HIGHEST WIND SPEED    25   HIGHEST WIND DIRECTION    SE (120)       \n  HIGHEST GUST SPEED    37   HIGHEST GUST DIRECTION    SE (120)       \n  AVERAGE WIND SPEED    12.0                                        \n\n\nRELATIVE HUMIDITY (PERCENT)\n HIGHEST    89                                                        \n LOWEST     47                                                        \n AVERAGE    68                                                        \n\n..........................................................\n\n\nTHE FRESNO CA CLIMATE NORMALS FOR TODAY\n                         NORMAL    RECORD    YEAR                     \n MAXIMUM TEMPERATURE (F)   63        83      1932                      \n MINIMUM TEMPERATURE (F)   44        29      1961                      \n                                             1964                     \n                                             1994                     \n\n\nSUNRISE AND SUNSET                                                    \nNOVEMBER 19 2026......SUNRISE   641 AM PST   SUNSET   447 PM PST     \nNOVEMBER 20 2026......SUNRISE   642 AM PST   SUNSET   447 PM PST     \n\n\n-  INDICATES NEGATIVE NUMBERS.\nR  INDICATES RECORD WAS SET OR TIED.\nMM INDICATES DATA IS MISSING.\nT  INDICATES TRACE AMOUNT.\n\n\n\n\n$$"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "https://api.weather.gov/ontology#",
+          "name": "@vocab",
+          "path": "$.raw_record.@context.@vocab",
+          "type": "url",
+          "value": "https://api.weather.gov/ontology#"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "https://api.weather.gov/products/4c50ce76-754b-4972-a107-b921f00e8960",
+          "name": "@id",
+          "path": "$.raw_record.@id",
+          "type": "url",
+          "value": "https://api.weather.gov/products/4c50ce76-754b-4972-a107-b921f00e8960"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "2026-11-19T08:21:00+00:00",
+          "name": "issuanceTime",
+          "path": "$.raw_record.issuanceTime",
+          "type": "date",
+          "value": "2026-11-19T08:21:00+00:00"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "000\nCDUS46 KHNX 190821\nCLIFAT\n\nCLIMATE REPORT \nNATIONAL WEATHER SERVICE HANFORD\n1221 AM PST THU NOV 19 2026\n\n...................................\n\n...THE FRESNO CA CLIMATE SUMMARY FOR NOVEMBER 18 2026...\n\nCLIMATE NORMAL PERIOD 1991 TO 2020\nC...",
+          "name": "productText",
+          "path": "$.raw_record.productText",
+          "type": "string",
+          "value": "000\nCDUS46 KHNX 190821\nCLIFAT\n\nCLIMATE REPORT \nNATIONAL WEATHER SERVICE HANFORD\n1221 AM PST THU NOV 19 2026\n\n...................................\n\n...THE FRESNO CA CLIMATE SUMMARY FOR NOVEMBER 18 2026...\n\nCLIMATE NORMAL PERIOD 1991 TO 2020\nCLIMATE RECORD PERIOD 1887 TO 2026\n\n\nWEATHER ITEM   OBSERVED TIME   RECORD YEAR NORMAL DEPARTURE LAST      \n                VALUE   (LST)  VALUE       VALUE  FROM      YEAR     \n                                                  NORMAL           \n...................................................................\nTEMPERATURE (F)                                                          \n YESTERDAY                                                           \n  MAXIMUM         58    332 PM  80    1932  64     -6       60       \n                                      2008                           \n  MINIMUM         42    428 AM  27    1961  45     -3       47       \n  AVERAGE         50                        54     -4       54     \n\nPRECIPITATION (IN)                                                    \n  YESTERDAY        0.43          3.55 1885   0.03   0.40     0.00     \n  MONTH TO DATE    1.11                      0.49   0.62     2.75     \n  SINCE OCT 1      1.39                      1.05   0.34     3.93     \n  SINCE JUL 1      1.39                      1.13   0.26     4.86     \n  SINCE JAN 1      5.93                      8.82  -2.89    10.31     \n\nSNOWFALL (IN)                                                              \n  YESTERDAY       MM             0.0    MM   0.0                      \n  MONTH TO DATE    T                         0.0                      \n  SINCE SEP 1      T                         0.0                      \n  SINCE JUL 1      0.0                       0.0                      \n\nDEGREE DAYS                                                           \n HEATING                                                              \n  YESTERDAY       15                        11      4       11        \n  MONTH TO DATE  115                       141    -26       56        \n  SINCE SEP 1    140                       199    -59      105        \n  SINCE JUL 1    140                       199    -59      105        \n\n COOLING                                                              \n  YESTERDAY        0                         0      0        0        \n  MONTH TO DATE    2                         1      1       22        \n  SINCE SEP 1    573                       473    100      530        \n  SINCE JAN 1   2726                      2206    520     2436        \n...................................................................\n\n\nWIND (MPH)                                                            \n  RESULTANT WIND SPEED  12   RESULTANT WIND DIRECTION   E (110)       \n  HIGHEST WIND SPEED    25   HIGHEST WIND DIRECTION    SE (120)       \n  HIGHEST GUST SPEED    37   HIGHEST GUST DIRECTION    SE (120)       \n  AVERAGE WIND SPEED    12.0                                        \n\n\nRELATIVE HUMIDITY (PERCENT)\n HIGHEST    89                                                        \n LOWEST     47                                                        \n AVERAGE    68                                                        \n\n..........................................................\n\n\nTHE FRESNO CA CLIMATE NORMALS FOR TODAY\n                         NORMAL    RECORD    YEAR                     \n MAXIMUM TEMPERATURE (F)   63        83      1932                      \n MINIMUM TEMPERATURE (F)   44        29      1961                      \n                                             1964                     \n                                             1994                     \n\n\nSUNRISE AND SUNSET                                                    \nNOVEMBER 19 2026......SUNRISE   641 AM PST   SUNSET   447 PM PST     \nNOVEMBER 20 2026......SUNRISE   642 AM PST   SUNSET   447 PM PST     \n\n\n-  INDICATES NEGATIVE NUMBERS.\nR  INDICATES RECORD WAS SET OR TIED.\nMM INDICATES DATA IS MISSING.\nT  INDICATES TRACE AMOUNT.\n\n\n\n\n$$"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "Fresno",
+          "name": "resolved_location",
+          "path": "$.resolved_location",
+          "type": "string",
+          "value": "Fresno"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "NOAA National Weather Service daily climate report",
+          "name": "source",
+          "path": "$.source",
+          "type": "string",
+          "value": "NOAA National Weather Service daily climate report"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "2026-11-19T13:20:38.072Z",
+          "name": "expires_at",
+          "path": "$.source_access.https://api.weather.gov/products/4c50ce76-754b-4972-a107-b921f00e8960.expires_at",
+          "type": "date",
+          "value": "2026-11-19T13:20:38.072Z"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "2026-11-19T13:05:38.072Z",
+          "name": "retrieved_at",
+          "path": "$.source_access.https://api.weather.gov/products/4c50ce76-754b-4972-a107-b921f00e8960.retrieved_at",
+          "type": "date",
+          "value": "2026-11-19T13:05:38.072Z"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "2026-11-20T13:05:36.207Z",
+          "name": "expires_at",
+          "path": "$.source_access.https://api.weather.gov/products/types/CLI/locations.expires_at",
+          "type": "date",
+          "value": "2026-11-20T13:05:36.207Z"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "2026-11-19T13:05:36.207Z",
+          "name": "retrieved_at",
+          "path": "$.source_access.https://api.weather.gov/products/types/CLI/locations.retrieved_at",
+          "type": "date",
+          "value": "2026-11-19T13:05:36.207Z"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "2026-11-19T13:20:37.722Z",
+          "name": "expires_at",
+          "path": "$.source_access.https://api.weather.gov/products/types/CLI/locations/FAT.expires_at",
+          "type": "date",
+          "value": "2026-11-19T13:20:37.722Z"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "2026-11-19T13:05:37.722Z",
+          "name": "retrieved_at",
+          "path": "$.source_access.https://api.weather.gov/products/types/CLI/locations/FAT.retrieved_at",
+          "type": "date",
+          "value": "2026-11-19T13:05:37.722Z"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "2026-11-19T13:20:38.351Z",
+          "name": "expires_at",
+          "path": "$.source_access.https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CLIFAT&sdate=2026-11-19&edate=2026-11-20&fmt=text&limit=4&order=asc.expires_at",
+          "type": "date",
+          "value": "2026-11-19T13:20:38.351Z"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "2026-11-19T13:05:38.351Z",
+          "name": "retrieved_at",
+          "path": "$.source_access.https://mesonet.agron.iastate.edu/cgi-bin/afos/retrieve.py?pil=CLIFAT&sdate=2026-11-19&edate=2026-11-20&fmt=text&limit=4&order=asc.retrieved_at",
+          "type": "date",
+          "value": "2026-11-19T13:05:38.351Z"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "2026-11-20T13:05:37.438Z",
+          "name": "expires_at",
+          "path": "$.source_access.https://mesonet.agron.iastate.edu/geojson/network/CA_ASOS.geojson.expires_at",
+          "type": "date",
+          "value": "2026-11-20T13:05:37.438Z"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "2026-11-19T13:05:37.438Z",
+          "name": "retrieved_at",
+          "path": "$.source_access.https://mesonet.agron.iastate.edu/geojson/network/CA_ASOS.geojson.retrieved_at",
+          "type": "date",
+          "value": "2026-11-19T13:05:37.438Z"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "https://api.weather.gov/products/4c50ce76-754b-4972-a107-b921f00e8960",
+          "name": "url",
+          "path": "$.sources[0].url",
+          "type": "url",
+          "value": "https://api.weather.gov/products/4c50ce76-754b-4972-a107-b921f00e8960"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "https://api.weather.gov/products/types/CLI/locations/FAT",
+          "name": "url",
+          "path": "$.sources[1].url",
+          "type": "url",
+          "value": "https://api.weather.gov/products/types/CLI/locations/FAT"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "https://api.weather.gov/products/types/CLI/locations",
+          "name": "url",
+          "path": "$.sources[2].url",
+          "type": "url",
+          "value": "https://api.weather.gov/products/types/CLI/locations"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "Fresno",
+          "name": "county",
+          "path": "$.station.metadata_validation.raw_network_feature.properties.county",
+          "type": "string",
+          "value": "Fresno"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "FRESNO AIR TERMINAL",
+          "name": "sname",
+          "path": "$.station.metadata_validation.raw_network_feature.properties.sname",
+          "type": "string",
+          "value": "FRESNO AIR TERMINAL"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "FRESNO YOSEMITE INTL",
+          "name": "name",
+          "path": "$.station.name",
+          "type": "string",
+          "value": "FRESNO YOSEMITE INTL"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "https://api.weather.gov/products/types/CLI/locations/FAT",
+          "name": "index_url",
+          "path": "$.station_attempts[0].index_url",
+          "type": "url",
+          "value": "https://api.weather.gov/products/types/CLI/locations/FAT"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "Recorded provisional weather for Fresno, California on 2026-11-18 at FRESNO YOSEMITE INTL (USW00093193, NWS CLIFAT, 6.4 km): high 14.444444 degrees Celsius; low 5.555556 degrees Celsius; precipitation 10.922 mm. Original complete NWS daily ...",
+          "name": "summary",
+          "path": "$.summary",
+          "type": "string",
+          "value": "Recorded provisional weather for Fresno, California on 2026-11-18 at FRESNO YOSEMITE INTL (USW00093193, NWS CLIFAT, 6.4 km): high 14.444444 degrees Celsius; low 5.555556 degrees Celsius; precipitation 10.922 mm. Original complete NWS daily climate report, not a forecast or sampled hourly maximum. Distribution cross-check: agrees_within_reporting_precision."
+        }
+      ],
+      "raw_sha256": "b54d2cf7c7a5d2e06dc7a7b5b7fa5910af8b642369abb02b66c6bb8a3d441321"
+    }
+  },
+  "receipt": {
+    "receipt_hash": "0x84dba99af3150b6a3f83ba845868d563f5b21d2a4db0890789fa652e5f861bf3",
+    "rail": "escrow",
+    "payer": "0x8482e592d6b28d3f5b713cc4576d6ce216b2a78e",
+    "miner": "4455",
+    "intent": "WEATHER_FORECAST_VERIFY_GENERAL",
+    "amount_uusdc": "10000",
+    "epoch_id": 17,
+    "settlement": "epoch",
+    "chain": "telegraph",
+    "timestamp": 1795093541
+  },
+  "rail": "escrow"
+}
