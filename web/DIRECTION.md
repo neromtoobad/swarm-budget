@@ -30,3 +30,8 @@ daylight sky. It fills the first screen. The interface floats over it as white p
 - hi #FFD426, ok #17914F, bad #E0412F, hold #B86E00
 - radii 24 (panels) / 16 (cards) / 12 (controls) / 999 (chips)
 - motion: 0.5s cubic-bezier(.22,1,.36,1) for moves, a small overshoot for pops, 180ms stagger for checks
+
+## Mark
+A hi-vis drone seen from above whose body is a check mark: a machine that only moves once its answer has passed the
+guard. `web/logo.svg` (rotor hubs, for 24px and up) and `web/favicon.svg` (no hubs, for tab icons). It beat a
+pulse-into-tick, a receipt-with-tick and a signal-arc mark when compared at 180, 72, 32 and 16px on light and dark.

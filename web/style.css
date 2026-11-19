@@ -30,7 +30,7 @@ code, .mono { font-family: var(--mono); }
 .bar { position: absolute; inset: 0 0 auto 0; height: 68px; padding: 0 28px; display: flex; align-items: center; gap: 28px; pointer-events: none; }
 .bar > * { pointer-events: auto; }
 .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 600; font-size: 17px; letter-spacing: -0.02em; }
-.brand svg { width: 28px; height: 28px; stroke: none; }
+.brand svg { width: 30px; height: 30px; flex: none; stroke: none; }
 .links { display: flex; gap: 22px; margin-left: 12px; }
 .links a { text-decoration: none; color: var(--ink-2); font-size: 14.5px; font-weight: 500; transition: color 0.2s; }
 .links a:hover { color: var(--ink); }
