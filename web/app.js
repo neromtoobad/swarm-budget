@@ -439,12 +439,25 @@ function layout() {
   const st = $(".stage").getBoundingClientRect();
   if (desktop()) {
     const dock = $("#dock").getBoundingClientRect(), led = $(".ledger").getBoundingClientRect(), pitch = $(".pitch").getBoundingClientRect();
-    const top = pitch.bottom - st.top - 84; // the farm's top-left corner is open sky, so it can tuck under the text
-    scene.setFrame({ x: 130, y: top, w: led.left - st.left - 140, h: dock.top - st.top - top - 4 });
+    // The farm's top-left corner is open sky, so it may tuck under the text as long as the telegraph mast stands
+    // clear of it. Try the biggest framings first; if the mast would still land in the text, the whole farm, mast
+    // included, goes below it.
+    const room = led.left - st.left, pr = pitch.right - st.left, pb = pitch.bottom - st.top, bottom = dock.top - st.top - 4;
+    const clear = () => { const b = scene.beacon(); return b.x > pr + 24 || b.y > pb + 8; };
+    const tall = { x: 30, y: pb + 8, w: room - 40, h: bottom - pb - 8, tall: true };
+    scene.setFrame(tall);
+    let best = tall, bestDist = scene.dist(); // a shorter camera distance means a bigger farm
+    for (const tuck of [84, 60, 36, 12]) for (const x of [130, 190, 250, 320]) {
+      const f = { x, y: pb - tuck, w: room - x - 10, h: bottom - pb + tuck };
+      scene.setFrame(f);
+      if (clear() && scene.dist() < bestDist) { best = f; bestDist = scene.dist(); }
+    }
+    scene.setFrame(best);
   } else scene.setFrame({ x: 4, y: 40, w: st.width - 8, h: st.height - 44 });
 }
 function placeTags(pos) {
   const st = $(".stage"), W = st.clientWidth, maxX = desktop() ? $(".ledger").offsetLeft - 12 : W;
+  const placed = [];
   for (const [id, p] of Object.entries(pos)) {
     const el = tags[id];
     if (!el) continue;
@@ -454,9 +467,35 @@ function placeTags(pos) {
       x = Math.max(half, Math.min(maxX - half, x));
       y = Math.max(el.offsetHeight + 74, y);
     }
-    el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) translate(-50%, -100%)`;
-    el.style.opacity = p.show || tagState[id].open ? 1 : 0;
-    el.style.pointerEvents = p.show ? "" : "none";
+    placed.push({ id, el, x, y, open: tagState[id].open, show: p.show });
+  }
+  // Closed labels that would cover the headline stay hidden (the dock names every machine), and two machines standing close together get their labels slid apart
+  // sideways (the one further back moves).
+  const solo = $("#tags").classList.contains("solo");
+  const so = st.getBoundingClientRect();
+  const text = desktop() && !$(".hero").classList.contains("zoom") ? [...$(".pitch").children].map((e) => e.getBoundingClientRect()) : [];
+  const boxes = [];
+  for (const t of placed.sort((a, b) => b.y - a.y)) {
+    if (!t.open && t.show && !solo) {
+      const w = t.el.offsetWidth, h = t.el.offsetHeight;
+      const inText = () => text.some((r) => t.x - w / 2 < r.right - so.left + 6 && t.x + w / 2 > r.left - so.left - 6 && t.y - h < r.bottom - so.top + 6 && t.y > r.top - so.top - 6);
+      const hits = () => boxes.find((b) => Math.abs(b.x - t.x) < (b.w + w) / 2 + 6 && Math.abs(b.y - t.y) < (b.h + h) / 2 + 4);
+      const hit = hits(), x0 = t.x;
+      let ok = !hit;
+      if (hit) {
+        // slide off the label it hits: the nearer side first, then the other; give up if both are taken
+        const sides = [hit.x - (hit.w + w) / 2 - 6, hit.x + (hit.w + w) / 2 + 6].sort((a, b) => Math.abs(a - x0) - Math.abs(b - x0));
+        for (const x of sides) {
+          t.x = Math.max(w / 2 + 6, Math.min(maxX - w / 2, x));
+          if (!hits() && !inText()) { ok = true; break; }
+        }
+      }
+      if (!ok || inText()) t.show = false;
+      else boxes.push({ x: t.x, y: t.y, w, h });
+    }
+    t.el.style.transform = `translate(${t.x.toFixed(1)}px, ${t.y.toFixed(1)}px) translate(-50%, -100%)`;
+    t.el.style.opacity = t.show || t.open ? 1 : 0;
+    t.el.style.pointerEvents = t.show ? "" : "none";
   }
 }
 

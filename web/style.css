@@ -270,14 +270,17 @@ h1 .w { display: inline-block; opacity: 0; transform: translateY(0.5em); animati
 .toast { background: var(--ink); color: #fff; font-size: 14px; padding: 11px 16px; border-radius: 14px; box-shadow: 0 16px 36px -14px rgba(16, 21, 15, 0.6); animation: rise 0.4s var(--pop); max-width: min(92vw, 520px); }
 
 /* ───────── narrower desktops */
+@media (max-width: 1420px) {
+  .unit-btns { flex-direction: column-reverse; }
+  .unit-btns .btn.quiet { flex: 1; }
+}
 @media (max-width: 1320px) {
   :root { --led-w: 372px; }
   .unit-top img { width: 44px; height: 44px; }
   .links { display: none; }
   .pitch { width: min(540px, calc(100vw - var(--led-w) - 80px)); }
   .sub { font-size: 15px; }
-  .unit-btns { flex-direction: column-reverse; }
-  .unit-btns .btn.quiet { flex: 1; }
+
 }
 /* ───────── tablets and phones: the page becomes one column */
 @media (max-width: 1020px) {

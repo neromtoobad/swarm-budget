@@ -576,7 +576,7 @@ export function createScene(host, { low = false } = {}) {
   function bounds() {
     const W = host.clientWidth, H = host.clientHeight;
     let a = Infinity, b = -Infinity, c = Infinity, d = -Infinity;
-    for (const p of BOX) {
+    for (const p of frame?.tall ? [...BOX, BEACON] : BOX) {
       pv.copy(p).project(camera);
       const x = ((pv.x + 1) / 2) * W, y = ((1 - pv.y) / 2) * H;
       a = Math.min(a, x); b = Math.max(b, x); c = Math.min(c, y); d = Math.max(d, y);
@@ -813,6 +813,9 @@ export function createScene(host, { low = false } = {}) {
       pulses[pulses.length - 1].onHit = () => { burst(id, good ? COL.ok : COL.bad); done(); };
     }),
     setFrame: (f) => { frame = f; fit(); },
+    // Where the top of the telegraph mast lands on screen with the current frame (used to keep it clear of the text).
+    dist: () => baseDist,
+    beacon: () => { pv.copy(BEACON).project(camera); return { x: ((pv.x + 1) / 2) * host.clientWidth, y: ((1 - pv.y) / 2) * host.clientHeight }; },
     onFrame: (fn) => { onFrame = fn; },
     get selected() { return selected; },
   };
