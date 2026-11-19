@@ -1,0 +1,76 @@
+// Prints PASS / FAIL for each README claim against a running app and the public Telegraph node.
+// Usage: node tools/check-live.mjs [app-url]   (default http://localhost:4380)
+const APP = (process.argv[2] || "http://localhost:4380").replace(/\/$/, "");
+let failed = 0;
+const check = async (name, fn) => {
+  try {
+    const detail = await fn();
+    console.log(`PASS  ${name}${detail ? ` — ${detail}` : ""}`);
+  } catch (e) {
+    failed++;
+    console.log(`FAIL  ${name} — ${e.message}`);
+  }
+};
+const get = async (u) => {
+  const r = await fetch(u);
+  if (!r.ok) throw new Error(`${u} → HTTP ${r.status}`);
+  return r.json();
+};
+const must = (cond, msg) => { if (!cond) throw new Error(msg); };
+
+const state = await get(`${APP}/api/state?limit=200`);
+const purchases = state.decisions.flatMap((d) => d.purchases);
+
+await check("app is up and has made decisions", async () => {
+  must(state.decisions.length > 0, "no decisions yet");
+  return `${state.totals.decisions} decisions, ${state.totals.purchases} purchases`;
+});
+
+await check("every purchase carries a Telegraph signal hash and an escrow receipt", async () => {
+  const paid = purchases.filter((p) => p.status === 200);
+  must(paid.length > 0, "no paid purchases");
+  const missing = paid.filter((p) => !p.signal_hash || !p.receipt_hash);
+  must(missing.length === 0, `${missing.length} paid purchases without signal or receipt`);
+  return `${paid.length} paid purchases on rail ${[...new Set(paid.map((p) => p.rail))].join(", ")}`;
+});
+
+await check("the node's public signal record names our wallet as the buyer", async () => {
+  const p = purchases.find((x) => x.signal_hash);
+  const sig = await get(`${state.node}/engine/v1/signal/${p.signal_hash}`);
+  const buyer = sig.signal?.wallet_address?.toLowerCase();
+  must(buyer === state.payer.toLowerCase(), `signal buyer ${buyer} ≠ payer ${state.payer}`);
+  return `${p.signal_hash.slice(0, 18)}… bought by ${buyer.slice(0, 10)}…, intent ${sig.signal.intent_id ?? p.intent}`;
+});
+
+await check("escrow ledger on the node shows the payer's spend", async () => {
+  const l = await get(`${state.node}/v1/ledger/account/${state.payer.toLowerCase()}`);
+  const spent = Number(l.charged || 0) + Number(l.unbilled || 0);
+  must(spent > 0, "nothing charged or unbilled");
+  return `deposited ${Number(l.deposited) / 1e6} USDC, charged+unbilled ${spent / 1e6} USDC`;
+});
+
+await check("the guard has refused at least one answer, and a re-buy followed", async () => {
+  const refused = purchases.filter((p) => p.verdict === "rejected");
+  const rebuys = purchases.filter((p) => p.attempt > 1);
+  must(refused.length > 0, "no refused answers yet");
+  must(rebuys.length > 0, "no re-buys yet");
+  const why = refused[0].checks.find((c) => !c.pass)?.why;
+  return `${refused.length} refused, ${rebuys.length} re-buys; e.g. "${why}"`;
+});
+
+await check("no machine acted on a refused answer", async () => {
+  for (const d of state.decisions.filter((x) => x.outcome !== "unverified")) {
+    const byIntent = Object.groupBy(d.purchases, (p) => p.intent);
+    for (const [intent, ps] of Object.entries(byIntent))
+      must(ps.some((p) => p.verdict === "accepted"), `decision ${d.id} (${d.machine}) ${d.outcome} without an accepted ${intent}`);
+  }
+  return "every act/hold has an accepted answer for each intent it bought";
+});
+
+await check("daily budget is enforced", async () => {
+  must(state.budget.spent_today_usd <= state.budget.daily_usd, "over budget");
+  return `$${state.budget.spent_today_usd} of $${state.budget.daily_usd} today`;
+});
+
+console.log(failed ? `\n${failed} check(s) failed` : "\nall checks passed");
+process.exit(failed ? 1 : 0);
