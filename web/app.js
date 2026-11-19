@@ -324,6 +324,7 @@ document.addEventListener("click", async (e) => {
   }
 });
 $("#whole").addEventListener("click", () => selected && select(selected));
+$("#feed-more").addEventListener("click", (e) => { $("#feed").classList.remove("short"); e.target.hidden = true; });
 addEventListener("keydown", (e) => e.key === "Escape" && selected && select(selected));
 
 let trying = false, auto = null;
