@@ -33,7 +33,11 @@ const budget = {
   },
 };
 
-const buy = createBuyer({ tg, store, budget, onPurchase: (p) => emit({ type: "purchase", purchase: p }) });
+const buy = createBuyer({
+  tg, store, budget,
+  onAsk: (a) => emit({ type: "asking", ...a }),
+  onPurchase: (p) => emit({ type: "purchase", purchase: p }),
+});
 const fleet = createFleet({ store, buy, emit });
 
 // One decision at a time, so the ledger and budget stay consistent.
@@ -95,6 +99,7 @@ createServer(async (req, res) => {
       return json(res, 200, {
         farm: DEFAULT_FARM, machines: MACHINES, budget: budget.state(), busy, totals: store.totals(),
         junk: store.junkByIntent(), decisions: store.recent(Number(url.searchParams.get("limit") || 30), url.searchParams.get("farm") || undefined),
+        refusals: store.refusals(8), miners: store.minerBoard(),
         node: tg.node, payer: tg.address, tick_seconds: TICK_SECONDS,
       });
     }

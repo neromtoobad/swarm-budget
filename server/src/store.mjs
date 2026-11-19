@@ -75,16 +75,29 @@ export function openStore(dir = process.env.DATA_DIR || "./data") {
       return db.prepare("SELECT * FROM decisions WHERE farm = ? AND machine = ? ORDER BY id DESC LIMIT 1").get(farm, machine);
     },
     totals() {
-      const p = db.prepare(`SELECT COUNT(*) AS purchases, COALESCE(SUM(cost_usd),0) AS spent,
+      const p = db.prepare(`SELECT COUNT(*) AS purchases, SUM(status=200) AS answered, COALESCE(SUM(cost_usd),0) AS spent,
           SUM(verdict='accepted') AS accepted, SUM(verdict='rejected') AS rejected, SUM(verdict='failed') AS failed,
           SUM(attempt>1) AS rebuys FROM purchases`).get();
       const d = db.prepare(`SELECT COUNT(*) AS decisions, SUM(outcome='act') AS acted, SUM(outcome='hold') AS held,
           SUM(outcome='unverified') AS unverified FROM decisions`).get();
       return { ...p, ...d };
     },
+    // The latest answers the guard refused, with the failing checks.
+    refusals(limit = 8) {
+      return db.prepare(`SELECT id, at, farm, machine, intent, miner_id, miner_name, attempt, checks, signal_hash
+        FROM purchases WHERE verdict = 'rejected' ORDER BY id DESC LIMIT ?`).all(limit)
+        .map((r) => ({ ...r, checks: JSON.parse(r.checks) }));
+    },
+    // Every miner we have bought from, per intent, with how its answers fared.
+    minerBoard() {
+      return db.prepare(`SELECT intent, miner_id, miner_name,
+          SUM(verdict='accepted') AS accepted, SUM(verdict='rejected') AS rejected, SUM(verdict='failed') AS failed
+        FROM purchases WHERE miner_id IS NOT NULL GROUP BY intent, miner_id ORDER BY intent, accepted DESC, rejected DESC`).all();
+    },
     junkByIntent() {
-      return db.prepare(`SELECT intent, COUNT(*) AS bought, SUM(verdict!='accepted') AS junk
-        FROM purchases GROUP BY intent ORDER BY intent`).all();
+      // answers that came back (and were paid for), and how many of those the guard refused
+      return db.prepare(`SELECT intent, SUM(status=200) AS bought, SUM(verdict='rejected') AS junk
+        FROM purchases GROUP BY intent HAVING bought > 0 ORDER BY junk DESC, intent`).all();
     },
   };
 }
