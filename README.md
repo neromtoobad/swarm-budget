@@ -6,6 +6,8 @@
 [`/engine/v1/signal/0x2be2…99a8`](https://devnode.telegraphprotocol.com/engine/v1/signal/0x2be2cfc707ea4c40e67676a0b3366e0cf9f30dd8287f04a3d3a98df3597199a8),
 paid from escrow by [`0x8482…A78E`](https://devnode.telegraphprotocol.com/v1/ledger/account/0x8482e592d6b28d3f5b713cc4576d6ce216b2a78e).
 
+![The farm and its ledger: Kite holds on 45.7 km/h gusts after the guard refused an answer about Kerman, Iran](docs/screenshot.png)
+
 Five simulated machines work a real farm location in Kerman, California: a spray drone, a charging rover, a delivery truck, a
 scout drone and an auditor. They share one daily budget. Before any machine acts, it buys the answers it needs on Telegraph
 (wind, storms, rain, power price, drive time, satellite imagery). A guard checks each answer is about the right place, market,
