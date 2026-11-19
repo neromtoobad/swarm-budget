@@ -1,4 +1,4 @@
-// The fleet: four simulated machines on a real farm location. Every decision buys real Telegraph answers,
+// The fleet: five simulated machines on a real farm location. Every decision buys real Telegraph answers,
 // runs them through the guard, and only then acts. Machines never act on an answer the guard rejected.
 
 export const DEFAULT_FARM = {

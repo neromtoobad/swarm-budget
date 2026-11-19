@@ -24,6 +24,9 @@ hour and unit. If an answer fails, the machine buys again from a different miner
 | Click **Bad miner** on Mule | First purchase goes to Grid Elering (Estonia) for a California node. The guard refuses it and re-buys from a CAISO miner |
 | Type a farm in **Try your own farm** | Four machines decide for a new place on new, live answers |
 
+## Judging criteria
+The rubric from the Telegraph H2 rules, one row per criterion with where we meet it, is in [JUDGES.md](JUDGES.md#rubric-telegraph-h2-rules).
+
 ## What the guard caught on the live network
 | Asked | Miner answered | Guard |
 |---|---|---|
@@ -108,7 +111,7 @@ node tools/check-live.mjs       # in another shell
 ```
 
 ## Built at the event
-First commit 2026-11-19, after the event start (2026-11-01). Nothing was reused from earlier projects. Libraries:
+First commit 2026-11-19, after the event start (2026-11-01). Nothing was reused from earlier projects. Work was committed in batches at checkpoints, so several commits share a timestamp. The largest commit (`797fb0d`) is raw probe answers saved as evidence JSON, not code. Libraries:
 `@x402/fetch`, `@x402/evm`, `viem`, `three` (CDN). `RESEARCH.md` and `PLAN.md` hold the notes made while choosing the idea.
 
 ## AI usage
