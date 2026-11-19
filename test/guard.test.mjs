@@ -80,3 +80,12 @@ test("same town name in another country is refused (TxLens answered Kerman, Iran
     { intent: "STORM_ALERT_GENERAL", params: {}, place: KERMAN });
   assert.equal(ok.verdict, "accepted");
 });
+
+test("a satellite answer with no reading is refused (PREFLIGHT: 'the vision model was unavailable')", () => {
+  // Real answer for Salinas, California on 2026-11-19, evidence/junk-SATELLITE-no-reading.json
+  const result = { location: "36.6777,-121.6555 (Salinas, California, United States)", findings: null, capture_date: "2026-11-18", summary: null, brief: "Image fetched; the vision model was unavailable" };
+  const v = judge({ ok: true, status: 200, body: { miner_id: "20260828", result } },
+    { intent: "SATELLITE_IMAGERY_ANALYSIS_GENERAL", params: {}, place: { name: "Salinas", region: "California", lat: 36.6777, lon: -121.6555 } });
+  assert.equal(v.verdict, "rejected");
+  assert.match(v.checks.find((c) => !c.pass).why, /no reading/);
+});

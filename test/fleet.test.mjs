@@ -15,3 +15,8 @@ test("clear imagery with water is wet, without is dry", () => {
   assert.equal(readImagery({ summary: "Imagery shows standing water across the eastern fields." }), "wet");
   assert.equal(readImagery({ summary: "Fields are bare soil; no standing water or flooding." }), "dry");
 });
+
+test("imagery that says nothing either way is inconclusive, never 'dry'", () => {
+  assert.equal(readImagery({ summary: null, brief: "Image fetched; the vision model was unavailable" }), "inconclusive");
+  assert.equal(readImagery({ summary: "Green fields and a road." }), "inconclusive");
+});

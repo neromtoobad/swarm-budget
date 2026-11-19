@@ -108,8 +108,11 @@ const CHECKS = {
     const c = [];
     const pm = placeMatches(`${res.location ?? ""} ${coordsInText(res.summary).length ? res.summary : ""}`.trim() || null, ctx.place);
     c.push(pm.ok === false ? fail(pm.why) : pm.ok ? okk(pm.why) : fail("imagery not tied to a place"));
-    const s = String(res.summary ?? "");
-    if (/no image|not supplied|cannot access|can't access|unable to (view|access)|no image classification/i.test(s)) c.push(fail("no imagery was actually analysed"));
+    // The answer has to contain a reading. "Image fetched; the vision model was unavailable" is a paid non-answer.
+    const s = `${res.summary ?? ""} ${res.brief ?? ""} ${[].concat(res.findings ?? []).join(" ")}`.trim();
+    if (!res.summary && !(res.findings ?? []).length) c.push(fail(`no reading in the answer${res.brief ? ` ("${res.brief}")` : ""}`));
+    else if (/no image|not supplied|cannot access|can't access|unable to (view|access)|no image classification|model (was|is) unavailable|not analy[sz]ed/i.test(s)) c.push(fail("no imagery was actually analysed"));
+    else c.push(okk("imagery was analysed"));
     if (!res.capture_date) c.push(fail("no capture date"));
     return c;
   },
