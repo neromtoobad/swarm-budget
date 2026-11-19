@@ -1,0 +1,6 @@
+{
+  "what": "Same STORM_ALERT_GENERAL question for the Kerman, California farm, asked by name and by coordinates on 2026-11-19 (Telegraph testnet, escrow rail).",
+  "by_name": { "location": "Kerman, CA 93630, USA", "miner": "TxLens #9002", "result": { "location": "Kerman, Kerman, Iran", "risk_level": "LOW", "peak_gust_kmh": 21, "precipitation_mm": 0 } },
+  "by_coordinates": { "location": "36.7236,-120.0599", "miner": "PREFLIGHT Infrastructure Signals #20260828", "result": { "location": "36.7236, -120.0599", "risk_level": "LOW", "peak_gust_kmh": 45.7, "precipitation_mm": 0.3 } },
+  "why_it_matters": "Kite's limit is 15 km/h gusts. The Iran answer and the California answer both say hold here, but the guard must not let a 21 vs 45.7 km/h answer about another country through. Earlier the same day, by-name answers about Iran were accepted by an older guard; see junk-STORM_ALERT-kerman-iran.json. guard.mjs now refuses a same-name town in another region or country."
+}

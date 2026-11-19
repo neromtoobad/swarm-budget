@@ -29,6 +29,7 @@ export function readImagery(sat) {
   return "dry";
 }
 const placeStr = (p) => [p.name, p.region].filter(Boolean).join(", ");
+const placeFull = (p) => [p.name, p.region, p.country].filter(Boolean).join(", "); // country stops "Kerman" resolving to Iran
 const hourIso = (offsetH = 0) => new Date((Math.floor(Date.now() / 3600e3) + offsetH) * 3600e3).toISOString().replace(".000", "");
 
 // Geocode a farm typed by a visitor ("Town, Region"). Open-Meteo geocoding, no key. Setup only, not a decision input.
@@ -70,11 +71,13 @@ export function createFleet({ store, buy, emit = () => {} }) {
 
     let outcome = "unverified";
     let summary = "";
-    const where = placeStr(farm.place);
+    const where = placeFull(farm.place);
+    // Weather miners geocode names loosely ("Kerman, California" came back as Kerman, Iran), so weather asks use coordinates.
+    const at = `${farm.place.lat.toFixed(4)},${farm.place.lon.toFixed(4)}`;
 
     if (m.id === "kite") {
-      const storm = await get("STORM_ALERT_GENERAL", { location: where, window_hours: 6 });
-      const fc = storm && (await get("WEATHER_FORECAST_GENERAL", { location: where, window_hours: 6 }, { forceMinerId: undefined }));
+      const storm = await get("STORM_ALERT_GENERAL", { location: at, window_hours: 6 });
+      const fc = storm && (await get("WEATHER_FORECAST_GENERAL", { location: at, window_hours: 6 }, { forceMinerId: undefined }));
       if (!storm || !fc) summary = "Could not get a verified wind and rain answer, so the drone stays on the pad.";
       else {
         const gust = storm.peak_gust_kmh;
@@ -138,7 +141,7 @@ export function createFleet({ store, buy, emit = () => {} }) {
       }
     } else if (m.id === "ledger") {
       const yday = new Date(Date.now() - 86400e3).toISOString().slice(0, 10);
-      const rec = await get("WEATHER_FORECAST_VERIFY_GENERAL", { location: where, date: yday });
+      const rec = await get("WEATHER_FORECAST_VERIFY_GENERAL", { location: at, date: yday });
       const lastKite = store.recent(50, farm.id).find((x) => x.machine === "kite" && x.at.slice(0, 10) <= yday && x.outcome !== "unverified");
       if (!rec) summary = "Could not get verified records for yesterday, so no audit today.";
       else if (!lastKite) {
