@@ -1,0 +1,363 @@
+{
+  "at": "2026-11-19T13:00:57.948Z",
+  "request": {
+    "intent": "WEATHER_FORECAST_GENERAL",
+    "params": {
+      "location": "Fresno, California",
+      "window_hours": 24
+    }
+  },
+  "ok": true,
+  "status": 200,
+  "ms": 6661,
+  "body": {
+    "miner_id": "20260828",
+    "miner_name": "PREFLIGHT Infrastructure Signals",
+    "endpoint": "/weather",
+    "result": {
+      "location": "Fresno, California, United States",
+      "when": "the next 24 hours",
+      "temp_max_c": 13.7,
+      "temp_min_c": 5.6,
+      "precipitation_probability_pct": 64,
+      "condition": "overcast"
+    },
+    "result_shape": "intent",
+    "format_version": 4,
+    "field_status": {
+      "location": "ok",
+      "when": "ok",
+      "temp_max_c": "ok",
+      "temp_min_c": "ok",
+      "precipitation_probability_pct": "ok",
+      "condition": "ok"
+    },
+    "input": {
+      "location": "Fresno, California",
+      "window_hours": 24
+    },
+    "input_schema_version": 4,
+    "cost_usd": 0.01,
+    "duration_ms": 1434,
+    "timestamp": "2026-11-19T13:00:55.212135036Z",
+    "reasoning": "Intent: intent given by the caller\nMiner: The user is asking for a weather forecast, and the intent WEATHER_FORECAST_GENERAL is explicitly listed for the /weather endpoint. The provided parameters 'location' and 'window_hours' directly map to the optional parameters of this endpoint. The 'query' parameter is constructed to be a verbatim question that includes the provided location and window_hours, as required by the endpoint description.",
+    "intent": "WEATHER_FORECAST_GENERAL",
+    "intent_version": 1,
+    "signal_hash": "0x34d7ba2318894677acd29365acea87f2fc12b8a9ce85e90fa624e9e875231ab5",
+    "cost_usd_total": 0.01,
+    "delivery": "specialist",
+    "served_rank": 1,
+    "sources": [
+      {
+        "miner": "a1-preflight",
+        "intent": "WEATHER_FORECAST_GENERAL"
+      }
+    ],
+    "findings": {
+      "items": [
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "2026-11-19T13:00:54.090Z",
+          "name": "checked_at",
+          "path": "$.checked_at",
+          "type": "date",
+          "value": "2026-11-19T13:00:54.090Z"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "overcast",
+          "name": "condition",
+          "path": "$.condition",
+          "type": "string",
+          "value": "overcast"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "0.9",
+          "name": "confidence",
+          "path": "$.confidence",
+          "type": "number",
+          "value": 0.9
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "true",
+          "name": "found",
+          "path": "$.found",
+          "type": "bool",
+          "value": true
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "36.74773",
+          "name": "latitude",
+          "path": "$.latitude",
+          "type": "number",
+          "value": 36.74773
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "Fresno, California, United States",
+          "name": "location",
+          "path": "$.location",
+          "type": "string",
+          "value": "Fresno, California, United States"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "-119.77237",
+          "name": "longitude",
+          "path": "$.longitude",
+          "type": "number",
+          "value": -119.77237
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "2026-11-19T13:00Z",
+          "name": "observed_at",
+          "path": "$.observed_at",
+          "type": "date",
+          "value": "2026-11-19T13:00Z"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "48.6",
+          "name": "peak_gust_kmh",
+          "path": "$.peak_gust_kmh",
+          "type": "number",
+          "value": 48.6
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "24.1",
+          "name": "peak_wind_kmh",
+          "path": "$.peak_wind_kmh",
+          "type": "number",
+          "value": 24.1
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "5.8",
+          "name": "precipitation_mm",
+          "path": "$.precipitation_mm",
+          "type": "number",
+          "value": 5.8
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "64",
+          "name": "precipitation_probability_pct",
+          "path": "$.precipitation_probability_pct",
+          "type": "integer",
+          "value": 64
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "Forecast for Fresno, California, United States over the next 24 hours: overcast, a high of 13.7 °C and a low of 5.6 °C, up to 64% chance of precipitation totalling 5.8 mm, sustained wind up to 24.1 km/h, gusts up to 48.6 km/h (Open-Meteo)...",
+          "name": "reason",
+          "path": "$.reason",
+          "type": "string",
+          "value": "Forecast for Fresno, California, United States over the next 24 hours: overcast, a high of 13.7 °C and a low of 5.6 °C, up to 64% chance of precipitation totalling 5.8 mm, sustained wind up to 24.1 km/h, gusts up to 48.6 km/h (Open-Meteo). The current air temperature in Fresno, California, United States is 10.4 °C, per Open-Meteo at 2026-11-19T13:00Z; MET Norway Locationforecast reads 10.6 °C and NOAA METAR (KFCH, 4.6 km away) reads 11 °C, within 0.6 °C of it. Over the next 24 hours expect overcast, a high of 13.7 °C and a low of 5.6 °C, up to 64% chance of precipitation totalling 5.8 mm, and gusts up to 48.6 km/h; storm risk is LOW (0.207)."
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "LOW",
+          "name": "risk_level",
+          "path": "$.risk_level",
+          "type": "string",
+          "value": "LOW"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "0.207",
+          "name": "risk_score",
+          "path": "$.risk_score",
+          "type": "number",
+          "value": 0.207
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "Open-Meteo, MET Norway, NOAA METAR",
+          "name": "source",
+          "path": "$.source",
+          "type": "string",
+          "value": "Open-Meteo, MET Norway, NOAA METAR"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "13.7",
+          "name": "temp_max_c",
+          "path": "$.temp_max_c",
+          "type": "number",
+          "value": 13.7
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "5.6",
+          "name": "temp_min_c",
+          "path": "$.temp_min_c",
+          "type": "number",
+          "value": 5.6
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "10.4",
+          "name": "temperature_c",
+          "path": "$.temperature_c",
+          "type": "number",
+          "value": 10.4
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "2026-11-19T13:00Z",
+          "name": "at",
+          "path": "$.temperature_sources[0].at",
+          "type": "date",
+          "value": "2026-11-19T13:00Z"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "Open-Meteo",
+          "name": "source",
+          "path": "$.temperature_sources[0].source",
+          "type": "string",
+          "value": "Open-Meteo"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "2026-11-19T13:00:00Z",
+          "name": "at",
+          "path": "$.temperature_sources[1].at",
+          "type": "date",
+          "value": "2026-11-19T13:00:00Z"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "MET Norway Locationforecast",
+          "name": "source",
+          "path": "$.temperature_sources[1].source",
+          "type": "string",
+          "value": "MET Norway Locationforecast"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "10.6",
+          "name": "temperature_c",
+          "path": "$.temperature_sources[1].temperature_c",
+          "type": "number",
+          "value": 10.6
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "2026-11-19T12:55:00.000Z",
+          "name": "at",
+          "path": "$.temperature_sources[2].at",
+          "type": "date",
+          "value": "2026-11-19T12:55:00.000Z"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "KFCH, 4.6 km away",
+          "name": "detail",
+          "path": "$.temperature_sources[2].detail",
+          "type": "string",
+          "value": "KFCH, 4.6 km away"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "NOAA METAR",
+          "name": "source",
+          "path": "$.temperature_sources[2].source",
+          "type": "string",
+          "value": "NOAA METAR"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "11",
+          "name": "temperature_c",
+          "path": "$.temperature_sources[2].temperature_c",
+          "type": "integer",
+          "value": 11
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "found",
+          "name": "verdict",
+          "path": "$.verdict",
+          "type": "string",
+          "value": "found"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "the next 24 hours",
+          "name": "when",
+          "path": "$.when",
+          "type": "string",
+          "value": "the next 24 hours"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "2026-11-19T13:00Z to 2026-11-20T12:00Z (24 hours)",
+          "name": "window",
+          "path": "$.window",
+          "type": "string",
+          "value": "2026-11-19T13:00Z to 2026-11-20T12:00Z (24 hours)"
+        },
+        {
+          "basis": "provider_reported",
+          "delivery": "specialist",
+          "evidence": "24",
+          "name": "window_hours",
+          "path": "$.window_hours",
+          "type": "integer",
+          "value": 24
+        }
+      ],
+      "raw_sha256": "8dfbe40d05d7cd1397b8100cfef654705c4f1aa1d7128410bad39e814b49cb10"
+    }
+  },
+  "receipt": {
+    "receipt_hash": "0x33b09486d9fd5c17da84470fc767be7c2c56546ccbb7758ad1dd9851f78a3929",
+    "rail": "escrow",
+    "payer": "0x8482e592d6b28d3f5b713cc4576d6ce216b2a78e",
+    "miner": "5311",
+    "intent": "WEATHER_FORECAST_GENERAL",
+    "amount_uusdc": "10000",
+    "epoch_id": 17,
+    "settlement": "epoch",
+    "chain": "telegraph",
+    "timestamp": 1795093257
+  },
+  "rail": "escrow"
+}
