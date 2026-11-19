@@ -26,7 +26,7 @@ export function readImagery(sat) {
   if (/cloud|obscur|impossible to (determine|tell|observe)|cannot (determine|tell|see)|not visible|unclear|inconclusive/i.test(text)) return "inconclusive";
   if (/\bno (visible |signs? of )?(standing water|flood|ponding)/i.test(text)) return "dry";
   if (/(shows?|visible|evidence of|detected|observed)[^.]{0,50}(standing water|flood|ponding|inundat)/i.test(text)) return "wet";
-  return "dry";
+  return "inconclusive"; // no clear statement either way is not a reason to act
 }
 const placeStr = (p) => [p.name, p.region].filter(Boolean).join(", ");
 const placeFull = (p) => [p.name, p.region, p.country].filter(Boolean).join(", "); // country stops "Kerman" resolving to Iran
@@ -62,9 +62,11 @@ export function createFleet({ store, buy, emit = () => {} }) {
     if (!m) throw new Error(`unknown machine ${machineId}`);
     const ctx = { farm: farm.id, machine: m.id, place: farm.place, forceMinerId: opts.forceMinerId };
     const bought = [];
+    let silent = false; // true when the last question got no answer at all (errors or timeouts), as opposed to answers the guard refused
     const get = async (intent, params, extra = {}) => {
       const r = await buy({ ...ctx, intent, params, ...extra });
       bought.push(...r.attempts);
+      silent = !r.accepted && r.attempts.every((a) => a.verdict !== "rejected");
       return r.accepted?.result ? JSON.parse(JSON.stringify(r.accepted.result)) : null;
     };
     emit({ type: "thinking", farm: farm.id, machine: m.id });
@@ -126,8 +128,10 @@ export function createFleet({ store, buy, emit = () => {} }) {
       const sat = await get("SATELLITE_IMAGERY_ANALYSIS_GENERAL", {
         location: `${lat.toFixed(4)},${lon.toFixed(4)} (${where})`,
         question: `Is there standing water or flooding in the fields? image_url=${img}`,
-      });
-      if (!sat) summary = "No satellite answer passed the checks (wrong place or no imagery analysed), so irrigation stays on its schedule.";
+      }, { prefer: ["visionwire", "satellite", "imagery", "preflight"] }); // on a re-buy, try imagery miners before the earthquake feeds listed under this intent
+      if (!sat) summary = silent
+        ? "No satellite miner answered (the network returned errors), so irrigation stays on its normal schedule."
+        : "No satellite answer passed the checks (wrong place, or no imagery analysed), so irrigation stays on its normal schedule.";
       else {
         const read = readImagery(sat);
         if (read === "inconclusive") {

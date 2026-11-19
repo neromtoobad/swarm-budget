@@ -10,6 +10,8 @@ export const BASE_SEPOLIA_USDC = "0x036CbD53842c5426634e7929541eC2318f3dCF7e"; /
 
 const b64json = (s) => (s ? JSON.parse(Buffer.from(s, "base64").toString("utf8")) : null);
 
+const ASK_TIMEOUT_MS = Number(process.env.ASK_TIMEOUT_MS || 90_000);
+
 export function createTelegraph({
   node = process.env.TELEGRAPH_NODE || "https://devnode.telegraphprotocol.com",
   privateKey = process.env.EVM_PRIVATE_KEY,
@@ -67,7 +69,8 @@ export function createTelegraph({
       const url = node + askPath(minerId);
       const headers = { "Content-Type": "application/json" };
       const started = Date.now();
-      const first = await fetch(url, { method: "POST", headers, body: JSON.stringify(body) });
+      // a miner that never answers must not hang the fleet: time out, record a failed attempt, buy from the next one
+      const first = await fetch(url, { method: "POST", headers, body: JSON.stringify(body), signal: AbortSignal.timeout(30_000) });
       if (first.status !== 402) {
         return { ok: first.ok, status: first.status, ms: Date.now() - started, body: await first.json().catch(() => null), receipt: null };
       }
@@ -95,7 +98,7 @@ export function createTelegraph({
       const payment = Buffer.from(
         JSON.stringify({ x402Version: 2, scheme: "escrow", network: escrow.network, payload: { signature, authorization } }),
       ).toString("base64");
-      const r = await fetch(url, { method: "POST", headers: { ...headers, "X-PAYMENT": payment }, body: JSON.stringify(body) });
+      const r = await fetch(url, { method: "POST", headers: { ...headers, "X-PAYMENT": payment }, body: JSON.stringify(body), signal: AbortSignal.timeout(ASK_TIMEOUT_MS) });
       const text = await r.text();
       let json = null;
       try { json = JSON.parse(text); } catch {}

@@ -4,7 +4,7 @@ import { judge } from "./guard.mjs";
 const MAX_REBUYS = Number(process.env.MAX_REBUYS ?? 2);
 const MINER_CACHE_MS = 10 * 60e3;
 
-export function createBuyer({ tg, store, budget, onPurchase = () => {} }) {
+export function createBuyer({ tg, store, budget, onPurchase = () => {}, onAsk = () => {} }) {
   const minerCache = new Map();
 
   async function compatibleMiners(intent) {
@@ -39,13 +39,18 @@ export function createBuyer({ tg, store, budget, onPurchase = () => {} }) {
   return async function buy(ctx) {
     const attempts = [];
     const tried = new Set();
-    let miner = ctx.forceMinerId ? { id: String(ctx.forceMinerId) } : null; // null = let Telegraph route to its top-ranked miner
+    let miner = null; // null = let Telegraph route to its top-ranked miner
+    if (ctx.forceMinerId) {
+      const known = (await compatibleMiners(ctx.intent).catch(() => [])).find((m) => m.id === String(ctx.forceMinerId));
+      miner = { id: String(ctx.forceMinerId), name: known?.name ?? null };
+    }
     for (let attempt = 1; attempt <= 1 + MAX_REBUYS; attempt++) {
       const gate = budget.canSpend();
       if (!gate.ok) {
         attempts.push({ attempt, verdict: "skipped", checks: [{ pass: false, why: gate.why }] });
         break;
       }
+      onAsk({ farm: ctx.farm, machine: ctx.machine, intent: ctx.intent, attempt, routed: miner ? "direct" : "telegraph", miner_name: miner?.name ?? null });
       const resp = await tg.askEscrow({ intent: ctx.intent, params: ctx.params }, { minerId: miner?.id }).catch((e) => ({
         ok: false, status: 0, body: { reason: String(e.message || e) },
       }));
