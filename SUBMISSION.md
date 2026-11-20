@@ -35,7 +35,7 @@ Everything the H2 submission form asks for (rules, section 08), in the order the
 - X update 1: **[you]** link
 - X update 2: **[you]** link
 - X update 3: **[you]** link
-- Tutorial: [Pay for an answer on Telegraph from Node, check it, and buy again when it's wrong](https://github.com/neromtoobad/swarm-budget/blob/main/docs/TUTORIAL.md), with a one-file example, [examples/pay-and-check.mjs](https://github.com/neromtoobad/swarm-budget/blob/main/examples/pay-and-check.mjs)
+- Tutorial: [Pay for an answer on Telegraph from Node, check it, and buy again when it's wrong](https://github.com/neromtoobad/swarm-budget/blob/main/docs/TUTORIAL.md), with a one-file example, [examples/pay-and-check.mjs](https://github.com/neromtoobad/swarm-budget/blob/main/examples/pay-and-check.mjs). Also on DEV: **[you]** add the public dev.to link once the draft (staged Nov 20) is published
 - Bounty progress: [#199 /progress](https://github.com/telegraphprotocol/bounties/issues/199), [#194 /progress](https://github.com/telegraphprotocol/bounties/issues/194)
 - Evidence for another builder's network report: [#211](https://github.com/telegraphprotocol/bounties/issues/211). A storm miner resolved "Kerman, California" to Iran.
 - Independent developer testing: none to report yet. **[you]** add any outside tester or issue here.
