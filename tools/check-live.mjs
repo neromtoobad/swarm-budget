@@ -108,5 +108,18 @@ await check("cost report matches the decisions", async () => {
   return `$${c.per_hour_usd} per hour of work over ${c.operating_hours} h, $${c.per_job_usd} per job (${done} jobs), mean recovery ${c.mean_recovery_s ?? "n/a"} s`;
 });
 
+await check("forecast scores match the answers they were built from", async () => {
+  const f = state.forecasts;
+  must(f, "no forecast report in /api/state");
+  must(f.scored + f.waiting === f.forecasts, "scored + waiting does not add up");
+  for (const p of f.rows) {
+    must(p.forecast_signal && p.record_signal, `${p.date}: a scored pair without both signal hashes`);
+    const rained = p.recorded.rain_mm >= 1;
+    if (p.rain_call_right != null) must(p.rain_call_right === ((p.said.rain_pct >= 50) === rained), `${p.date}: rain call does not follow from the numbers`);
+    if (p.brier != null) must(Math.abs(p.brier - (p.said.rain_pct / 100 - (rained ? 1 : 0)) ** 2) < 1e-3, `${p.date}: Brier score does not follow from the numbers`);
+  }
+  return f.scored ? `${f.scored} checked, rain right ${f.rain_calls_right}/${f.rain_calls}, Brier ${f.brier}, high miss ${f.high_mae_c ?? "n/a"} °C` : `${f.waiting} forecast(s) waiting for their day's record`;
+});
+
 console.log(failed ? `\n${failed} check(s) failed` : "\nall checks passed");
 process.exit(failed ? 1 : 0);

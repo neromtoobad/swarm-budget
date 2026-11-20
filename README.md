@@ -18,13 +18,14 @@ hour and unit. If an answer fails, the machine buys again from a different miner
 ## For judges: verify in 2 minutes
 | Do this | You see |
 |---|---|
-| `npm install && npm test` | 29 tests. Guard tests run on real answers saved in `evidence/`, including the Kerman, Iran one. Failure tests (`test/failures.test.mjs`) replay saved answers through the real buyer, guard and fleet |
+| `npm install && npm test` | 37 tests. Guard tests run on real answers saved in `evidence/`, including the Kerman, Iran one. Failure tests (`test/failures.test.mjs`) replay saved answers through the real buyer, guard and fleet |
 | `node tools/check-live.mjs` (against a running app) | PASS/FAIL for each claim below, read from the app and the public Telegraph node |
 | Open the app and click **Run now** on Kite | The camera moves to Kite and a pulse leaves the telegraph mast. A card opens with the miner's answer, each guard check ticks in, then **Accepted** or **Refused**. The receipt lands on the right with a signal link to the node and the escrow receipt |
 | Click **Bad miner** on Mule | First purchase goes to Grid Elering (Estonia) for a California node. The guard refuses it and re-buys from a CAISO miner |
 | Click **Revoke pay** on Kite | Kite buys its storm alert (one real cent), then the owner's permission is withdrawn. The forecast is never bought and Kite stays put: "Stopped mid-task…" |
 | Click **Unplug sensor** on Haul | Haul's reefer thermometer is offline. Haul holds the load and buys nothing ($0.00) |
 | Scroll to **What an hour of work costs** | Cost per hour of machine work, per finished job, mean seconds to recover from a refused answer, and the spend on calls that did not act, overall and per machine, with what each machine has spent today of its own share |
+| Scroll to **Did the forecast come true?** | Every forecast the fleet bought, scored once its day is over against the recorded weather Ledger bought for that day: rain calls right, Brier score, and the average miss on the day's high and low, by site and horizon (24 h and 6 h), with signal links to both answers |
 | Type a farm in **Try your own farm** | Four machines decide for a new place on new, live answers |
 
 ## Mission 11 fit (Autonomous Systems, route 1 "Budget per machine")
@@ -32,13 +33,26 @@ The [mission 11 bounty](https://github.com/telegraphprotocol/bounties/issues/199
 
 | Mission asks for | Here | Where |
 |---|---|---|
-| Cost per operating hour and per completed job | Every cent spent, divided by the hours of work it released and by the jobs done. Hours per job are simulated (Kite 1.5 h, Mule 1 h, Lark 3 h); Haul's are the real drive time there and back plus 20 min | `server/src/costs.mjs:28`, `server/src/fleet.mjs:24`, `:198` |
+| Cost per operating hour and per completed job | Every cent spent, divided by the hours of work it released and by the jobs done. Hours per job are simulated (Kite 1.5 h, Mule 1 h, Lark 3 h); Haul's are the real drive time there and back plus 20 min | `server/src/costs.mjs:28`, `server/src/fleet.mjs:26`, `:212` |
 | Mean recovery time | Seconds from a refused or failed answer to the accepted re-buy that replaced it | `server/src/costs.mjs:8` |
-| A finite budget allocated to distinct assets | One daily pool split by weight: Kite and Mule 25%, Lark 20%, Haul and Ledger 15% (`MACHINE_SHARES` overrides). A machine whose share is spent stops buying and says so; the others keep theirs. The budget meter shows one segment per machine | `server/src/budget.mjs:28-36`, `server/src/fleet.mjs:15-21`, `test/budget.test.mjs` |
-| Unsafe action prevention | A machine acts only on accepted answers; refusals are counted and shown | `server/src/fleet.mjs:75-84` |
+| A finite budget allocated to distinct assets | One daily pool split by weight: Kite and Mule 25%, Lark 20%, Haul and Ledger 15% (`MACHINE_SHARES` overrides). A machine whose share is spent stops buying and says so; the others keep theirs. The budget meter shows one segment per machine | `server/src/budget.mjs:28-36`, `server/src/fleet.mjs:17-24`, `test/budget.test.mjs` |
+| Unsafe action prevention | A machine acts only on accepted answers; refusals are counted and shown | `server/src/fleet.mjs:78-87` |
 | Uncertain perception | Cloud-covered or empty satellite reads are inconclusive or refused, so Lark keeps the irrigation schedule | `server/src/fleet.mjs` `readImagery`, `test/fleet.test.mjs` |
-| Disconnected sensor | A machine whose own sensor is offline holds and buys nothing, since no answer could make the job safe | `server/src/fleet.mjs:93-96`, test "disconnected sensor" |
-| Revoked spend authorization | Checked before every purchase. Mid-task (simulated owner, real purchases) or the owner's standing switch (`POST /api/authority` with `OWNER_TOKEN`). Nothing is bought after the withdrawal and the machine does not act on half the evidence | `server/src/buyer.mjs:49`, `server/src/fleet.mjs:80-83`, `:186-190`, `server/src/budget.mjs:30`, `server/src/server.mjs:27`, `:132-140`, tests "revoked spend authorization…" and "owner's standing revocation" |
+| Disconnected sensor | A machine whose own sensor is offline holds and buys nothing, since no answer could make the job safe | `server/src/fleet.mjs:95-98`, test "disconnected sensor" |
+| Revoked spend authorization | Checked before every purchase. Mid-task (simulated owner, real purchases) or the owner's standing switch (`POST /api/authority` with `OWNER_TOKEN`). Nothing is bought after the withdrawal and the machine does not act on half the evidence | `server/src/buyer.mjs:49`, `server/src/fleet.mjs:82-85`, `:200-204`, `server/src/budget.mjs:30`, `server/src/server.mjs:28`, `:134-141`, tests "revoked spend authorization…" and "owner's standing revocation" |
+
+## Mission 06 fit (Resources & Agriculture)
+The [mission 06 bounty](https://github.com/telegraphprotocol/bounties/issues/194) is about agriculture and resource decisions that rely on paid intelligence. A farm that pays for forecasts should know whether they come true, so the fleet scores its own forecasts against the recorded weather, both bought on Telegraph:
+
+| What it measures | How | Where |
+|---|---|---|
+| Rain call right or wrong | A forecast of 50% or more says "rain"; the day counts as rainy from 1 mm recorded | `server/src/forecast-check.mjs:33-63` |
+| Rain score (Brier) | (forecast probability − what happened)², averaged; 0 is perfect, 0.25 a coin flip | `server/src/forecast-check.mjs:58` |
+| Temperature error | Forecast high and low minus the recorded high and low, averaged as absolute misses (24-hour forecasts only) | `server/src/forecast-check.mjs:59-60` |
+| By site and horizon | Grouped per farm and per forecast horizon: Ledger's 24-hour forecasts, and Kite's 6-hour pre-spray forecasts (rain only, scored against the whole day) | `server/src/forecast-check.mjs:89-104` |
+| Records are bought, not assumed | Each run Ledger buys yesterday's record plus the oldest day a past forecast is still waiting on (up to 10 days back), then buys a fresh 24-hour forecast to be checked later. A record that is not published yet leaves the forecast waiting, and it is asked again on the next run | `server/src/fleet.mjs:170-183`, `server/src/forecast-check.mjs:66-69` |
+
+Tests: `test/forecast-check.test.mjs` (8 tests, including Ledger run through the real buyer and guard on saved answers). Served in `/api/state` as `forecasts` (`server/src/server.mjs:107`); check-live: "forecast scores match the answers they were built from".
 
 ## Judging criteria
 The rubric from the Telegraph H2 rules, one row per criterion with where we meet it, is in [JUDGES.md](JUDGES.md#rubric-telegraph-h2-rules).
@@ -61,14 +75,15 @@ The rubric from the Telegraph H2 rules, one row per criterion with where we meet
 | Refuses a same-name town in another region or country | `server/src/guard.mjs:41-47` | test "same town name in another country is refused" |
 | Refuses a satellite answer that holds no reading | `server/src/guard.mjs:113-114` | test "a satellite answer with no reading is refused" |
 | Re-buys from the next compatible miner, ranked by our own pass rate per miner | `server/src/buyer.mjs:20-35`, `:75` | check-live: "guard has refused… and a re-buy followed" |
-| Never acts on a refused answer | `server/src/fleet.mjs:75-84` (`get()` returns only accepted results) | check-live: "no machine acted on a refused answer" |
-| One shared daily budget, split into a share per machine; a machine stops buying when its share or the day is spent, and the others keep theirs | `server/src/budget.mjs:28-36`, `server/src/buyer.mjs:49-53`, shares in `server/src/fleet.mjs:15-21` | `test/budget.test.mjs`; check-live: "daily budget is enforced", "no machine spent past its share" |
-| Withdrawn spending permission stops the very next purchase | `server/src/buyer.mjs:49`, `server/src/fleet.mjs:80-83` | test "revoked spend authorization mid-task…"; check-live: "revoked-pay runs bought nothing after the withdrawal" |
-| A machine with an offline sensor buys nothing | `server/src/fleet.mjs:93-96` | test "disconnected sensor…"; check-live: "unplugged-sensor runs spent nothing" |
-| Reports cost per operating hour, per completed job and mean recovery time | `server/src/costs.mjs:8`, `:28`; served in `/api/state` as `costs` (`server/src/server.mjs:105`) | test "a completed Haul job records the round trip…"; check-live: "cost report matches the decisions" |
-| Weather asks use coordinates, because names resolved to the wrong country | `server/src/fleet.mjs:98-99` | `evidence/name-vs-coordinates-STORM_ALERT.json` |
-| Satellite read passes real NASA GIBS imagery of the farm to the miner | `server/src/fleet.mjs:149-152` | the "Satellite read" question carries `image_url=` |
-| The page animates a purchase only when one happened: the pulse starts on the server's `asking` event and lands on its `purchase` event | `server/src/server.mjs:33-34`, `web/app.js:437-439` | watch the network tab: one `/api/stream` event per pulse |
+| Never acts on a refused answer | `server/src/fleet.mjs:78-87` (`get()` returns only accepted results) | check-live: "no machine acted on a refused answer" |
+| One shared daily budget, split into a share per machine; a machine stops buying when its share or the day is spent, and the others keep theirs | `server/src/budget.mjs:28-36`, `server/src/buyer.mjs:49-53`, shares in `server/src/fleet.mjs:17-24` | `test/budget.test.mjs`; check-live: "daily budget is enforced", "no machine spent past its share" |
+| Withdrawn spending permission stops the very next purchase | `server/src/buyer.mjs:49`, `server/src/fleet.mjs:82-85` | test "revoked spend authorization mid-task…"; check-live: "revoked-pay runs bought nothing after the withdrawal" |
+| A machine with an offline sensor buys nothing | `server/src/fleet.mjs:95-98` | test "disconnected sensor…"; check-live: "unplugged-sensor runs spent nothing" |
+| Reports cost per operating hour, per completed job and mean recovery time | `server/src/costs.mjs:8`, `:28`; served in `/api/state` as `costs` (`server/src/server.mjs:106`) | test "a completed Haul job records the round trip…"; check-live: "cost report matches the decisions" |
+| Scores every bought forecast against the recorded weather for its day, by site and horizon | `server/src/forecast-check.mjs`, `server/src/fleet.mjs:170-183` | `test/forecast-check.test.mjs`; check-live: "forecast scores match the answers they were built from" |
+| Weather asks use coordinates, because names resolved to the wrong country | `server/src/fleet.mjs:100-101` | `evidence/name-vs-coordinates-STORM_ALERT.json` |
+| Satellite read passes real NASA GIBS imagery of the farm to the miner | `server/src/fleet.mjs:151-155` | the "Satellite read" question carries `image_url=` |
+| The page animates a purchase only when one happened: the pulse starts on the server's `asking` event and lands on its `purchase` event | `server/src/server.mjs:34-35`, `web/app.js:480-482` | watch the network tab: one `/api/stream` event per pulse |
 
 ## Not built yet
 - Real hardware. The machines are simulated: positions and motion in the 3D view are animation only. Motion follows real outcomes (Kite sprays only after an accepted "act", Haul leaves only when the drive fits), but nothing physical moves.
@@ -101,7 +116,7 @@ node, and a satellite answer about Illinois. A spray drone acting on the first o
 - **The inspection card** opens over the machine: the question in plain words, who answered, what they said, each guard
   check, then a stamp: Accepted, Refused or No answer.
 - **Receipts** (right) show today's spend against the budget and each decision's purchases, with signal and escrow links.
-- **Below the fold:** what the guard refused, every miner's record, what an hour of work costs (overall and per machine), three failure tests you can run, one real decision as the four-step example, "Try your
+- **Below the fold:** what the guard refused, every miner's record, what an hour of work costs (overall and per machine), three failure tests you can run, whether the forecasts came true, one real decision as the four-step example, "Try your
   own farm", and the escrow account numbers read from the node.
 
 ## How it works
@@ -110,7 +125,8 @@ node, and a satellite answer about Illinois. A spray drone acting on the first o
 3. The guard checks the answer against what was asked: place (by coordinates or by name with region/country), node, currency, hour, plausible ranges, and whether imagery was really analysed (`server/src/guard.mjs`).
 4. If it fails, the buyer picks the next compatible miner from `/engine/v1/intents/{intent}/miners`, skipping miners that keep failing, and buys again (`server/src/buyer.mjs`).
 5. Before every purchase the buyer checks the spending permission (the owner's switch and the decision's own mandate), the day's budget and the machine's own share of it (`server/src/budget.mjs`). A machine whose own sensor is offline buys nothing.
-6. The machine acts or holds only on accepted answers. Every purchase, verdict, receipt and signal hash goes to SQLite (`server/src/store.mjs`) and streams to the page over SSE (`server/src/server.mjs`). Each completed job records its hours of work, which `server/src/costs.mjs` turns into cost per hour and per job.
+6. Ledger, once a day, buys the recorded weather for days that past forecasts covered and scores them (`server/src/forecast-check.mjs`).
+7. The machine acts or holds only on accepted answers. Every purchase, verdict, receipt and signal hash goes to SQLite (`server/src/store.mjs`) and streams to the page over SSE (`server/src/server.mjs`). Each completed job records its hours of work, which `server/src/costs.mjs` turns into cost per hour and per job.
 
 ## Telegraph integration
 - **Intents used:** `STORM_ALERT_GENERAL`, `WEATHER_FORECAST_GENERAL`, `GRID_POWER_PRICE_GENERAL`, `ROUTE_ETA_GENERAL`,

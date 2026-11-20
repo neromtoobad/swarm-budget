@@ -10,6 +10,7 @@ No wallet or sign-in needed. Everything below runs against the public Telegraph 
 | Click **Revoke pay** on Kite | Kite buys one answer, then the owner's permission is withdrawn (simulated). No second purchase is made, and Kite stays put: "Stopped mid-task…" |
 | Click **Unplug sensor** on Haul | Haul's reefer thermometer is offline (simulated). Haul holds the load and the receipt says "Nothing paid" |
 | Scroll to **What an hour of work costs** | Cost per hour of machine work and per finished job, mean recovery time after a refused answer, per machine |
+| Scroll to **Did the forecast come true?** | Each forecast the fleet bought, scored against the recorded weather for its day (also bought): rain calls right, Brier score, high/low miss, by site and horizon |
 | Type `Salinas, California` in **Try your own farm** | A new location, new live answers, four decisions |
 | `node tools/check-live.mjs <app-url>` | PASS/FAIL per claim, checked against the node, not just our database |
 | `npm test` | Guard tests built on real junk answers saved in `evidence/` |
@@ -21,6 +22,7 @@ No wallet or sign-in needed. Everything below runs against the public Telegraph 
 - **Budget spent:** set `DAILY_BUDGET_USD=0.02` and run Kite twice. The second decision pays for nothing, because the buyer stops before paying (`server/src/buyer.mjs:49-53`), and the drone stays on the pad.
 - **One machine's share spent:** set `DAILY_BUDGET_USD=0.06` and run Kite: its share ($0.015) covers one answer, so the forecast is not bought and Kite says "No purchase was made: Kite's share of today's budget… is spent". Run Haul next and it still buys and decides. Tests: `test/budget.test.mjs`. The budget meter on the page has one segment per machine.
 - **Revoked spend authorization:** Kite's **Revoke pay**, or locally set `OWNER_TOKEN=x` and `curl -X POST localhost:4380/api/authority -H "Authorization: Bearer x" -d '{"revoked":true}'`. Every machine then buys nothing and says why. Tests: "revoked spend authorization mid-task…", "owner's standing revocation…".
+- **Record not published yet:** when the recorded weather for a forecast's day comes back without values, the guard refuses it, the forecast stays waiting, and Ledger asks for that day again on its next run. Test: "a day whose record is not published yet stays waiting…".
 - **Disconnected sensor:** Haul's **Unplug sensor**. Test: "disconnected sensor: Haul holds the load and buys nothing".
 
 ## Rubric (Telegraph H2 /rules)
@@ -28,6 +30,7 @@ No wallet or sign-in needed. Everything below runs against the public Telegraph 
 |---|---|
 | Technical quality and mainnet readiness (35) | Escrow payment client written from the 402 challenge (`server/src/telegraph.mjs`), guard with tests on real failures, re-buy ranking, budget, spending permission checked before every purchase, SQLite ledger, SSE. Only the node URL and key change for mainnet |
 | Mission 11 measures | Cost per operating hour and per completed job, mean recovery time, refusals counted (`server/src/costs.mjs`); the three named tests (uncertain perception, disconnected sensor, revoked spend authorization) are buttons on the page and unit tests. See README "Mission 11 fit" |
+| Mission 06 measures | Forecast error by site and horizon: rain calls right, Brier score, temperature miss, each forecast paired with the recorded weather bought for its day (`server/src/forecast-check.mjs`). See README "Mission 06 fit" |
 | Commercial viability (25) | Any machine operator buying data per decision needs the same thing: don't act on a confident answer about the wrong place. The guard and buyer are separate modules (`guard.mjs`, `buyer.mjs`) |
 | Telegraph integration and usage quality (5) | 7 intents, routed and direct asks, miner discovery for re-buys, signal and ledger endpoints for proof |
 | Reproducibility and verifiable proof (5) | `.env.example`, `npm test`, `tools/check-live.mjs`, `evidence/` |
