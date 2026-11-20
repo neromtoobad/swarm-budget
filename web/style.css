@@ -242,6 +242,16 @@ h1 .w { display: inline-block; opacity: 0; transform: translateY(0.5em); animati
 .crow .share i { display: block; height: 5px; border-radius: 5px; background: var(--ok-bg); overflow: hidden; max-width: 140px; }
 .crow .share u { display: block; height: 100%; background: var(--ok); border-radius: 5px; }
 .crow .share.full u { background: var(--bad); }
+.frow { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.7fr) repeat(4, minmax(0, 1fr)); gap: 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line-2); font-size: 14px; font-variant-numeric: tabular-nums; }
+.frow.pair { grid-template-columns: minmax(0, 1fr) minmax(0, 0.6fr) minmax(0, 1.4fr) minmax(0, 1.2fr) minmax(0, 0.7fr) minmax(0, 1.2fr); }
+.frow.head { border-top: 0; font-size: 12.5px; color: var(--muted); padding-top: 0; }
+.frow small { color: var(--muted); font-size: 12.5px; }
+.frow .ok { color: var(--ok); font-weight: 500; }
+.frow .bad { color: var(--bad); font-weight: 500; }
+.frow .proof { display: flex; gap: 10px; flex-wrap: wrap; font-size: 13px; }
+.frow .proof a { color: var(--ink-2); }
+.board .empty { padding: 12px 0 14px; color: var(--muted); font-size: 14.5px; }
+#forecast .board + .board { margin-top: 12px; }
 .sec-head.sub { margin-top: 56px; }
 .sec-head.sub h3 { font-size: 24px; font-weight: 500; letter-spacing: -0.03em; }
 .sec-head.sub p { font-size: 15.5px; margin-top: 8px; }
@@ -353,6 +363,11 @@ h1 .w { display: inline-block; opacity: 0; transform: translateY(0.5em); animati
   .tile b { font-size: 32px; }
   .crow { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) repeat(2, minmax(0, 0.8fr)); gap: 6px; font-size: 13px; }
   .crow > :nth-child(4), .crow > :nth-child(5) { display: none; }
+  .frow { grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.6fr) repeat(2, minmax(0, 1fr)); gap: 6px; font-size: 13px; }
+  .frow > :nth-child(5), .frow > :nth-child(6) { display: none; }
+  .frow.pair { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 0.7fr); }
+  .frow.pair > :nth-child(2), .frow.pair > :nth-child(6) { display: none; }
+  .frow.pair > :nth-child(5) { display: block; }
   .crow .who img { display: none; }
   .steps { grid-template-columns: minmax(0, 1fr); }
   .try form { grid-template-columns: minmax(0, 1fr); }

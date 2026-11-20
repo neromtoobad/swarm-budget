@@ -187,6 +187,36 @@ function renderCost() {
       <button class="btn quiet" data-run="${f.machine}" data-test="${f.test}">Run it on ${esc(nameOf(f.machine))}</button></article>`;
   }).join("");
 }
+function renderForecast() {
+  const f = state.forecasts;
+  if (!f) return;
+  const tile = (v, label, note) => `<div class="tile"><b>${v}</b><span>${label}</span><small>${note}</small></div>`;
+  const pct = (a, b) => (b ? `${Math.round((a / b) * 100)}%` : "none yet");
+  const deg = (v) => (v == null ? "none yet" : `${v} °C`);
+  const waitNote = f.next?.[0] ? `next: the ${f.next[0].horizon_h}-hour forecast for ${f.next[0].date}` : "no forecast waiting";
+  $("#f-tiles").innerHTML = [
+    tile(String(f.scored), "forecasts checked", `${f.waiting} waiting for their day to end or its record; ${waitNote}`),
+    tile(pct(f.rain_calls_right, f.rain_calls), "rain calls right", f.rain_calls ? `${f.rain_calls_right} of ${f.rain_calls}: 50% or more means "it will rain"` : "the first check lands about a day after the first forecast"),
+    tile(f.brier ?? "none yet", "rain score (Brier)", "0 is perfect, 0.25 is a coin flip, 1 is always wrong"),
+    tile(deg(f.high_mae_c), "day's high, average miss", f.low_mae_c != null ? `low: ${f.low_mae_c} °C average miss` : "24-hour forecasts only"),
+  ].join("");
+  const site = (id) => (isHome(id) ? state.farm.label : id.split("-").map((w) => w[0].toUpperCase() + w.slice(1)).join(" "));
+  $("#f-groups").innerHTML = f.groups.length
+    ? `<div class="frow head"><span>Site</span><span>Horizon</span><span>Checked</span><span>Rain right</span><span>Brier</span><span>High / low miss</span></div>` + f.groups.map((g) => `<div class="frow">
+      <span>${esc(site(g.farm))}</span><span>${g.horizon_h} h</span><span>${g.scored} <small>of ${g.forecasts}</small></span>
+      <span>${g.rain_calls ? `${g.rain_calls_right} of ${g.rain_calls}` : "–"}</span><span>${g.brier ?? "–"}</span>
+      <span>${g.high_mae_c != null ? `${g.high_mae_c} / ${g.low_mae_c ?? "–"} °C` : g.horizon_h === 24 ? "–" : "<small>rain only</small>"}</span></div>`).join("")
+    : `<p class="empty">No forecasts bought yet.</p>`;
+  const sig = (h, label) => (h ? `<a href="${NODE}/engine/v1/signal/${encodeURIComponent(h)}" target="_blank" rel="noopener" title="Open this answer's record on the Telegraph node">${label}${ICON.ext}</a>` : "");
+  $("#f-rows").innerHTML = f.rows.length
+    ? `<div class="frow pair head"><span>Day</span><span>Horizon</span><span>Forecast said</span><span>Recorded</span><span>Rain call</span><span>Proof</span></div>` + f.rows.map((p) => `<div class="frow pair">
+      <span>${esc(p.date)}</span><span>${p.horizon_h} h</span>
+      <span>${p.said.rain_pct ?? "?"}% rain${p.said.high != null ? `, ${p.said.high}° / ${p.said.low ?? "?"}°` : ""}</span>
+      <span>${p.recorded.rain_mm ?? "?"} mm${p.horizon_h === 24 && p.recorded.high != null ? `, ${p.recorded.high}° / ${p.recorded.low ?? "?"}°` : ""}</span>
+      <span class="${p.rain_call_right == null ? "" : p.rain_call_right ? "ok" : "bad"}">${p.rain_call_right == null ? "–" : p.rain_call_right ? "right" : "wrong"}</span>
+      <span class="proof">${sig(p.forecast_signal, "forecast")} ${sig(p.record_signal, "record")}</span></div>`).join("")
+    : `<p class="empty">Nothing checked yet. Each forecast is checked on Ledger's first run after its day ends${f.overdue?.length ? `; ${f.overdue.length} day${f.overdue.length === 1 ? " is" : "s are"} ready to check now` : ""}.</p>`;
+}
 function setBusy(label) {
   const b = $("#busy");
   b.hidden = !label;
@@ -426,6 +456,7 @@ async function refresh() {
   renderStats();
   renderGuard();
   renderCost();
+  renderForecast();
   renderSteps();
   renderVerify();
 }
@@ -577,6 +608,7 @@ async function start() {
   }
   renderGuard();
   renderCost();
+  renderForecast();
   renderSteps();
   renderVerify();
   const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && (e.target.classList.add("in"), io.unobserve(e.target))), { threshold: 0.15 });

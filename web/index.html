@@ -34,6 +34,7 @@
       <nav class="links">
         <a href="#guard">What it refused</a>
         <a href="#cost">What it costs</a>
+        <a href="#forecast">Forecast check</a>
         <a href="#how">How it works</a>
         <a href="#try">Try your farm</a>
         <a href="#verify">Verify</a>
@@ -111,6 +112,23 @@
         <p>Each test runs on the live fleet. Bad miner and Revoke pay spend real cents; Unplug sensor spends nothing.</p>
       </div>
       <div class="fails" id="c-fails"></div>
+    </section>
+
+    <section class="sec" id="forecast">
+      <div class="sec-head reveal">
+        <h2>Did the forecast come true?</h2>
+        <p>The fleet pays for forecasts, so it checks them. Once a forecast's day is over, Ledger buys that day's recorded weather on Telegraph and scores the forecast against it: was the rain call right, and how far off were the high and low.</p>
+        <p>24-hour forecasts are scored on rain and temperature. Kite's 6-hour pre-spray forecasts are scored on rain only, against the whole day's rainfall, so their rain score is harsher than it would be for their own six hours. A day counts as rainy from 1 mm.</p>
+      </div>
+      <div class="tiles reveal" id="f-tiles"></div>
+      <div class="board reveal">
+        <h3>By site and horizon</h3>
+        <div class="board-rows" id="f-groups"></div>
+      </div>
+      <div class="board reveal">
+        <h3>Latest forecasts checked</h3>
+        <div class="board-rows" id="f-rows"></div>
+      </div>
     </section>
 
     <section class="sec" id="how">
