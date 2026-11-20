@@ -1,3 +1,5 @@
+import { pairForecasts, datesToCheck, forecastReport } from "./forecast-check.mjs";
+
 // The fleet: five simulated machines on a real farm location. Every decision buys real Telegraph answers,
 // runs them through the guard, and only then acts. Machines never act on an answer the guard rejected,
 // never buy once their spending permission is withdrawn, and never buy for a job whose own sensor is offline.
@@ -18,7 +20,7 @@ export const MACHINES = [
   { id: "mule", name: "Mule", type: "rover", job: "Charge in the cheaper of this hour or 3 hours from now", jobHours: 1, share: 25 },
   { id: "haul", name: "Haul", type: "truck", job: "Leave for the packhouse if the drive fits the 45-minute cold-chain window", sensors: ["reefer thermometer"], share: 15 },
   { id: "lark", name: "Lark", type: "scout-drone", job: "Check satellite imagery for standing water before irrigating", jobHours: 3, share: 20 },
-  { id: "ledger", name: "Ledger", type: "auditor", job: "Check yesterday's spray call against what the weather actually did", jobHours: 0, share: 15 },
+  { id: "ledger", name: "Ledger", type: "auditor", job: "Check past forecasts and yesterday's spray call against the weather that was recorded", jobHours: 0, share: 15 },
 ];
 // Haul's job: there and back plus 20 minutes at the dock.
 export const haulHours = (driveMin) => Math.round(((2 * driveMin + 20) / 60) * 100) / 100;
@@ -166,20 +168,32 @@ export function createFleet({ store, buy, emit = () => {} }) {
         }
       }
     } else if (m.id === "ledger") {
+      // 1. Yesterday's recorded weather, then one older day a past forecast is still waiting on (forecast-check.mjs).
       const yday = new Date(Date.now() - 86400e3).toISOString().slice(0, 10);
       const rec = await get("WEATHER_FORECAST_VERIFY_GENERAL", { location: at, date: yday });
+      const answers = (intent) => store.acceptedAnswers(intent, farm.id);
+      const backlog = datesToCheck(pairForecasts(answers("WEATHER_FORECAST_GENERAL"), answers("WEATHER_FORECAST_VERIFY_GENERAL"))).filter((d) => d !== yday);
+      if (backlog.length && !mandate.revoked) await get("WEATHER_FORECAST_VERIFY_GENERAL", { location: at, date: backlog[0] });
+      // 2. Score every forecast whose day now has a record.
+      const fc = forecastReport(pairForecasts(answers("WEATHER_FORECAST_GENERAL"), answers("WEATHER_FORECAST_VERIFY_GENERAL")));
+      const scoreLine = fc.scored
+        ? ` Forecasts checked so far: ${fc.scored}; rain called right ${fc.rain_calls_right} of ${fc.rain_calls}${fc.high_mae_c != null ? `, day's high off by ${fc.high_mae_c} °C on average` : ""}.`
+        : "";
+      // 3. A fresh 24-hour forecast, to be checked against its own record on a later run.
+      if (!mandate.revoked) await get("WEATHER_FORECAST_GENERAL", { location: at, window_hours: 24 });
+      // 4. Audit yesterday's spray call against what the weather did.
       const lastKite = store.recent(50, farm.id).find((x) => x.machine === "kite" && x.at.slice(0, 10) <= yday && x.outcome !== "unverified");
-      if (!rec) summary = "Could not get verified records for yesterday, so no audit today.";
+      if (!rec) summary = `Could not get verified records for yesterday, so no spray audit today.${scoreLine}`;
       else if (!lastKite) {
         outcome = "act";
-        summary = `Yesterday in ${farm.place.name}: ${rec.precipitation_mm ?? "?"} mm rain, high ${rec.temp_max_c?.toFixed?.(1) ?? "?"} °C. No spray call from yesterday to audit yet.`;
+        summary = `Yesterday in ${farm.place.name}: ${rec.precipitation_mm ?? "?"} mm rain, high ${rec.temp_max_c?.toFixed?.(1) ?? "?"} °C. No spray call from yesterday to audit yet.${scoreLine}`;
       } else {
         const q = await get("TASK_EXECUTION_QUALITY_GENERAL", {
           task: `Only spray when gusts are under ${LIMITS.gustKmh} km/h and rain chance under ${LIMITS.rainPct}%. Weather recorded that day: ${rec.precipitation_mm} mm rain.`,
           result: lastKite.summary,
         });
         outcome = q ? "act" : "unverified";
-        summary = q ? `Yesterday's spray call "${lastKite.summary}" was judged: ${q.verdict}. ${q.reason ?? ""}` : "The judge's answer did not pass the checks.";
+        summary = q ? `Yesterday's spray call "${lastKite.summary}" was judged: ${q.verdict}. ${q.reason ?? ""}${scoreLine}` : `The judge's answer did not pass the checks.${scoreLine}`;
       }
     }
 

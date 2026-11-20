@@ -120,6 +120,13 @@ export function openStore(dir = process.env.DATA_DIR || "./data") {
       return db.prepare(`SELECT d.* FROM decisions d JOIN (SELECT trigger, machine, MAX(id) AS id FROM decisions
         WHERE trigger IN ('break-a-miner','revoke-pay','unplug-sensor') GROUP BY trigger, machine) l ON l.id = d.id ORDER BY d.id DESC`).all();
     },
+    // Accepted answers of one kind, oldest first, for the forecast check (server/src/forecast-check.mjs).
+    acceptedAnswers(intent, farm) {
+      const rows = farm
+        ? db.prepare("SELECT farm, at, params, result, signal_hash FROM purchases WHERE intent = ? AND verdict = 'accepted' AND farm = ? ORDER BY id").all(intent, farm)
+        : db.prepare("SELECT farm, at, params, result, signal_hash FROM purchases WHERE intent = ? AND verdict = 'accepted' ORDER BY id").all(intent);
+      return rows.map((r) => ({ ...r, params: JSON.parse(r.params), result: r.result ? JSON.parse(r.result) : null }));
+    },
     getSetting(key) {
       const r = db.prepare("SELECT value FROM settings WHERE key = ?").get(key);
       return r ? JSON.parse(r.value) : null;
