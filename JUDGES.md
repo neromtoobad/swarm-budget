@@ -12,6 +12,7 @@ No wallet or sign-in needed. Everything below runs against the public Telegraph 
 | Scroll to **What an hour of work costs** | Cost per hour of machine work and per finished job, mean recovery time after a refused answer, per machine |
 | Scroll to **Did the forecast come true?** | Each forecast the fleet bought, scored against the recorded weather for its day (also bought): rain calls right, Brier score, high/low miss, by site and horizon |
 | Type `Salinas, California` in **Try your own farm** | A new location, new live answers, four decisions |
+| Open `/api/state` and look at `autopilot`, then at decisions with `"trigger": "auto"` | The next machine the fleet will run on its own and when, and the paid decisions it already made with no visitor involved (the page marks them "on its own schedule") |
 | `node tools/check-live.mjs <app-url>` | PASS/FAIL per claim, checked against the node, not just our database |
 | `npm test` | Guard tests built on real junk answers saved in `evidence/` |
 
@@ -31,7 +32,7 @@ No wallet or sign-in needed. Everything below runs against the public Telegraph 
 | Technical quality and mainnet readiness (35) | Escrow payment client written from the 402 challenge (`server/src/telegraph.mjs`), guard with tests on real failures, re-buy ranking, budget, spending permission checked before every purchase, SQLite ledger, SSE. Only the node URL and key change for mainnet |
 | Mission 11 measures | Cost per operating hour and per completed job, mean recovery time, refusals counted (`server/src/costs.mjs`); the three named tests (uncertain perception, disconnected sensor, revoked spend authorization) are buttons on the page and unit tests. See README "Mission 11 fit" |
 | Mission 06 measures | Forecast error by site and horizon: rain calls right, Brier score, temperature miss, each forecast paired with the recorded weather bought for its day (`server/src/forecast-check.mjs`). See README "Mission 06 fit" |
-| Commercial viability (25) | Any machine operator buying data per decision needs the same thing: don't act on a confident answer about the wrong place. The guard and buyer are separate modules (`guard.mjs`, `buyer.mjs`) |
+| Commercial viability (25) | The five commercial answers are in [SUBMISSION.md](SUBMISSION.md#4-commercial-questions-apps--agents). Any machine operator buying data per decision needs the same thing: don't act on a confident answer about the wrong place. The guard and buyer are separate modules (`guard.mjs`, `buyer.mjs`) |
 | Telegraph integration and usage quality (5) | 7 intents, routed and direct asks, miner discovery for re-buys, signal and ledger endpoints for proof |
-| Reproducibility and verifiable proof (5) | `.env.example`, `npm test`, `tools/check-live.mjs`, `evidence/` |
+| Reproducibility and verifiable proof (5) | Run steps with a sample request and a failure case in [SUBMISSION.md](SUBMISSION.md#5-how-to-run-it); `npm run fund -- --deposit 2` funds a fresh testnet wallet's escrow; `.env.example`, `npm test`, `tools/check-live.mjs`, `evidence/` |
 | Organic growth, education, developer activation (20) | Not done yet (see README "Not built yet") |

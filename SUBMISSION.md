@@ -59,7 +59,7 @@ It is slower: the median paid answer takes 5.2 s (1.6 s to 28.8 s) **[refresh]**
 ### What does it do today?
 All of this is live at https://swarmbudget.nerom.site on the Telegraph testnet node (devnode.telegraphprotocol.com), paid from escrow on Ethereum Sepolia:
 - 13 paid answers, $0.13 spent, 4 refused, 4 re-buys, 4 completed jobs from 8 decisions **[refresh]**. Each answer has a public signal record that names our wallet as the buyer, for example [0x6a60…e877](https://devnode.telegraphprotocol.com/engine/v1/signal/0x6a6085b78198574f443ce279ea86be2e4c725a02a4a8fdabd11b1a9e3360e877). The escrow account is on the node's [ledger](https://devnode.telegraphprotocol.com/v1/ledger/account/0x8482e592d6b28d3f5b713cc4576d6ce216b2a78e).
-- Autonomous purchases: the server runs one machine every 6 hours on its own, with no visitor involved (`server/src/server.mjs:52-69`, `server/src/autopilot.mjs`). The schedule is read from the saved decisions, so a redeploy neither resets the clock nor sends the turn back to the first machine. **[refresh]** Link one automatic decision's signal record here; the page marks such a decision "on its own schedule", and `/api/state` shows its trigger as `auto`.
+- Autonomous purchases: the server runs one machine every 6 hours on its own, with no visitor involved (`server/src/server.mjs:52-69`, `server/src/autopilot.mjs`). The schedule is read from the saved decisions, so a redeploy neither resets the clock nor sends the turn back to the first machine. First automatic run: Kite on Nov 20 at 10:36 UTC bought a storm alert ([0x348d…5c4b](https://devnode.telegraphprotocol.com/engine/v1/signal/0x348d443fd364d3ba9038f956b3bb5b30d9dee4354ae598dd16a9479b39e65c4b), with our wallet as the buyer on the node) and a rain forecast, both accepted, and sprayed: "gusts 14.4 km/h, 5% rain chance". The page marks such decisions "on its own schedule", and `/api/state` shows their trigger as `auto`. **[refresh]** the count of automatic decisions.
 - Mission tests from the page:
   - Bad miner: refused, then bought again.
   - Revoke pay: nothing is bought after the withdrawal, and the drone stays on the pad.
@@ -177,6 +177,6 @@ There is no Anjoman experience yet. If one is listed before Dec 1, add it here.
 - [ ] The three X updates are posted on separate dates and linked above
 - [ ] The tutorial is published and linked
 - [ ] Every **[refresh]** line is updated, and `check-live` passes
-- [ ] At least one automatic (`auto`) decision appears on the live app, with its signal link added in section 4
+- [x] At least one automatic (`auto`) decision on the live app, with its signal link in section 4 (Kite, Nov 20 10:36 UTC)
 - [ ] `/submit` is posted on #199 and #194
 - [ ] The live app and its Railway service stay up through judging
