@@ -72,5 +72,33 @@ await check("daily budget is enforced", async () => {
   return `$${state.budget.spent_today_usd} of $${state.budget.daily_usd} today`;
 });
 
+await check("unplugged-sensor runs spent nothing and did not move", async () => {
+  const runs = state.decisions.filter((d) => d.trigger === "unplug-sensor");
+  must(runs.length > 0, "no unplug-sensor run yet (click Unplug sensor on Haul)");
+  for (const d of runs) must(d.cost_usd === 0 && d.purchases.length === 0 && d.outcome !== "act", `decision ${d.id} bought or acted`);
+  return `${runs.length} run(s), $0.00 each`;
+});
+
+await check("revoked-pay runs bought nothing after the withdrawal and did not act", async () => {
+  const runs = state.decisions.filter((d) => d.trigger === "revoke-pay");
+  must(runs.length > 0, "no revoke-pay run yet (click Revoke pay on Kite)");
+  for (const d of runs) {
+    must(d.outcome !== "act", `decision ${d.id} acted`);
+    must(new Set(d.purchases.map((p) => p.intent)).size <= 1, `decision ${d.id} bought a second kind of answer after the withdrawal`);
+  }
+  return `${runs.length} run(s); e.g. "${runs[0].summary.slice(0, 70)}…"`;
+});
+
+await check("cost report matches the decisions", async () => {
+  const c = state.costs;
+  must(c, "no cost report in /api/state");
+  must(state.totals.decisions <= 200, "more than 200 decisions; recheck with a larger limit");
+  const spent = state.decisions.reduce((s, d) => s + d.cost_usd, 0);
+  const hours = state.decisions.reduce((s, d) => s + (d.op_hours || 0), 0);
+  const done = state.decisions.filter((d) => d.outcome === "act").length;
+  must(Math.abs(spent - c.spent_usd) < 1e-3 && Math.abs(hours - c.operating_hours) < 1e-2 && done === c.completed_jobs, "cost report does not match the decisions");
+  return `$${c.per_hour_usd} per hour of work over ${c.operating_hours} h, $${c.per_job_usd} per job (${done} jobs), mean recovery ${c.mean_recovery_s ?? "n/a"} s`;
+});
+
 console.log(failed ? `\n${failed} check(s) failed` : "\nall checks passed");
 process.exit(failed ? 1 : 0);
