@@ -72,6 +72,14 @@ await check("daily budget is enforced", async () => {
   return `$${state.budget.spent_today_usd} of $${state.budget.daily_usd} today`;
 });
 
+await check("no machine spent past its share of today's budget", async () => {
+  const ms = state.budget.machines;
+  must(ms?.length, "no per-machine shares in /api/state");
+  const over = ms.filter((m) => m.spent_usd > m.cap_usd + 1e-6);
+  must(!over.length, over.map((m) => `${m.machine} $${m.spent_usd} of $${m.cap_usd}`).join(", "));
+  return ms.map((m) => `${m.machine} $${m.spent_usd}/$${m.cap_usd}`).join(", ");
+});
+
 await check("unplugged-sensor runs spent nothing and did not move", async () => {
   const runs = state.decisions.filter((d) => d.trigger === "unplug-sensor");
   must(runs.length > 0, "no unplug-sensor run yet (click Unplug sensor on Haul)");

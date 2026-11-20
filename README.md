@@ -11,20 +11,20 @@ paid from escrow by [`0x8482…A78E`](https://devnode.telegraphprotocol.com/v1/l
 ![Haul's inspection card: the answer, each guard check, then the stamp](docs/inspection.png)
 
 Five simulated machines work a real farm location in Kerman, California: a spray drone, a charging rover, a delivery truck, a
-scout drone and an auditor. They share one daily budget. Before any machine acts, it buys the answers it needs on Telegraph
+scout drone and an auditor. They share one daily budget, and each has its own share of it. Before any machine acts, it buys the answers it needs on Telegraph
 (wind, storms, rain, power price, drive time, satellite imagery). A guard checks each answer is about the right place, market,
 hour and unit. If an answer fails, the machine buys again from a different miner. A machine never acts on a refused answer.
 
 ## For judges: verify in 2 minutes
 | Do this | You see |
 |---|---|
-| `npm install && npm test` | 22 tests. Guard tests run on real answers saved in `evidence/`, including the Kerman, Iran one. Failure tests (`test/failures.test.mjs`) replay saved answers through the real buyer, guard and fleet |
+| `npm install && npm test` | 29 tests. Guard tests run on real answers saved in `evidence/`, including the Kerman, Iran one. Failure tests (`test/failures.test.mjs`) replay saved answers through the real buyer, guard and fleet |
 | `node tools/check-live.mjs` (against a running app) | PASS/FAIL for each claim below, read from the app and the public Telegraph node |
 | Open the app and click **Run now** on Kite | The camera moves to Kite and a pulse leaves the telegraph mast. A card opens with the miner's answer, each guard check ticks in, then **Accepted** or **Refused**. The receipt lands on the right with a signal link to the node and the escrow receipt |
 | Click **Bad miner** on Mule | First purchase goes to Grid Elering (Estonia) for a California node. The guard refuses it and re-buys from a CAISO miner |
 | Click **Revoke pay** on Kite | Kite buys its storm alert (one real cent), then the owner's permission is withdrawn. The forecast is never bought and Kite stays put: "Stopped mid-task…" |
 | Click **Unplug sensor** on Haul | Haul's reefer thermometer is offline. Haul holds the load and buys nothing ($0.00) |
-| Scroll to **What an hour of work costs** | Cost per hour of machine work, per finished job, mean seconds to recover from a refused answer, and the spend on calls that did not act, overall and per machine |
+| Scroll to **What an hour of work costs** | Cost per hour of machine work, per finished job, mean seconds to recover from a refused answer, and the spend on calls that did not act, overall and per machine, with what each machine has spent today of its own share |
 | Type a farm in **Try your own farm** | Four machines decide for a new place on new, live answers |
 
 ## Mission 11 fit (Autonomous Systems, route 1 "Budget per machine")
@@ -32,12 +32,13 @@ The [mission 11 bounty](https://github.com/telegraphprotocol/bounties/issues/199
 
 | Mission asks for | Here | Where |
 |---|---|---|
-| Cost per operating hour and per completed job | Every cent spent, divided by the hours of work it released and by the jobs done. Hours per job are simulated (Kite 1.5 h, Mule 1 h, Lark 3 h); Haul's are the real drive time there and back plus 20 min | `server/src/costs.mjs:28`, `server/src/fleet.mjs:23`, `:197` |
+| Cost per operating hour and per completed job | Every cent spent, divided by the hours of work it released and by the jobs done. Hours per job are simulated (Kite 1.5 h, Mule 1 h, Lark 3 h); Haul's are the real drive time there and back plus 20 min | `server/src/costs.mjs:28`, `server/src/fleet.mjs:24`, `:198` |
 | Mean recovery time | Seconds from a refused or failed answer to the accepted re-buy that replaced it | `server/src/costs.mjs:8` |
+| A finite budget allocated to distinct assets | One daily pool split by weight: Kite and Mule 25%, Lark 20%, Haul and Ledger 15% (`MACHINE_SHARES` overrides). A machine whose share is spent stops buying and says so; the others keep theirs. The budget meter shows one segment per machine | `server/src/budget.mjs:28-36`, `server/src/fleet.mjs:15-21`, `test/budget.test.mjs` |
 | Unsafe action prevention | A machine acts only on accepted answers; refusals are counted and shown | `server/src/fleet.mjs:75-84` |
 | Uncertain perception | Cloud-covered or empty satellite reads are inconclusive or refused, so Lark keeps the irrigation schedule | `server/src/fleet.mjs` `readImagery`, `test/fleet.test.mjs` |
-| Disconnected sensor | A machine whose own sensor is offline holds and buys nothing, since no answer could make the job safe | `server/src/fleet.mjs:92-95`, test "disconnected sensor" |
-| Revoked spend authorization | Checked before every purchase. Mid-task (simulated owner, real purchases) or the owner's standing switch (`POST /api/authority` with `OWNER_TOKEN`). Nothing is bought after the withdrawal and the machine does not act on half the evidence | `server/src/buyer.mjs:49`, `server/src/fleet.mjs:79-82`, `:185-189`, `server/src/server.mjs:27-31`, `:143-151`, tests "revoked spend authorization…" and "owner's standing revocation" |
+| Disconnected sensor | A machine whose own sensor is offline holds and buys nothing, since no answer could make the job safe | `server/src/fleet.mjs:93-96`, test "disconnected sensor" |
+| Revoked spend authorization | Checked before every purchase. Mid-task (simulated owner, real purchases) or the owner's standing switch (`POST /api/authority` with `OWNER_TOKEN`). Nothing is bought after the withdrawal and the machine does not act on half the evidence | `server/src/buyer.mjs:49`, `server/src/fleet.mjs:80-83`, `:186-190`, `server/src/budget.mjs:30`, `server/src/server.mjs:27`, `:132-140`, tests "revoked spend authorization…" and "owner's standing revocation" |
 
 ## Judging criteria
 The rubric from the Telegraph H2 rules, one row per criterion with where we meet it, is in [JUDGES.md](JUDGES.md#rubric-telegraph-h2-rules).
@@ -61,19 +62,18 @@ The rubric from the Telegraph H2 rules, one row per criterion with where we meet
 | Refuses a satellite answer that holds no reading | `server/src/guard.mjs:113-114` | test "a satellite answer with no reading is refused" |
 | Re-buys from the next compatible miner, ranked by our own pass rate per miner | `server/src/buyer.mjs:20-35`, `:75` | check-live: "guard has refused… and a re-buy followed" |
 | Never acts on a refused answer | `server/src/fleet.mjs:75-84` (`get()` returns only accepted results) | check-live: "no machine acted on a refused answer" |
-| One shared daily budget; purchases stop when it is spent | `server/src/server.mjs:28-38`, `server/src/buyer.mjs:49-53` | check-live: "daily budget is enforced" |
-| Withdrawn spending permission stops the very next purchase | `server/src/buyer.mjs:49`, `server/src/fleet.mjs:79-82` | test "revoked spend authorization mid-task…"; check-live: "revoked-pay runs bought nothing after the withdrawal" |
-| A machine with an offline sensor buys nothing | `server/src/fleet.mjs:92-95` | test "disconnected sensor…"; check-live: "unplugged-sensor runs spent nothing" |
-| Reports cost per operating hour, per completed job and mean recovery time | `server/src/costs.mjs:8`, `:28`; served in `/api/state` as `costs` (`server/src/server.mjs:116`) | test "a completed Haul job records the round trip…"; check-live: "cost report matches the decisions" |
-| Weather asks use coordinates, because names resolved to the wrong country | `server/src/fleet.mjs:97-98` | `evidence/name-vs-coordinates-STORM_ALERT.json` |
-| Satellite read passes real NASA GIBS imagery of the farm to the miner | `server/src/fleet.mjs:148-151` | the "Satellite read" question carries `image_url=` |
-| The page animates a purchase only when one happened: the pulse starts on the server's `asking` event and lands on its `purchase` event | `server/src/server.mjs:44-45`, `web/app.js:437-439` | watch the network tab: one `/api/stream` event per pulse |
+| One shared daily budget, split into a share per machine; a machine stops buying when its share or the day is spent, and the others keep theirs | `server/src/budget.mjs:28-36`, `server/src/buyer.mjs:49-53`, shares in `server/src/fleet.mjs:15-21` | `test/budget.test.mjs`; check-live: "daily budget is enforced", "no machine spent past its share" |
+| Withdrawn spending permission stops the very next purchase | `server/src/buyer.mjs:49`, `server/src/fleet.mjs:80-83` | test "revoked spend authorization mid-task…"; check-live: "revoked-pay runs bought nothing after the withdrawal" |
+| A machine with an offline sensor buys nothing | `server/src/fleet.mjs:93-96` | test "disconnected sensor…"; check-live: "unplugged-sensor runs spent nothing" |
+| Reports cost per operating hour, per completed job and mean recovery time | `server/src/costs.mjs:8`, `:28`; served in `/api/state` as `costs` (`server/src/server.mjs:105`) | test "a completed Haul job records the round trip…"; check-live: "cost report matches the decisions" |
+| Weather asks use coordinates, because names resolved to the wrong country | `server/src/fleet.mjs:98-99` | `evidence/name-vs-coordinates-STORM_ALERT.json` |
+| Satellite read passes real NASA GIBS imagery of the farm to the miner | `server/src/fleet.mjs:149-152` | the "Satellite read" question carries `image_url=` |
+| The page animates a purchase only when one happened: the pulse starts on the server's `asking` event and lands on its `purchase` event | `server/src/server.mjs:33-34`, `web/app.js:437-439` | watch the network tab: one `/api/stream` event per pulse |
 
 ## Not built yet
 - Real hardware. The machines are simulated: positions and motion in the 3D view are animation only. Motion follows real outcomes (Kite sprays only after an accepted "act", Haul leaves only when the drive fits), but nothing physical moves.
 - x402 "exact" rail in production. The client supports it (`server/src/telegraph.mjs`, `ask()`), but the public facilitator timed out on settle during the event, so the app pays through escrow.
 - Demo video.
-- A separate budget per machine. The five machines draw from one shared daily pool; cost is reported per machine, but not capped per machine.
 - Real operating hours. Hours per job are a fixed table per machine (Haul's use the real drive time), since nothing physical runs.
 - Real sensors. "Unplug sensor" simulates the sensor going offline; the rule it exercises (no sensor, no purchase, no move) is real code.
 
@@ -83,9 +83,9 @@ The rubric from the Telegraph H2 rules, one row per criterion with where we meet
 | Telegraph purchases | real, testnet node, escrow rail | signal links in the ledger; `tools/check-live.mjs` |
 | Payment | 5 test USDC deposited to the escrow Diamond `0x72a7…a08b` on Ethereum Sepolia | [ledger account](https://devnode.telegraphprotocol.com/v1/ledger/account/0x8482e592d6b28d3f5b713cc4576d6ce216b2a78e) |
 | Guard, re-buy, budget, decisions | real code on every purchase | `server/src/guard.mjs`, `buyer.mjs`, `fleet.mjs` |
-| Farm location geocoding | Open-Meteo geocoding, used only to set up a typed farm. It never feeds a decision | `server/src/fleet.mjs:41-60` |
+| Farm location geocoding | Open-Meteo geocoding, used only to set up a typed farm. It never feeds a decision | `server/src/fleet.mjs:42-61` |
 | Cost per hour of work | real spend; **simulated** hours per job (Haul: real drive time) | `server/src/costs.mjs`, `MACHINES` in `server/src/fleet.mjs` |
-| Revoke pay, Unplug sensor | the owner and the sensor are **simulated**; the purchases, the blocking and the hold are real | `server/src/server.mjs:91-95` |
+| Revoke pay, Unplug sensor | the owner and the sensor are **simulated**; the purchases, the blocking and the hold are real | `server/src/server.mjs:80-84` |
 | Machines, 3D farm | **simulated**: there are no drones. The UI and this README say so | `web/index.html` ("Machines are simulated…") |
 
 ## The problem
@@ -109,7 +109,7 @@ node, and a satellite answer about Illinois. A spray drone acting on the first o
 2. For each answer it needs, the buyer asks Telegraph, which routes to its top-ranked miner, and pays from escrow (`server/src/telegraph.mjs`).
 3. The guard checks the answer against what was asked: place (by coordinates or by name with region/country), node, currency, hour, plausible ranges, and whether imagery was really analysed (`server/src/guard.mjs`).
 4. If it fails, the buyer picks the next compatible miner from `/engine/v1/intents/{intent}/miners`, skipping miners that keep failing, and buys again (`server/src/buyer.mjs`).
-5. Before every purchase the buyer checks the spending permission (the owner's switch and the decision's own mandate) and the daily budget. A machine whose own sensor is offline buys nothing.
+5. Before every purchase the buyer checks the spending permission (the owner's switch and the decision's own mandate), the day's budget and the machine's own share of it (`server/src/budget.mjs`). A machine whose own sensor is offline buys nothing.
 6. The machine acts or holds only on accepted answers. Every purchase, verdict, receipt and signal hash goes to SQLite (`server/src/store.mjs`) and streams to the page over SSE (`server/src/server.mjs`). Each completed job records its hours of work, which `server/src/costs.mjs` turns into cost per hour and per job.
 
 ## Telegraph integration
@@ -122,9 +122,9 @@ node, and a satellite answer about Illinois. A spray drone acting on the first o
 
 ## Trust model & limitations
 - One server-held testnet key pays for everything (`EVM_PRIVATE_KEY`). Visitors never sign anything. Their paid actions are rate-limited (8 decisions and 3 farm runs per IP per hour) and capped by the daily budget.
-- The live site runs on **$0.15 a day** and decides on its own every 6 hours, because the escrow holds about 4.5 test USDC and has to last through judging. When today's budget is spent, machines hold and say so, and purchases resume at 00:00 UTC. Locally the default is $3 a day.
+- The live site runs on **$0.15 a day** and decides on its own every 6 hours, because the escrow holds about 4.5 test USDC and has to last through judging. At $0.15 a day the shares are $0.0375 (Kite, Mule), $0.03 (Lark) and $0.0225 (Haul, Ledger): two to three answers each. When a share or the day is spent, machines hold and say so, and purchases resume at 00:00 UTC. Locally the default is $3 a day.
 - The guard checks consistency with the question. It cannot prove a gust reading is true. The auditor machine (Ledger) later checks yesterday's spray call against recorded weather.
-- The **Bad miner** button points the first purchase at miners we saw fail before (`server/src/server.mjs:90`). The refusal itself still comes from the guard on the live answer.
+- The **Bad miner** button points the first purchase at miners we saw fail before (`server/src/server.mjs:79`). The refusal itself still comes from the guard on the live answer.
 - **Revoke pay** simulates the owner withdrawing permission after the first paid answer. The real owner's switch is `POST /api/authority {"revoked": true}` with `Authorization: Bearer $OWNER_TOKEN`; with no `OWNER_TOKEN` set, the switch is off. It persists in SQLite until switched back.
 
 ## Run it

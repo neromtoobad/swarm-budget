@@ -19,6 +19,7 @@ No wallet or sign-in needed. Everything below runs against the public Telegraph 
 - **Wrong market:** Mule's **Bad miner** button.
 - **No imagery analysed:** `evidence/junk-SATELLITE-no-reading.json` ("the vision model was unavailable"), replayed by the test "a satellite answer with no reading is refused". Lark's **Bad miner** button sends to TxLens 9002; at the moment the node returns 503 for that direct ask, which the page shows as "No answer" and nothing is charged.
 - **Budget spent:** set `DAILY_BUDGET_USD=0.02` and run Kite twice. The second decision pays for nothing, because the buyer stops before paying (`server/src/buyer.mjs:49-53`), and the drone stays on the pad.
+- **One machine's share spent:** set `DAILY_BUDGET_USD=0.06` and run Kite: its share ($0.015) covers one answer, so the forecast is not bought and Kite says "No purchase was made: Kite's share of today's budget… is spent". Run Haul next and it still buys and decides. Tests: `test/budget.test.mjs`. The budget meter on the page has one segment per machine.
 - **Revoked spend authorization:** Kite's **Revoke pay**, or locally set `OWNER_TOKEN=x` and `curl -X POST localhost:4380/api/authority -H "Authorization: Bearer x" -d '{"revoked":true}'`. Every machine then buys nothing and says why. Tests: "revoked spend authorization mid-task…", "owner's standing revocation…".
 - **Disconnected sensor:** Haul's **Unplug sensor**. Test: "disconnected sensor: Haul holds the load and buys nothing".
 
