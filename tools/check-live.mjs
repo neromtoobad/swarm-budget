@@ -121,5 +121,15 @@ await check("forecast scores match the answers they were built from", async () =
   return f.scored ? `${f.scored} checked, rain right ${f.rain_calls_right}/${f.rain_calls}, Brier ${f.brier}, high miss ${f.high_mae_c ?? "n/a"} °C` : `${f.waiting} forecast(s) waiting for their day's record`;
 });
 
+await check("the fleet buys on its own schedule, with no visitor involved", async () => {
+  const auto = state.decisions.filter((d) => d.trigger === "auto");
+  must(auto.length, "no automatic decision yet");
+  const paid = auto.flatMap((d) => d.purchases).find((p) => p.signal_hash && p.receipt_hash);
+  must(paid, "no automatic decision made a paid purchase");
+  const a = state.autopilot;
+  if (a && state.tick_seconds) must(Date.now() - Date.parse(a.last_auto) < 2 * state.tick_seconds * 1000 + 3600e3, `last automatic run ${a.last_auto} is overdue`);
+  return `${auto.length} automatic decision(s), e.g. ${paid.machine} ${paid.intent} ${paid.signal_hash.slice(0, 18)}…; next: ${a?.next_machine ?? "?"} at ${a?.next_at ?? "?"}`;
+});
+
 console.log(failed ? `\n${failed} check(s) failed` : "\nall checks passed");
 process.exit(failed ? 1 : 0);

@@ -59,7 +59,7 @@ It is slower: the median paid answer takes 5.2 s (1.6 s to 28.8 s) **[refresh]**
 ### What does it do today?
 All of this is live at https://swarmbudget.nerom.site on the Telegraph testnet node (devnode.telegraphprotocol.com), paid from escrow on Ethereum Sepolia:
 - 13 paid answers, $0.13 spent, 4 refused, 4 re-buys, 4 completed jobs from 8 decisions **[refresh]**. Each answer has a public signal record that names our wallet as the buyer, for example [0x6a60…e877](https://devnode.telegraphprotocol.com/engine/v1/signal/0x6a6085b78198574f443ce279ea86be2e4c725a02a4a8fdabd11b1a9e3360e877). The escrow account is on the node's [ledger](https://devnode.telegraphprotocol.com/v1/ledger/account/0x8482e592d6b28d3f5b713cc4576d6ce216b2a78e).
-- Autonomous purchases: the server runs one machine every 6 hours on its own, with no visitor involved (`server/src/server.mjs:51-63`). **[refresh]** Link one automatic decision's signal record here; the page marks such a decision "on its own schedule", and `/api/state` shows its trigger as `auto`.
+- Autonomous purchases: the server runs one machine every 6 hours on its own, with no visitor involved (`server/src/server.mjs:52-69`, `server/src/autopilot.mjs`). The schedule is read from the saved decisions, so a redeploy neither resets the clock nor sends the turn back to the first machine. **[refresh]** Link one automatic decision's signal record here; the page marks such a decision "on its own schedule", and `/api/state` shows its trigger as `auto`.
 - Mission tests from the page:
   - Bad miner: refused, then bought again.
   - Revoke pay: nothing is bought after the withdrawal, and the drone stays on the pad.
@@ -67,7 +67,7 @@ All of this is live at https://swarmbudget.nerom.site on the Telegraph testnet n
   - Uncertain perception happens in normal runs: Lark refuses a satellite read with no reading, and a cloud-covered read counts as inconclusive.
 - The forecast check: 1 forecast scored so far (a 6-hour forecast said 14% rain and Kerman recorded 14.2 mm, a wrong call with Brier 0.74). One 24-hour forecast is waiting for its day to end **[refresh]**.
 - Latency: median 5.2 s per paid answer **[refresh]**.
-- 37 tests (`npm test`). `tools/check-live.mjs` passes 12/12 against the live app and node.
+- 42 tests (`npm test`). `tools/check-live.mjs` passes 13/13 against the live app and node.
 
 ### Why would someone adopt it?
 The data side of autonomy costs one budget, not one contract per provider. The machine pays per answer, from whichever miner passes the checks. The checks are what make paying per answer safe. A wrong-country storm report gets refused before it reaches a sprayer, instead of being found later in an incident review. For spraying, where drift is regulated, the record of what the machine knew, what it paid and why it held is useful to the operator and to an insurer.
@@ -97,7 +97,7 @@ Maintained by neromtoobad (solo) at https://github.com/neromtoobad/swarm-budget.
 ```bash
 git clone https://github.com/neromtoobad/swarm-budget && cd swarm-budget
 npm install
-npm test                                  # 37 tests, no key, no network, no spend
+npm test                                  # 42 tests, no key, no network, no spend
 cp .env.example .env                      # put your testnet key in EVM_PRIVATE_KEY and its address in EVM_ADDRESS
 npm run fund -- --deposit 2               # mints 10 test USDC, then deposits 2 into the Telegraph escrow
 npm run dev                               # http://localhost:4380 (TICK_SECONDS=0 in .env stops the automatic loop)
@@ -148,8 +148,8 @@ The first purchase goes to a miner seen answering for Estonia. The guard refuses
 | Accounting | Escrow ledger for the payer on the node: [0x8482…a78e](https://devnode.telegraphprotocol.com/v1/ledger/account/0x8482e592d6b28d3f5b713cc4576d6ce216b2a78e). The app's own report is under "What an hour of work costs" and in `/api/state` → `costs` |
 | Endpoints | `GET /api/state` (everything the page shows), `POST /api/decide`, `POST /api/try`, `GET /api/stream` (live events), `GET /api/ledger` |
 | Saved answers | `evidence/` in the repo, including `junk-STORM_ALERT-kerman-iran.json`, `name-vs-coordinates-STORM_ALERT.json`, `rebuy-GRID_POWER_PRICE_GENERAL-714106.json`, `junk-SATELLITE-no-reading.json` |
-| Tests | `npm test`: 37 tests in five files (`guard`, `budget`, `failures`, `fleet`, `forecast-check`). The guard tests use the real saved answers, and the failure, fleet and forecast-check tests run the real buyer and guard |
-| Live verification | `tools/check-live.mjs`: 12 checks, including that no machine acted on a refused answer, that no machine spent past its share, that revoked and unplugged runs bought nothing, and that the cost and forecast scores match the answers they came from |
+| Tests | `npm test`: 42 tests in six files (`guard`, `budget`, `failures`, `fleet`, `forecast-check`, `autopilot`). The guard tests use the real saved answers, and the failure, fleet and forecast-check tests run the real buyer and guard |
+| Live verification | `tools/check-live.mjs`: 13 checks, including that the fleet bought on its own schedule, that no machine acted on a refused answer, that no machine spent past its share, that revoked and unplugged runs bought nothing, and that the cost and forecast scores match the answers they came from |
 | Evaluation method | Forecast check: the rain call (≥ 50% means rain; ≥ 1 mm recorded means a rainy day), the Brier score, and the absolute miss on the day's high and low, grouped by site and horizon (`server/src/forecast-check.mjs`) |
 | Rankings | The miner board on the page and `/api/state` → `miners`: each miner's accepted, refused and failed counts per intent. These counts rank re-buys (`server/src/buyer.mjs:20-35`) |
 | Claims to code | README "Claims" table: each claim with its `file:line` and the check that proves it. [JUDGES.md](JUDGES.md) maps the rubric |
