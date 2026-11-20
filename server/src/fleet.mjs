@@ -12,12 +12,13 @@ export const DEFAULT_FARM = {
 
 // jobHours: simulated hours of machine work one completed job releases (Haul's comes from the real drive time).
 // sensors: simulated onboard sensors the job cannot run without.
+// share: weight of the daily budget this machine may spend, roughly by how many answers its job needs (budget.mjs).
 export const MACHINES = [
-  { id: "kite", name: "Kite", type: "spray-drone", job: "Spray block 3 if wind and rain allow", jobHours: 1.5, sensors: ["anemometer"] },
-  { id: "mule", name: "Mule", type: "rover", job: "Charge in the cheaper of this hour or 3 hours from now", jobHours: 1 },
-  { id: "haul", name: "Haul", type: "truck", job: "Leave for the packhouse if the drive fits the 45-minute cold-chain window", sensors: ["reefer thermometer"] },
-  { id: "lark", name: "Lark", type: "scout-drone", job: "Check satellite imagery for standing water before irrigating", jobHours: 3 },
-  { id: "ledger", name: "Ledger", type: "auditor", job: "Check yesterday's spray call against what the weather actually did", jobHours: 0 },
+  { id: "kite", name: "Kite", type: "spray-drone", job: "Spray block 3 if wind and rain allow", jobHours: 1.5, sensors: ["anemometer"], share: 25 },
+  { id: "mule", name: "Mule", type: "rover", job: "Charge in the cheaper of this hour or 3 hours from now", jobHours: 1, share: 25 },
+  { id: "haul", name: "Haul", type: "truck", job: "Leave for the packhouse if the drive fits the 45-minute cold-chain window", sensors: ["reefer thermometer"], share: 15 },
+  { id: "lark", name: "Lark", type: "scout-drone", job: "Check satellite imagery for standing water before irrigating", jobHours: 3, share: 20 },
+  { id: "ledger", name: "Ledger", type: "auditor", job: "Check yesterday's spray call against what the weather actually did", jobHours: 0, share: 15 },
 ];
 // Haul's job: there and back plus 20 minutes at the dock.
 export const haulHours = (driveMin) => Math.round(((2 * driveMin + 20) / 60) * 100) / 100;

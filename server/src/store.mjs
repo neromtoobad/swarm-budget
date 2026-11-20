@@ -64,8 +64,10 @@ export function openStore(dir = process.env.DATA_DIR || "./data") {
       const st = db.prepare("UPDATE purchases SET decision_id = ? WHERE id = ?");
       for (const id of ids) st.run(decisionId, id);
     },
-    spentSince(iso) {
-      return db.prepare("SELECT COALESCE(SUM(cost_usd),0) AS s FROM purchases WHERE at >= ?").get(iso).s;
+    spentSince(iso, machine) {
+      return machine
+        ? db.prepare("SELECT COALESCE(SUM(cost_usd),0) AS s FROM purchases WHERE at >= ? AND machine = ?").get(iso, machine).s
+        : db.prepare("SELECT COALESCE(SUM(cost_usd),0) AS s FROM purchases WHERE at >= ?").get(iso).s;
     },
     // Our own track record per miner: how often its answers passed the guard.
     minerRecord(intent) {

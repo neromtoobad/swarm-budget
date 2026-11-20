@@ -46,7 +46,7 @@ export function createBuyer({ tg, store, budget, onPurchase = () => {}, onAsk = 
     }
     for (let attempt = 1; attempt <= 1 + MAX_REBUYS; attempt++) {
       // spending permission is checked before every purchase, so a withdrawal stops the very next one
-      const gate = ctx.mandate?.revoked ? { ok: false, why: ctx.mandate.why } : budget.canSpend();
+      const gate = ctx.mandate?.revoked ? { ok: false, why: ctx.mandate.why } : budget.canSpend(ctx.machine);
       if (!gate.ok) {
         attempts.push({ attempt, verdict: "skipped", checks: [{ pass: false, why: gate.why }] });
         break;

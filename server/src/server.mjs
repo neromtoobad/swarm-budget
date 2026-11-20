@@ -7,6 +7,7 @@ import { openStore } from "./store.mjs";
 import { createBuyer } from "./buyer.mjs";
 import { createFleet, DEFAULT_FARM, MACHINES, farmFromInput } from "./fleet.mjs";
 import { costReport } from "./costs.mjs";
+import { createBudget, parseShares } from "./budget.mjs";
 
 const PORT = Number(process.env.PORT || 4380);
 const DAILY_BUDGET_USD = Number(process.env.DAILY_BUDGET_USD || 3);
@@ -22,22 +23,10 @@ const emit = (ev) => {
   for (const res of clients) res.write(line);
 };
 
-const dayStart = () => new Date().toISOString().slice(0, 10) + "T00:00:00.000Z";
 // The owner's standing permission for the fleet to spend. Revoking it stops every purchase, mid-task included.
 const authority = () => store.getSetting("spend_authority") ?? { revoked: false };
-const budget = {
-  canSpend() {
-    const a = authority();
-    if (a.revoked) return { ok: false, why: `the farm owner revoked spending permission at ${a.at}` };
-    const spent = store.spentSince(dayStart());
-    return spent + 0.01 <= DAILY_BUDGET_USD + 1e-9
-      ? { ok: true }
-      : { ok: false, why: `today's intelligence budget of $${DAILY_BUDGET_USD.toFixed(2)} is spent; it resets at 00:00 UTC` };
-  },
-  state() {
-    return { daily_usd: DAILY_BUDGET_USD, spent_today_usd: Number(store.spentSince(dayStart()).toFixed(4)) };
-  },
-};
+// One daily pool, split into a share per machine (MACHINE_SHARES="kite=30,mule=20" overrides the weights in fleet.mjs).
+const budget = createBudget({ store, daily: DAILY_BUDGET_USD, machines: MACHINES, shares: parseShares(process.env.MACHINE_SHARES), authority });
 
 const buy = createBuyer({
   tg, store, budget,
