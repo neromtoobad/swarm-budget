@@ -35,7 +35,7 @@ Everything the H2 submission form asks for (rules, section 08), in the order the
 - X update 1: **[you]** link
 - X update 2: **[you]** link
 - X update 3: **[you]** link
-- Tutorial: **[you]** link, once written
+- Tutorial: [Pay for an answer on Telegraph from Node, check it, and buy again when it's wrong](https://github.com/neromtoobad/swarm-budget/blob/main/docs/TUTORIAL.md), with a one-file example, [examples/pay-and-check.mjs](https://github.com/neromtoobad/swarm-budget/blob/main/examples/pay-and-check.mjs)
 - Bounty progress: [#199 /progress](https://github.com/telegraphprotocol/bounties/issues/199), [#194 /progress](https://github.com/telegraphprotocol/bounties/issues/194)
 - Evidence for another builder's network report: [#211](https://github.com/telegraphprotocol/bounties/issues/211). A storm miner resolved "Kerman, California" to Iran.
 - Independent developer testing: none to report yet. **[you]** add any outside tester or issue here.
@@ -175,7 +175,7 @@ There is no Anjoman experience yet. If one is listed before Dec 1, add it here.
 - [ ] Registered on hackathon.telegraphprotocol.com **[you]**
 - [ ] The demo video is recorded and linked here and in the README
 - [ ] The three X updates are posted on separate dates and linked above
-- [ ] The tutorial is published and linked
+- [x] The tutorial is published and linked (docs/TUTORIAL.md)
 - [ ] Every **[refresh]** line is updated, and `check-live` passes
 - [x] At least one automatic (`auto`) decision on the live app, with its signal link in section 4 (Kite, Nov 20 10:36 UTC)
 - [ ] `/submit` is posted on #199 and #194

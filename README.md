@@ -1,6 +1,6 @@
 # Swarm Budget: farm machines that pay for an answer before they move, and refuse the wrong ones
 
-**Live:** [swarmbudget.nerom.site](https://swarmbudget.nerom.site) · **Video:** not recorded yet · **Built at:** Telegraph Hackathon Season II, Nov 2026 (Track 03 Apps & Agents; missions 11 Autonomous Systems and 06 Resources & Agriculture)
+**Live:** [swarmbudget.nerom.site](https://swarmbudget.nerom.site) · **Tutorial:** [pay, check and re-buy on Telegraph from Node](docs/TUTORIAL.md) · **Video:** not recorded yet · **Built at:** Telegraph Hackathon Season II, Nov 2026 (Track 03 Apps & Agents; missions 11 Autonomous Systems and 06 Resources & Agriculture)
 
 **Proof:** every answer the fleet uses is a paid Telegraph purchase. Its signal record on the public node names our wallet as the buyer, for example
 [`/engine/v1/signal/0x2be2…99a8`](https://devnode.telegraphprotocol.com/engine/v1/signal/0x2be2cfc707ea4c40e67676a0b3366e0cf9f30dd8287f04a3d3a98df3597199a8),
