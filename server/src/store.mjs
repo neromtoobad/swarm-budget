@@ -88,6 +88,9 @@ export function openStore(dir = process.env.DATA_DIR || "./data") {
     lastDecision(farm, machine) {
       return db.prepare("SELECT * FROM decisions WHERE farm = ? AND machine = ? ORDER BY id DESC LIMIT 1").get(farm, machine);
     },
+    lastAutoDecision(farm) {
+      return db.prepare("SELECT * FROM decisions WHERE farm = ? AND trigger = 'auto' ORDER BY id DESC LIMIT 1").get(farm);
+    },
     totals() {
       const p = db.prepare(`SELECT COUNT(*) AS purchases, SUM(status=200) AS answered, COALESCE(SUM(cost_usd),0) AS spent,
           SUM(verdict='accepted') AS accepted, SUM(verdict='rejected') AS rejected, SUM(verdict='failed') AS failed,

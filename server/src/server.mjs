@@ -7,6 +7,7 @@ import { openStore } from "./store.mjs";
 import { createBuyer } from "./buyer.mjs";
 import { createFleet, DEFAULT_FARM, MACHINES, farmFromInput } from "./fleet.mjs";
 import { costReport } from "./costs.mjs";
+import { nextAutoRun } from "./autopilot.mjs";
 import { pairForecasts, forecastReport } from "./forecast-check.mjs";
 import { createBudget, parseShares } from "./budget.mjs";
 
@@ -48,18 +49,23 @@ const run = (fn, label) => {
   return p;
 };
 
-// Automatic loop on the home farm, round robin.
-let turn = 0;
+// Automatic loop on the home farm: one machine in turn every TICK_SECONDS, no visitor involved.
+// The schedule comes from the saved decisions (autopilot.mjs), so a redeploy does not reset it.
+let lastAttemptAt = null;
+const autopilot = () => nextAutoRun({
+  machines: MACHINES, tickMs: TICK_SECONDS * 1000, lastAttemptAt,
+  lastAuto: store.lastAutoDecision(DEFAULT_FARM.id) ?? null,
+  lastLedgerAt: store.lastDecision(DEFAULT_FARM.id, "ledger")?.at ?? null,
+});
 if (TICK_SECONDS > 0) {
   setInterval(() => {
     if (busy) return;
-    const m = MACHINES[turn++ % MACHINES.length];
-    if (m.id === "ledger") {
-      const last = store.lastDecision(DEFAULT_FARM.id, "ledger");
-      if (last && Date.now() - Date.parse(last.at) < 20 * 3600e3) return; // audit once a day
-    }
+    const plan = autopilot();
+    if (!plan.due) return;
+    lastAttemptAt = Date.now(); // a run that fails without saving a decision is not retried until the next tick
+    const m = MACHINES.find((x) => x.id === plan.machine);
     run(() => fleet.decide(m.id, DEFAULT_FARM, { trigger: "auto" }), `${m.name} (auto)`).catch((e) => console.error("tick", e));
-  }, TICK_SECONDS * 1000);
+  }, Math.min(TICK_SECONDS, 60) * 1000);
 }
 
 // Visitor rate limit for paid actions.
@@ -106,6 +112,7 @@ createServer(async (req, res) => {
         refusals: store.refusals(8), miners: store.minerBoard(), costs: costReport(store.costRows(), MACHINES), authority: authority(), failure_runs: store.failureRuns(),
         forecasts: forecastReport(pairForecasts(store.acceptedAnswers("WEATHER_FORECAST_GENERAL"), store.acceptedAnswers("WEATHER_FORECAST_VERIFY_GENERAL"))),
         node: tg.node, payer: tg.address, tick_seconds: TICK_SECONDS,
+        autopilot: TICK_SECONDS > 0 ? (({ machine, waitMs }) => ({ next_machine: machine, next_at: new Date(Date.now() + waitMs).toISOString(), last_auto: store.lastAutoDecision(DEFAULT_FARM.id)?.at ?? null }))(autopilot()) : null,
       });
     }
     if (url.pathname === "/api/ledger") {
