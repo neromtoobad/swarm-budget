@@ -55,7 +55,7 @@ The [mission 06 bounty](https://github.com/telegraphprotocol/bounties/issues/194
 Tests: `test/forecast-check.test.mjs` (8 tests, including Ledger run through the real buyer and guard on saved answers). Served in `/api/state` as `forecasts` (`server/src/server.mjs:107`); check-live: "forecast scores match the answers they were built from".
 
 ## Judging criteria
-The rubric from the Telegraph H2 rules, one row per criterion with where we meet it, is in [JUDGES.md](JUDGES.md#rubric-telegraph-h2-rules).
+The rubric from the Telegraph H2 rules, one row per criterion with where we meet it, is in [JUDGES.md](JUDGES.md#rubric-telegraph-h2-rules). The submission itself (summary, the five commercial answers, run steps, evidence) is in [SUBMISSION.md](SUBMISSION.md).
 
 ## What the guard caught on the live network
 | Asked | Miner answered | Guard |
@@ -145,9 +145,10 @@ node, and a satellite answer about Illinois. A spray drone acting on the first o
 
 ## Run it
 ```bash
-cp .env.example .env            # add a testnet key; fund it with scripts/fund.mjs
 npm install
-npm test
+npm test                        # no key, no network, no spend
+cp .env.example .env            # add a fresh testnet key (it needs ~0.01 Sepolia ETH for gas)
+npm run fund -- --deposit 2     # mint test USDC, then approve + depositUSDC 2 into the Telegraph escrow (--dry-run to simulate)
 npm run dev                     # http://localhost:4380  (TICK_SECONDS=0 to stop the automatic loop)
 node tools/check-live.mjs       # in another shell
 ```
