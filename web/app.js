@@ -142,7 +142,16 @@ function renderStats() {
   const t = state.totals, b = state.budget;
   countTo($("#s-spent"), b.spent_today_usd, (v) => usd(v));
   $("#s-cap").textContent = `of ${usd(b.daily_usd)}`;
-  $("#s-bar").style.width = `${Math.min(100, (b.spent_today_usd / b.daily_usd) * 100)}%`;
+  // one segment per machine, as wide as its share of the day; the fill is what it has spent of that share
+  const meter = $("#s-meter");
+  if (meter.children.length !== (b.machines ?? []).length) meter.innerHTML = (b.machines ?? []).map(() => "<span><i></i></span>").join("");
+  (b.machines ?? []).forEach((m, i) => {
+    const seg = meter.children[i], full = m.spent_usd + 0.01 > m.cap_usd + 1e-9;
+    seg.style.flex = `${m.share_pct} 1 0`;
+    seg.classList.toggle("full", full);
+    seg.title = `${nameOf(m.machine)}: ${usd3(m.spent_usd)} of its ${usd3(m.cap_usd)} share today${full ? " (used up)" : ""}`;
+    $("i", seg).style.width = `${Math.min(100, (m.spent_usd / (m.cap_usd || 1)) * 100)}%`;
+  });
   countTo($("#s-bought"), t.answered ?? 0);
   countTo($("#s-junk"), t.rejected ?? 0);
   countTo($("#s-rebuys"), t.rebuys ?? 0);
@@ -152,7 +161,7 @@ function renderStats() {
     : "No finished jobs yet";
   if (state.authority?.revoked) { $("#live").classList.add("off"); $("#live span").textContent = "Spending paused by owner"; }
 }
-const usd3 = (n) => (n == null ? "?" : n < 0.1 ? `$${Number(n).toFixed(3)}` : usd(n));
+const usd3 = (n) => (n == null ? "?" : n > 0 && n < 0.1 ? `$${Number(n).toFixed(3)}` : usd(n));
 const hrs = (h) => (h >= 10 ? `${Math.round(h)} h` : `${Math.round(h * 10) / 10} h`);
 function renderCost() {
   const c = state.costs;
@@ -164,9 +173,12 @@ function renderCost() {
     tile(c.mean_recovery_s != null ? `${Math.round(c.mean_recovery_s)} s` : "none yet", "to recover from a bad answer", c.recoveries ? `mean of ${c.recoveries} refusal${c.recoveries === 1 ? "" : "s"} fixed by a re-buy` : "no refusal fixed by a re-buy yet"),
     tile(usd(c.overhead_usd), "spent on calls that did not act", "holds and unverified calls: the price of acting safely"),
   ].join("");
-  $("#c-rows").innerHTML = `<div class="crow head"><span>Machine</span><span>Jobs done</span><span>Hours</span><span>Spent</span><span>Per hour</span></div>` + c.machines.map((m) => `<div class="crow">
+  const today = Object.fromEntries((state.budget.machines ?? []).map((m) => [m.machine, m]));
+  const share = (id) => { const t = today[id]; if (!t) return "–"; const pct = Math.min(100, (t.spent_usd / (t.cap_usd || 1)) * 100);
+    return `<span class="share${t.spent_usd + 0.01 > t.cap_usd + 1e-9 ? " full" : ""}"><b>${usd3(t.spent_usd)}</b> <small>of ${usd3(t.cap_usd)}</small><i><u style="width:${pct}%"></u></i></span>`; };
+  $("#c-rows").innerHTML = `<div class="crow head"><span>Machine</span><span>Today, of its share</span><span>Jobs done</span><span>Hours</span><span>Spent</span><span>Per hour</span></div>` + c.machines.map((m) => `<div class="crow">
       <span class="who"><img src="${THUMB[m.machine] ?? ""}" alt="" />${esc(nameOf(m.machine))}</span>
-      <span>${m.completed} <small>of ${m.decisions}</small></span><span>${m.hours ? hrs(m.hours) : "–"}</span>
+      ${share(m.machine)}<span>${m.completed} <small>of ${m.decisions}</small></span><span>${m.hours ? hrs(m.hours) : "–"}</span>
       <span>${usd(m.spent_usd)}</span><span>${m.per_hour_usd != null ? usd3(m.per_hour_usd) : m.machine === "ledger" ? "<small>audits only</small>" : "–"}</span></div>`).join("");
   $("#c-fails").innerHTML = FAILS.map((f) => {
     const last = (state.failure_runs ?? []).find((d) => d.trigger === f.trigger && d.machine === f.machine);

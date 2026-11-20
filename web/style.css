@@ -129,8 +129,10 @@ h1 .w { display: inline-block; opacity: 0; transform: translateY(0.5em); animati
 .money { margin-top: 2px; display: flex; align-items: baseline; gap: 8px; font-variant-numeric: tabular-nums; }
 .money span { font-size: 46px; font-weight: 500; letter-spacing: -0.045em; line-height: 1.05; }
 .money small { font-size: 15px; color: rgba(255, 255, 255, 0.55); }
-.meter { margin-top: 12px; height: 6px; border-radius: 6px; background: rgba(255, 255, 255, 0.14); overflow: hidden; }
-.meter i { display: block; height: 100%; width: 0; min-width: 6px; border-radius: 6px; background: var(--hi); transition: width 0.9s var(--ease); }
+.meter { margin-top: 12px; height: 6px; display: flex; gap: 3px; }
+.meter span { min-width: 0; border-radius: 6px; background: rgba(255, 255, 255, 0.14); overflow: hidden; }
+.meter i { display: block; height: 100%; width: 0; border-radius: 6px; background: var(--hi); transition: width 0.9s var(--ease); }
+.meter span.full i { background: #ff8a6b; }
 .trio { margin-top: 16px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .trio dd { font-size: 22px; font-weight: 500; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; line-height: 1.1; }
 .trio dt { font-size: 12.5px; color: rgba(255, 255, 255, 0.58); }
@@ -230,11 +232,16 @@ h1 .w { display: inline-block; opacity: 0; transform: translateY(0.5em); animati
 .tile b { font-size: 40px; font-weight: 500; letter-spacing: -0.045em; line-height: 1.05; font-variant-numeric: tabular-nums; }
 .tile span { font-size: 15px; font-weight: 500; color: var(--ink); }
 .tile small { font-size: 13px; color: var(--muted); }
-.crow { display: grid; grid-template-columns: minmax(0, 1.4fr) repeat(4, minmax(0, 1fr)); gap: 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line-2); font-size: 14px; font-variant-numeric: tabular-nums; }
+.crow { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.5fr) repeat(4, minmax(0, 1fr)); gap: 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line-2); font-size: 14px; font-variant-numeric: tabular-nums; }
 .crow.head { border-top: 0; font-size: 12.5px; color: var(--muted); padding-top: 0; }
 .crow .who { display: flex; align-items: center; gap: 10px; font-weight: 500; }
 .crow .who img { width: 28px; height: 28px; border-radius: 9px; background: var(--canvas); }
 .crow small { color: var(--muted); font-size: 12.5px; }
+.crow .share { display: grid; gap: 5px; }
+.crow .share b { font-weight: 500; }
+.crow .share i { display: block; height: 5px; border-radius: 5px; background: var(--ok-bg); overflow: hidden; max-width: 140px; }
+.crow .share u { display: block; height: 100%; background: var(--ok); border-radius: 5px; }
+.crow .share.full u { background: var(--bad); }
 .sec-head.sub { margin-top: 56px; }
 .sec-head.sub h3 { font-size: 24px; font-weight: 500; letter-spacing: -0.03em; }
 .sec-head.sub p { font-size: 15.5px; margin-top: 8px; }
@@ -344,7 +351,8 @@ h1 .w { display: inline-block; opacity: 0; transform: translateY(0.5em); animati
 }
 @media (max-width: 560px) {
   .tile b { font-size: 32px; }
-  .crow { grid-template-columns: minmax(0, 1.2fr) repeat(4, minmax(0, 1fr)); gap: 6px; font-size: 13px; }
+  .crow { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) repeat(2, minmax(0, 0.8fr)); gap: 6px; font-size: 13px; }
+  .crow > :nth-child(4), .crow > :nth-child(5) { display: none; }
   .crow .who img { display: none; }
   .steps { grid-template-columns: minmax(0, 1fr); }
   .try form { grid-template-columns: minmax(0, 1fr); }

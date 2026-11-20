@@ -56,7 +56,7 @@
           <span class="busy" id="busy" hidden></span>
         </div>
         <div class="money"><span id="s-spent">$0.00</span><small id="s-cap">of $3.00</small></div>
-        <div class="meter"><i id="s-bar"></i></div>
+        <div class="meter" id="s-meter" aria-label="Each machine's share of today's budget"></div>
         <dl class="trio">
           <div><dd id="s-bought">0</dd><dt>answers bought</dt></div>
           <div><dd id="s-junk">0</dd><dt>refused</dt></div>
@@ -99,6 +99,7 @@
       <div class="sec-head reveal">
         <h2>What an hour of work costs</h2>
         <p>Every cent the fleet spends on answers, divided by the work those answers let it do. Holds and unverified calls count too: they are what acting safely costs. Hours per job are simulated; Haul's come from the real drive time it bought.</p>
+        <p>Each machine also has its own share of the daily budget. When its share is spent, it stops buying, and the others keep theirs.</p>
       </div>
       <div class="tiles reveal" id="c-tiles"></div>
       <div class="board reveal">
