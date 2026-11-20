@@ -6,10 +6,12 @@ import { createTelegraph } from "./telegraph.mjs";
 import { openStore } from "./store.mjs";
 import { createBuyer } from "./buyer.mjs";
 import { createFleet, DEFAULT_FARM, MACHINES, farmFromInput } from "./fleet.mjs";
+import { costReport } from "./costs.mjs";
 
 const PORT = Number(process.env.PORT || 4380);
 const DAILY_BUDGET_USD = Number(process.env.DAILY_BUDGET_USD || 3);
 const TICK_SECONDS = Number(process.env.TICK_SECONDS || 300); // 0 = no automatic decisions
+const OWNER_TOKEN = process.env.OWNER_TOKEN || ""; // unset = the owner's revoke switch is off
 const WEB = new URL("../../web/", import.meta.url).pathname;
 
 const tg = createTelegraph();
@@ -21,8 +23,12 @@ const emit = (ev) => {
 };
 
 const dayStart = () => new Date().toISOString().slice(0, 10) + "T00:00:00.000Z";
+// The owner's standing permission for the fleet to spend. Revoking it stops every purchase, mid-task included.
+const authority = () => store.getSetting("spend_authority") ?? { revoked: false };
 const budget = {
   canSpend() {
+    const a = authority();
+    if (a.revoked) return { ok: false, why: `the farm owner revoked spending permission at ${a.at}` };
     const spent = store.spentSince(dayStart());
     return spent + 0.01 <= DAILY_BUDGET_USD + 1e-9
       ? { ok: true }
@@ -77,8 +83,16 @@ const allow = (ip, max = 8, windowMs = 3600e3) => {
   return true;
 };
 
-// "Break a miner": send the first purchase to a miner we have seen answer for the wrong place / market.
+// Failure tests a visitor can run on one machine:
+// "bad-miner": send the first purchase to a miner we have seen answer for the wrong place / market.
+// "revoke-pay": the owner's permission is withdrawn after the first paid answer (simulated owner, real purchases).
+// "unplug-sensor": the machine's own sensor stops reporting (simulated sensor).
 const KNOWN_BAD = { mule: "190131", lark: "9002" }; // Grid Elering (Estonia) for a CAISO node; TxLens satellite (answered for Illinois)
+const TESTS = {
+  "bad-miner": { machines: ["mule", "lark"], opts: (m) => ({ forceMinerId: KNOWN_BAD[m] }) },
+  "revoke-pay": { machines: ["kite"], opts: () => ({ revokeAfter: 1 }) },
+  "unplug-sensor": { machines: ["haul", "kite"], opts: (m) => ({ offline: MACHINES.find((x) => x.id === m).sensors }) },
+};
 
 const json = (res, code, body) => {
   res.writeHead(code, { "Content-Type": "application/json", "Cache-Control": "no-store" });
@@ -99,7 +113,7 @@ createServer(async (req, res) => {
       return json(res, 200, {
         farm: DEFAULT_FARM, machines: MACHINES, budget: budget.state(), busy, totals: store.totals(),
         junk: store.junkByIntent(), decisions: store.recent(Number(url.searchParams.get("limit") || 30), url.searchParams.get("farm") || undefined),
-        refusals: store.refusals(8), miners: store.minerBoard(),
+        refusals: store.refusals(8), miners: store.minerBoard(), costs: costReport(store.costRows(), MACHINES), authority: authority(), failure_runs: store.failureRuns(),
         node: tg.node, payer: tg.address, tick_seconds: TICK_SECONDS,
       });
     }
@@ -118,10 +132,22 @@ createServer(async (req, res) => {
       const b = await readBody(req);
       if (!MACHINES.some((m) => m.id === b.machine)) return json(res, 400, { error: "pick a machine" });
       if (!allow(ip)) return json(res, 429, { error: "That's 8 paid decisions from you this hour. The fleet keeps running on its own." });
-      const force = b.breakMiner ? KNOWN_BAD[b.machine] : undefined;
-      if (b.breakMiner && !force) return json(res, 400, { error: "break-a-miner is available for Mule and Lark" });
-      const d = await run(() => fleet.decide(b.machine, DEFAULT_FARM, { trigger: b.breakMiner ? "break-a-miner" : "visitor", forceMinerId: force }), b.machine);
+      const testName = b.test ?? (b.breakMiner ? "bad-miner" : null);
+      const t = testName ? TESTS[testName] : null;
+      if (testName && !t) return json(res, 400, { error: `unknown test ${testName}` });
+      if (t && !t.machines.includes(b.machine)) return json(res, 400, { error: `${testName} is available for ${t.machines.join(" and ")}` });
+      const trigger = testName === "bad-miner" ? "break-a-miner" : testName ?? "visitor";
+      const d = await run(() => fleet.decide(b.machine, DEFAULT_FARM, { trigger, ...(t ? t.opts(b.machine) : {}) }), b.machine);
       return json(res, 200, d);
+    }
+    if (url.pathname === "/api/authority" && req.method === "POST") {
+      // the owner's switch: { "revoked": true } stops all spending until { "revoked": false }
+      if (!OWNER_TOKEN || req.headers.authorization !== `Bearer ${OWNER_TOKEN}`) return json(res, 403, { error: "owner token required" });
+      const b = await readBody(req);
+      const next = { revoked: Boolean(b.revoked), at: new Date().toISOString() };
+      store.setSetting("spend_authority", next);
+      emit({ type: "authority", authority: next });
+      return json(res, 200, next);
     }
     if (url.pathname === "/api/try" && req.method === "POST") {
       const b = await readBody(req);

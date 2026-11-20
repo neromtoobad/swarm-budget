@@ -35,7 +35,7 @@ export function createBuyer({ tg, store, budget, onPurchase = () => {}, onAsk = 
     return candidates[0] ?? null;
   }
 
-  // ctx: { farm, machine, intent, params, place, origin?, destination?, forceMinerId? }
+  // ctx: { farm, machine, intent, params, place, origin?, destination?, forceMinerId?, mandate? }
   return async function buy(ctx) {
     const attempts = [];
     const tried = new Set();
@@ -45,7 +45,8 @@ export function createBuyer({ tg, store, budget, onPurchase = () => {}, onAsk = 
       miner = { id: String(ctx.forceMinerId), name: known?.name ?? null };
     }
     for (let attempt = 1; attempt <= 1 + MAX_REBUYS; attempt++) {
-      const gate = budget.canSpend();
+      // spending permission is checked before every purchase, so a withdrawal stops the very next one
+      const gate = ctx.mandate?.revoked ? { ok: false, why: ctx.mandate.why } : budget.canSpend();
       if (!gate.ok) {
         attempts.push({ attempt, verdict: "skipped", checks: [{ pass: false, why: gate.why }] });
         break;

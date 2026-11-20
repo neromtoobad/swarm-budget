@@ -1,5 +1,6 @@
 // The fleet: five simulated machines on a real farm location. Every decision buys real Telegraph answers,
-// runs them through the guard, and only then acts. Machines never act on an answer the guard rejected.
+// runs them through the guard, and only then acts. Machines never act on an answer the guard rejected,
+// never buy once their spending permission is withdrawn, and never buy for a job whose own sensor is offline.
 
 export const DEFAULT_FARM = {
   id: "kerman-ca",
@@ -9,13 +10,17 @@ export const DEFAULT_FARM = {
   gridNode: "TH_ZP26_GEN-APND", // CAISO day-ahead zone covering the Central Valley
 };
 
+// jobHours: simulated hours of machine work one completed job releases (Haul's comes from the real drive time).
+// sensors: simulated onboard sensors the job cannot run without.
 export const MACHINES = [
-  { id: "kite", name: "Kite", type: "spray-drone", job: "Spray block 3 if wind and rain allow" },
-  { id: "mule", name: "Mule", type: "rover", job: "Charge in the cheaper of this hour or 3 hours from now" },
-  { id: "haul", name: "Haul", type: "truck", job: "Leave for the packhouse if the drive fits the 45-minute cold-chain window" },
-  { id: "lark", name: "Lark", type: "scout-drone", job: "Check satellite imagery for standing water before irrigating" },
-  { id: "ledger", name: "Ledger", type: "auditor", job: "Check yesterday's spray call against what the weather actually did" },
+  { id: "kite", name: "Kite", type: "spray-drone", job: "Spray block 3 if wind and rain allow", jobHours: 1.5, sensors: ["anemometer"] },
+  { id: "mule", name: "Mule", type: "rover", job: "Charge in the cheaper of this hour or 3 hours from now", jobHours: 1 },
+  { id: "haul", name: "Haul", type: "truck", job: "Leave for the packhouse if the drive fits the 45-minute cold-chain window", sensors: ["reefer thermometer"] },
+  { id: "lark", name: "Lark", type: "scout-drone", job: "Check satellite imagery for standing water before irrigating", jobHours: 3 },
+  { id: "ledger", name: "Ledger", type: "auditor", job: "Check yesterday's spray call against what the weather actually did", jobHours: 0 },
 ];
+// Haul's job: there and back plus 20 minutes at the dock.
+export const haulHours = (driveMin) => Math.round(((2 * driveMin + 20) / 60) * 100) / 100;
 
 const LIMITS = { gustKmh: 15, rainPct: 40, coldChainMin: 45 };
 
@@ -60,12 +65,21 @@ export function createFleet({ store, buy, emit = () => {} }) {
   async function decide(machineId, farm = DEFAULT_FARM, opts = {}) {
     const m = MACHINES.find((x) => x.id === machineId);
     if (!m) throw new Error(`unknown machine ${machineId}`);
-    const ctx = { farm: farm.id, machine: m.id, place: farm.place, forceMinerId: opts.forceMinerId };
+    // The spending permission this decision runs under. The buyer checks it before every purchase.
+    // opts.revokeAfter = n simulates the farm owner withdrawing it after n paid answers, mid-task.
+    const mandate = { revoked: false, why: null };
+    const ctx = { farm: farm.id, machine: m.id, place: farm.place, forceMinerId: opts.forceMinerId, mandate };
     const bought = [];
+    let paid = 0;
     let silent = false; // true when the last question got no answer at all (errors or timeouts), as opposed to answers the guard refused
     const get = async (intent, params, extra = {}) => {
       const r = await buy({ ...ctx, intent, params, ...extra });
       bought.push(...r.attempts);
+      paid += r.attempts.filter((a) => a.id && a.status === 200).length;
+      if (opts.revokeAfter != null && paid >= opts.revokeAfter && !mandate.revoked) {
+        mandate.revoked = true;
+        mandate.why = `the farm owner withdrew spending permission after ${paid} paid answer${paid === 1 ? "" : "s"}`;
+      }
       silent = !r.accepted && r.attempts.every((a) => a.verdict !== "rejected");
       return r.accepted?.result ? JSON.parse(JSON.stringify(r.accepted.result)) : null;
     };
@@ -73,6 +87,12 @@ export function createFleet({ store, buy, emit = () => {} }) {
 
     let outcome = "unverified";
     let summary = "";
+    let hours = 0;
+    // A job whose own sensor is offline cannot run safely, so no answer could change the call: buy nothing, hold.
+    const offline = (m.sensors ?? []).filter((x) => [].concat(opts.offline ?? []).includes(x));
+    if (offline.length) {
+      return finish("hold", `Holds and buys nothing: its ${offline.join(" and ")} stopped reporting, so the job cannot run safely and any answer would be wasted money.`);
+    }
     const where = placeFull(farm.place);
     // Weather miners geocode names loosely ("Kerman, California" came back as Kerman, Iran), so weather asks use coordinates.
     const at = `${farm.place.lat.toFixed(4)},${farm.place.lon.toFixed(4)}`;
@@ -117,6 +137,7 @@ export function createFleet({ store, buy, emit = () => {} }) {
       else {
         const min = Math.round(eta.duration / 60);
         outcome = min <= LIMITS.coldChainMin ? "act" : "hold";
+        hours = haulHours(min);
         summary = outcome === "act"
           ? `Leaves for ${farm.packhouse.name}: ${min} min drive fits the ${LIMITS.coldChainMin}-min cold chain.`
           : `Holds the load: ${min} min to ${farm.packhouse.name} breaks the ${LIMITS.coldChainMin}-min cold chain.`;
@@ -161,13 +182,25 @@ export function createFleet({ store, buy, emit = () => {} }) {
       }
     }
 
-    const cost = bought.reduce((s, p) => s + (p.cost_usd || 0), 0);
-    const decision = { at: new Date().toISOString(), farm: farm.id, machine: m.id, kind: m.type, outcome, summary, cost_usd: cost, trigger: opts.trigger ?? "auto" };
-    decision.id = store.addDecision(decision);
-    store.linkPurchases(decision.id, bought.filter((p) => p.id).map((p) => p.id));
-    const full = { ...decision, purchases: bought.filter((p) => p.id) };
-    emit({ type: "decision", decision: full });
-    return full;
+    if (mandate.revoked) {
+      // never act on half the evidence: whatever the machine had bought so far, it stops here and stays put
+      outcome = "unverified";
+      hours = 0;
+      summary = `Stopped mid-task: ${mandate.why}. It bought nothing more and ${m.id === "kite" ? "the drone stays on the pad" : "does not move"}.`;
+    } else if (outcome === "act") hours = m.id === "haul" ? hours : m.jobHours ?? 0;
+    const blocked = bought.find((a) => a.verdict === "skipped");
+    if (blocked && !mandate.revoked) summary += ` No purchase was made: ${blocked.checks[0].why}.`; // budget spent, or the owner's switch is off
+    return finish(outcome, summary, hours);
+
+    function finish(outcome, summary, hours = 0) {
+      const cost = bought.reduce((s, p) => s + (p.cost_usd || 0), 0);
+      const decision = { at: new Date().toISOString(), farm: farm.id, machine: m.id, kind: m.type, outcome, summary, cost_usd: cost, op_hours: outcome === "act" ? hours : 0, trigger: opts.trigger ?? "auto" };
+      decision.id = store.addDecision(decision);
+      store.linkPurchases(decision.id, bought.filter((p) => p.id).map((p) => p.id));
+      const full = { ...decision, purchases: bought.filter((p) => p.id) };
+      emit({ type: "decision", decision: full });
+      return full;
+    }
   }
 
   return { decide, machines: MACHINES };
