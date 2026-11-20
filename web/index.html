@@ -33,6 +33,7 @@
       </a>
       <nav class="links">
         <a href="#guard">What it refused</a>
+        <a href="#cost">What it costs</a>
         <a href="#how">How it works</a>
         <a href="#try">Try your farm</a>
         <a href="#verify">Verify</a>
@@ -61,6 +62,7 @@
           <div><dd id="s-junk">0</dd><dt>refused</dt></div>
           <div><dd id="s-rebuys">0</dd><dt>asked again</dt></div>
         </dl>
+        <p class="rate-line" id="s-rate"></p>
       </div>
       <div class="feed-head">
         <h2>Receipts</h2>
@@ -91,6 +93,23 @@
         <h3>Every miner the fleet has bought from</h3>
         <div class="board-rows" id="g-board"></div>
       </div>
+    </section>
+
+    <section class="sec" id="cost">
+      <div class="sec-head reveal">
+        <h2>What an hour of work costs</h2>
+        <p>Every cent the fleet spends on answers, divided by the work those answers let it do. Holds and unverified calls count too: they are what acting safely costs. Hours per job are simulated; Haul's come from the real drive time it bought.</p>
+      </div>
+      <div class="tiles reveal" id="c-tiles"></div>
+      <div class="board reveal">
+        <h3>Per machine</h3>
+        <div class="board-rows" id="c-rows"></div>
+      </div>
+      <div class="sec-head sub reveal">
+        <h3>Three ways it fails safely</h3>
+        <p>Each test runs on the live fleet. Bad miner and Revoke pay spend real cents; Unplug sensor spends nothing.</p>
+      </div>
+      <div class="fails" id="c-fails"></div>
     </section>
 
     <section class="sec" id="how">

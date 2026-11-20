@@ -24,10 +24,18 @@ const ASK = {
   TASK_EXECUTION_QUALITY_GENERAL: "Was yesterday's spray call right?",
 };
 const OUT = { act: "Acted", hold: "Held", unverified: "Stayed put" };
-const BREAK = {
-  mule: "Send the first purchase to an Estonian grid miner that answered for a California node before",
-  lark: "Send the first purchase to a satellite miner that answered for the wrong place before",
+// Failure tests, one per machine that has one. The server runs them (TESTS in server.mjs).
+const TEST = {
+  mule: { test: "bad-miner", label: "Bad miner", title: "Send the first purchase to an Estonian grid miner that answered for a California node before" },
+  lark: { test: "bad-miner", label: "Bad miner", title: "Send the first purchase to a satellite miner that answered for the wrong place before" },
+  kite: { test: "revoke-pay", label: "Revoke pay", title: "Simulate the farm owner withdrawing spending permission after the first paid answer" },
+  haul: { test: "unplug-sensor", label: "Unplug sensor", title: "Simulate the truck's reefer thermometer going offline" },
 };
+const FAILS = [
+  { test: "bad-miner", machine: "mule", trigger: "break-a-miner", h: "A miner answers for the wrong place", p: "Mule's first purchase goes to a miner that has priced the wrong market before. The guard refuses it and Mule buys again from another miner." },
+  { test: "revoke-pay", machine: "kite", trigger: "revoke-pay", h: "The owner withdraws spending permission", p: "Kite buys its storm alert, then the owner's permission is withdrawn (simulated). The next purchase is blocked, and Kite stays on the pad rather than fly on half the evidence." },
+  { test: "unplug-sensor", machine: "haul", trigger: "unplug-sensor", h: "A sensor stops reporting", p: "Haul's reefer thermometer goes offline (simulated). Without it the cold chain cannot be proven, so Haul holds the load and buys nothing." },
+];
 const ICON = {
   ok: '<svg viewBox="0 0 16 16"><path d="M3.5 8.6l3 3 6-7.2"/></svg>',
   no: '<svg viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8"/></svg>',
@@ -118,7 +126,7 @@ function receipt(d) {
   const ul = $(".rc-buys", li);
   ps.forEach((p) => ul.appendChild(buyRow(p)));
   if (d.outcome) {
-    const how = { visitor: "run by a visitor", "break-a-miner": "bad-miner test", "try-your-farm": "visitor's farm", auto: "on its own schedule" }[d.trigger] ?? "";
+    const how = { visitor: "run by a visitor", "break-a-miner": "bad-miner test", "revoke-pay": "revoke-pay test", "unplug-sensor": "unplugged-sensor test", "try-your-farm": "visitor's farm", auto: "on its own schedule" }[d.trigger] ?? "";
     const got = ps.filter((p) => p.status === 200).length, rej = ps.filter((p) => p.verdict === "rejected").length, none = ps.length - got;
     const bits = [got ? `Paid ${usd(d.cost_usd)} for ${got} answer${got === 1 ? "" : "s"}` : "Nothing paid", rej ? `${rej} refused` : "", none ? `${none} ask${none === 1 ? "" : "s"} got no answer` : ""].filter(Boolean);
     $(".rc-foot", li).innerHTML = `<span>${bits.join(", ")}</span><span>${how}</span>`;
@@ -138,6 +146,34 @@ function renderStats() {
   countTo($("#s-bought"), t.answered ?? 0);
   countTo($("#s-junk"), t.rejected ?? 0);
   countTo($("#s-rebuys"), t.rebuys ?? 0);
+  const c = state.costs;
+  $("#s-rate").innerHTML = c?.per_hour_usd != null
+    ? `<b>${usd3(c.per_hour_usd)}</b> per hour of machine work · <b>${usd3(c.per_job_usd)}</b> per finished job`
+    : "No finished jobs yet";
+  if (state.authority?.revoked) { $("#live").classList.add("off"); $("#live span").textContent = "Spending paused by owner"; }
+}
+const usd3 = (n) => (n == null ? "?" : n < 0.1 ? `$${Number(n).toFixed(3)}` : usd(n));
+const hrs = (h) => (h >= 10 ? `${Math.round(h)} h` : `${Math.round(h * 10) / 10} h`);
+function renderCost() {
+  const c = state.costs;
+  if (!c) return;
+  const tile = (v, label, note) => `<div class="tile"><b>${v}</b><span>${label}</span><small>${note}</small></div>`;
+  $("#c-tiles").innerHTML = [
+    tile(usd3(c.per_hour_usd), "per hour of machine work", `${usd(c.spent_usd)} over ${hrs(c.operating_hours)} of work released`),
+    tile(usd3(c.per_job_usd), "per finished job", `${c.completed_jobs} jobs done in ${c.decisions} decisions`),
+    tile(c.mean_recovery_s != null ? `${Math.round(c.mean_recovery_s)} s` : "none yet", "to recover from a bad answer", c.recoveries ? `mean of ${c.recoveries} refusal${c.recoveries === 1 ? "" : "s"} fixed by a re-buy` : "no refusal fixed by a re-buy yet"),
+    tile(usd(c.overhead_usd), "spent on calls that did not act", "holds and unverified calls: the price of acting safely"),
+  ].join("");
+  $("#c-rows").innerHTML = `<div class="crow head"><span>Machine</span><span>Jobs done</span><span>Hours</span><span>Spent</span><span>Per hour</span></div>` + c.machines.map((m) => `<div class="crow">
+      <span class="who"><img src="${THUMB[m.machine] ?? ""}" alt="" />${esc(nameOf(m.machine))}</span>
+      <span>${m.completed} <small>of ${m.decisions}</small></span><span>${m.hours ? hrs(m.hours) : "–"}</span>
+      <span>${usd(m.spent_usd)}</span><span>${m.per_hour_usd != null ? usd3(m.per_hour_usd) : m.machine === "ledger" ? "<small>audits only</small>" : "–"}</span></div>`).join("");
+  $("#c-fails").innerHTML = FAILS.map((f) => {
+    const last = (state.failure_runs ?? []).find((d) => d.trigger === f.trigger && d.machine === f.machine);
+    return `<article class="fail-card"><h4>${f.h}</h4><p>${f.p}</p>
+      ${last ? `<div class="eg"><small>Last run, ${ago(last.at)}</small>${esc(last.summary)}</div>` : ""}
+      <button class="btn quiet" data-run="${f.machine}" data-test="${f.test}">Run it on ${esc(nameOf(f.machine))}</button></article>`;
+  }).join("");
 }
 function setBusy(label) {
   const b = $("#busy");
@@ -155,7 +191,7 @@ function renderDock() {
     el.innerHTML = `<i class="state"></i>
       <div class="unit-top"><img src="${THUMB[m.id]}" alt="" /><div><h3>${esc(m.name)}</h3><small>${ROLE[m.id] ?? ""}</small></div></div>
       <p class="unit-say job">${esc(m.job)}</p>
-      <div class="unit-btns"><button class="btn" data-run="${m.id}">${ICON.play}Run now</button>${BREAK[m.id] ? `<button class="btn quiet" data-break="${m.id}" title="${esc(BREAK[m.id])}">Bad miner</button>` : ""}</div>`;
+      <div class="unit-btns"><button class="btn" data-run="${m.id}">${ICON.play}Run now</button>${TEST[m.id] ? `<button class="btn quiet" data-run="${m.id}" data-test="${TEST[m.id].test}" title="${esc(TEST[m.id].title)}">${TEST[m.id].label}</button>` : ""}</div>`;
     units[m.id] = el;
     return el;
   }));
@@ -305,13 +341,13 @@ async function post(path, body) {
   return j;
 }
 document.addEventListener("click", async (e) => {
-  const btn = e.target.closest("button[data-run],button[data-break]");
+  const btn = e.target.closest("button[data-run]");
   if (btn) {
     e.stopPropagation();
-    const id = btn.dataset.run || btn.dataset.break;
+    const id = btn.dataset.run;
     const row = $$("button", btn.parentElement);
     row.forEach((b) => (b.disabled = true));
-    try { await post("/api/decide", { machine: id, breakMiner: Boolean(btn.dataset.break) }); } catch (err) { toast(err.message); }
+    try { await post("/api/decide", { machine: id, test: btn.dataset.test || undefined }); } catch (err) { toast(err.message); }
     row.forEach((b) => (b.disabled = false));
     return;
   }
@@ -377,10 +413,12 @@ async function refresh() {
   state = { ...state, ...s };
   renderStats();
   renderGuard();
+  renderCost();
   renderSteps();
   renderVerify();
 }
 function onEvent(ev) {
+  if (ev.type === "authority") return void refresh().then(() => { if (!ev.authority.revoked) { $("#live").classList.remove("off"); $("#live span").textContent = "Telegraph testnet"; } });
   if (ev.type === "hello") return setBusy(ev.busy ? nameOf(String(ev.busy).split(" ")[0].toLowerCase()) : null);
   const id = ev.machine ?? ev.purchase?.machine ?? ev.decision?.machine;
   const farm = ev.farm ?? ev.purchase?.farm ?? ev.decision?.farm;
@@ -526,6 +564,7 @@ async function start() {
     setUnit(m.id, last.outcome, last.summary);
   }
   renderGuard();
+  renderCost();
   renderSteps();
   renderVerify();
   const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && (e.target.classList.add("in"), io.unobserve(e.target))), { threshold: 0.15 });
