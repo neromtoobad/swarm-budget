@@ -1,6 +1,6 @@
 # Swarm Budget: farm machines that pay for an answer before they move, and refuse the wrong ones
 
-**Live:** [swarm.nerom.site](https://swarm.nerom.site) · **Video:** not recorded yet · **Built at:** Telegraph Hackathon Season II, Nov 2026 (Track 03 Apps & Agents; missions 11 Autonomous Systems and 06 Resources & Agriculture)
+**Live:** [swarmbudget.nerom.site](https://swarmbudget.nerom.site) · **Video:** not recorded yet · **Built at:** Telegraph Hackathon Season II, Nov 2026 (Track 03 Apps & Agents; missions 11 Autonomous Systems and 06 Resources & Agriculture)
 
 **Proof:** every answer the fleet uses is a paid Telegraph purchase. Its signal record on the public node names our wallet as the buyer, for example
 [`/engine/v1/signal/0x2be2…99a8`](https://devnode.telegraphprotocol.com/engine/v1/signal/0x2be2cfc707ea4c40e67676a0b3366e0cf9f30dd8287f04a3d3a98df3597199a8),
@@ -98,6 +98,7 @@ node, and a satellite answer about Illinois. A spray drone acting on the first o
 
 ## Trust model & limitations
 - One server-held testnet key pays for everything (`EVM_PRIVATE_KEY`). Visitors never sign anything. Their paid actions are rate-limited (8 decisions and 3 farm runs per IP per hour) and capped by the daily budget.
+- The live site runs on **$0.15 a day** and decides on its own every 6 hours, because the escrow holds about 4.5 test USDC and has to last through judging. When today's budget is spent, machines hold and say so, and purchases resume at 00:00 UTC. Locally the default is $3 a day.
 - The guard checks consistency with the question. It cannot prove a gust reading is true. The auditor machine (Ledger) later checks yesterday's spray call against recorded weather.
 - The **Bad miner** button points the first purchase at miners we saw fail before (`server/src/server.mjs:81`). The refusal itself still comes from the guard on the live answer.
 
