@@ -11,11 +11,15 @@
     "test": "node --test test/*.test.mjs",
     "probe": "node --env-file=.env scripts/probe.mjs",
     "start": "node server/src/server.mjs",
-    "dev": "node --env-file=.env --watch server/src/server.mjs"
+    "dev": "node --env-file=.env --watch server/src/server.mjs",
+    "mcp": "node --env-file-if-exists=.env packages/checked-ask/mcp.mjs"
   },
   "dependencies": {
     "@x402/evm": "^2.30.0",
     "@x402/fetch": "^2.30.0",
     "viem": "^2.57.16"
+  },
+  "bin": {
+    "checked-ask-mcp": "./packages/checked-ask/mcp.mjs"
   }
 }

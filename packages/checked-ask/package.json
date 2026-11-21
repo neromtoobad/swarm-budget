@@ -1,0 +1,18 @@
+{
+  "name": "checked-ask",
+  "version": "0.1.0",
+  "description": "Pay for an answer on Telegraph from escrow, check it before you act on it, and buy again from another miner when it's wrong. Library + MCP server.",
+  "type": "module",
+  "main": "./index.mjs",
+  "exports": {
+    ".": "./index.mjs",
+    "./guard": "./guard.mjs",
+    "./escrow": "./escrow.mjs"
+  },
+  "bin": { "checked-ask-mcp": "./mcp.mjs" },
+  "files": ["*.mjs", "README.md"],
+  "engines": { "node": ">=20" },
+  "dependencies": { "viem": "^2.57.16" },
+  "repository": { "type": "git", "url": "git+https://github.com/neromtoobad/swarm-budget.git", "directory": "packages/checked-ask" },
+  "keywords": ["telegraph", "x402", "escrow", "mcp", "agents", "guard"]
+}
