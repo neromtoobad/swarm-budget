@@ -120,7 +120,7 @@ function check(answer) {
 }
 ```
 
-This is the smallest useful check. Swarm Budget's guard ([`server/src/guard.mjs`](../server/src/guard.mjs)) also checks the market and node for power prices, the currency, the hour, plausible ranges, and whether a satellite answer contains a reading at all.
+This is the smallest useful check. Swarm Budget's guard ([`packages/checked-ask/guard.mjs`](../packages/checked-ask/guard.mjs)) also checks the market and node for power prices, the currency, the hour, plausible ranges, and whether a satellite answer contains a reading at all.
 
 ## Step 5: buy again from another miner
 
@@ -134,7 +134,7 @@ const miners = (await fetch(`${NODE}/engine/v1/intents/${request.intent}/miners`
 // …after a refusal: buy(request, miners.find((m) => !tried.has(String(m.id))).id)
 ```
 
-Treat a miner that errors or times out the same way as a wrong answer: skip it and move on. Swarm Budget ranks re-buys by each miner's own pass rate, and drops a miner that has been refused twice without one accepted answer ([`server/src/buyer.mjs`](../server/src/buyer.mjs)).
+Treat a miner that errors or times out the same way as a wrong answer: skip it and move on. Swarm Budget ranks re-buys by each miner's own pass rate, and drops a miner that has been refused twice without one accepted answer ([`packages/checked-ask/checked-ask.mjs`](../packages/checked-ask/checked-ask.mjs)).
 
 Run it by name, sending the first purchase to miner 9002:
 
@@ -204,9 +204,9 @@ Swarm Budget wraps these same steps for five machines (code in [`server/src/`](.
 
 | Here | In Swarm Budget |
 |---|---|
-| `buy()` | [`telegraph.mjs`](../server/src/telegraph.mjs) `askEscrow()`, with time-outs and a price cap |
-| `check()` | [`guard.mjs`](../server/src/guard.mjs): place by distance or by name plus region and country, plus market, currency, hour, ranges and imagery |
-| the re-buy loop | [`buyer.mjs`](../server/src/buyer.mjs): miners ranked by our own pass rate, every attempt stored with its receipt |
+| `buy()` | [`escrow.mjs`](../packages/checked-ask/escrow.mjs) `askEscrow()`, with time-outs and a price cap |
+| `check()` | [`guard.mjs`](../packages/checked-ask/guard.mjs): place by distance or by name plus region and country, plus market, currency, hour, ranges and imagery |
+| the re-buy loop | [`checked-ask.mjs`](../packages/checked-ask/checked-ask.mjs): miners ranked by our own pass rate, every attempt stored with its receipt |
 | a price cap | [`budget.mjs`](../server/src/budget.mjs): one daily pool split into a share per machine, plus the owner's switch, checked before every purchase |
 | "act on nothing" | [`fleet.mjs`](../server/src/fleet.mjs): a machine acts only on accepted answers; otherwise it holds and says why |
 

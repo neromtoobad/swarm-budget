@@ -1,0 +1,25 @@
+get_intent: [
+  'class',
+  'evaluation',
+  'intent_id',
+  'intent_name',
+  'lifecycle',
+  'miner_count',
+  'miners',
+  'onchain'
+]
+find_miners: 19 compatible
+
+=== ask_checked location="Kerman, California" -> accepted, spent $0.01, session $0.01
+ #1 accepted PREFLIGHT Infrastructure Signals status=200 $0.01 7848ms
+    OK echoed "Kerman, California, United States" | OK peak gust 19.1 km/h
+    https://devnode.telegraphprotocol.com/engine/v1/signal/0x14763962ce716d4e4edaee9a9d82b4f0b2bb708f3e61a8bb451b4bdee014faa4
+ answer: {"location":"Kerman, California, United States","risk_score":0,"risk_level":"LOW","peak_gust_kmh":19.1,"precipitation_mm":0,"window":"2026-11-21T07:00Z to 2026-11-21T12:00Z (6 hours)"}
+
+=== ask_checked location="36.7236,-120.0599" -> accepted, spent $0.01, session $0.02
+ #1 accepted PREFLIGHT Infrastructure Signals status=200 $0.01 8629ms
+    OK echoed coordinates 0 km from the farm | OK peak gust 19.1 km/h
+    https://devnode.telegraphprotocol.com/engine/v1/signal/0x970d43a9cd8d8095fbe82cf0c591f289d0c64558820e2fbce1b0c917fef0a68e
+ answer: {"location":"36.7236, -120.0599","risk_score":0,"risk_level":"LOW","peak_gust_kmh":19.1,"precipitation_mm":0,"window":"2026-11-21T07:00Z to 2026-11-21T12:00Z (6 hours)"}
+
+escrow: {"wallet":"0x8482E592d6B28d3F5B713CC4576D6Ce216B2A78E","ledger":{"active_root":{"balance":"4240000","charged":"760000","credited":"0","cutoff":1795234716,"epoch_id":28,"seq":28},"address":"0x8482e592d6b28d3f5b713cc4576d6ce216b2a78e","available":"4200000","balance":"4240000","charge_limit":"1000000000","charged":"760000","charged_this_block":"40000","credited":"0","deposited":"5000000","request":{"status":"none"},"unbilled":"40000","withdrawn":"0"},"session_spent_usd":0.02}

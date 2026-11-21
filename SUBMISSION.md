@@ -38,6 +38,7 @@ Everything the H2 submission form asks for (rules, section 08), in the order the
 - Tutorial: [Pay for an answer on Telegraph from Node, check it, and buy again when it's wrong](https://github.com/neromtoobad/swarm-budget/blob/main/docs/TUTORIAL.md), with a one-file example, [examples/pay-and-check.mjs](https://github.com/neromtoobad/swarm-budget/blob/main/examples/pay-and-check.mjs). Also on DEV: **[you]** add the public dev.to link once the draft (staged Nov 20) is published
 - Bounty progress: [#199 /progress](https://github.com/telegraphprotocol/bounties/issues/199), [#194 /progress](https://github.com/telegraphprotocol/bounties/issues/194)
 - Evidence for another builder's network report: [#211](https://github.com/telegraphprotocol/bounties/issues/211). A storm miner resolved "Kerman, California" to Iran.
+- Reusable package for other builders: [checked-ask](https://github.com/neromtoobad/swarm-budget/tree/main/packages/checked-ask), the same buy, check and re-buy as a library or an MCP server for AI agents (`npx -y github:neromtoobad/swarm-budget`), with spending limits enforced in code. The fleet runs on it.
 - Independent developer testing: none to report yet. **[you]** add any outside tester or issue here.
 
 ## 4. Commercial questions (Apps & Agents)
@@ -67,7 +68,7 @@ All of this is live at https://swarmbudget.nerom.site on the Telegraph testnet n
   - Uncertain perception happens in normal runs: Lark refuses a satellite read with no reading, and a cloud-covered read counts as inconclusive.
 - The forecast check: 1 forecast scored so far (a 6-hour forecast said 14% rain and Kerman recorded 14.2 mm, a wrong call with Brier 0.74). One 24-hour forecast is waiting for its day to end **[refresh]**.
 - Latency: median 5.2 s per paid answer **[refresh]**.
-- 42 tests (`npm test`). `tools/check-live.mjs` passes 13/13 against the live app and node.
+- 50 tests (`npm test`). `tools/check-live.mjs` passes 13/13 against the live app and node.
 
 ### Why would someone adopt it?
 The data side of autonomy costs one budget, not one contract per provider. The machine pays per answer, from whichever miner passes the checks. The checks are what make paying per answer safe. A wrong-country storm report gets refused before it reaches a sprayer, instead of being found later in an incident review. For spraying, where drift is regulated, the record of what the machine knew, what it paid and why it held is useful to the operator and to an insurer.
@@ -97,7 +98,7 @@ Maintained by neromtoobad (solo) at https://github.com/neromtoobad/swarm-budget.
 ```bash
 git clone https://github.com/neromtoobad/swarm-budget && cd swarm-budget
 npm install
-npm test                                  # 42 tests, no key, no network, no spend
+npm test                                  # 50 tests, no key, no network, no spend
 cp .env.example .env                      # put your testnet key in EVM_PRIVATE_KEY and its address in EVM_ADDRESS
 npm run fund -- --deposit 2               # mints 10 test USDC, then deposits 2 into the Telegraph escrow
 npm run dev                               # http://localhost:4380 (TICK_SECONDS=0 in .env stops the automatic loop)
@@ -148,10 +149,10 @@ The first purchase goes to a miner seen answering for Estonia. The guard refuses
 | Accounting | Escrow ledger for the payer on the node: [0x8482…a78e](https://devnode.telegraphprotocol.com/v1/ledger/account/0x8482e592d6b28d3f5b713cc4576d6ce216b2a78e). The app's own report is under "What an hour of work costs" and in `/api/state` → `costs` |
 | Endpoints | `GET /api/state` (everything the page shows), `POST /api/decide`, `POST /api/try`, `GET /api/stream` (live events), `GET /api/ledger` |
 | Saved answers | `evidence/` in the repo, including `junk-STORM_ALERT-kerman-iran.json`, `name-vs-coordinates-STORM_ALERT.json`, `rebuy-GRID_POWER_PRICE_GENERAL-714106.json`, `junk-SATELLITE-no-reading.json` |
-| Tests | `npm test`: 42 tests in six files (`guard`, `budget`, `failures`, `fleet`, `forecast-check`, `autopilot`). The guard tests use the real saved answers, and the failure, fleet and forecast-check tests run the real buyer and guard |
+| Tests | `npm test`: 50 tests in six files (`guard`, `budget`, `failures`, `fleet`, `forecast-check`, `autopilot`). The guard tests use the real saved answers, and the failure, fleet and forecast-check tests run the real buyer and guard |
 | Live verification | `tools/check-live.mjs`: 13 checks, including that the fleet bought on its own schedule, that no machine acted on a refused answer, that no machine spent past its share, that revoked and unplugged runs bought nothing, and that the cost and forecast scores match the answers they came from |
 | Evaluation method | Forecast check: the rain call (≥ 50% means rain; ≥ 1 mm recorded means a rainy day), the Brier score, and the absolute miss on the day's high and low, grouped by site and horizon (`server/src/forecast-check.mjs`) |
-| Rankings | The miner board on the page and `/api/state` → `miners`: each miner's accepted, refused and failed counts per intent. These counts rank re-buys (`server/src/buyer.mjs:20-35`) |
+| Rankings | The miner board on the page and `/api/state` → `miners`: each miner's accepted, refused and failed counts per intent. These counts rank re-buys (`packages/checked-ask/checked-ask.mjs:45-60`) |
 | Claims to code | README "Claims" table: each claim with its `file:line` and the check that proves it. [JUDGES.md](JUDGES.md) maps the rubric |
 
 ## 7. Showcase permission
