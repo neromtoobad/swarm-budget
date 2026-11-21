@@ -1,7 +1,8 @@
-// Telegraph client: discovery (free), 402 challenge decode, and paid asks over x402.
+// Telegraph client for the fleet: the checked-ask escrow client plus paid asks over x402 "exact".
 import { wrapFetchWithPaymentFromConfig } from "@x402/fetch";
 import { ExactEvmScheme } from "@x402/evm";
 import { privateKeyToAccount } from "viem/accounts";
+import { createEscrowClient } from "../../packages/checked-ask/escrow.mjs";
 
 export const SEPOLIA = "eip155:11155111";
 export const TEST_USDC = "0xcc194e1a843B658526D0D5C431f670028582Ae17";
@@ -10,19 +11,13 @@ export const BASE_SEPOLIA_USDC = "0x036CbD53842c5426634e7929541eC2318f3dCF7e"; /
 
 const b64json = (s) => (s ? JSON.parse(Buffer.from(s, "base64").toString("utf8")) : null);
 
-const ASK_TIMEOUT_MS = Number(process.env.ASK_TIMEOUT_MS || 90_000);
-
 export function createTelegraph({
   node = process.env.TELEGRAPH_NODE || "https://devnode.telegraphprotocol.com",
   privateKey = process.env.EVM_PRIVATE_KEY,
   maxPerPaymentUusdc = "50000", // hard cap per single payment: $0.05
 } = {}) {
-  const get = async (path) => {
-    const r = await fetch(node + path);
-    if (!r.ok) throw new Error(`GET ${path} → ${r.status}`);
-    return r.json();
-  };
-
+  // Discovery and escrow payments come from the checked-ask package; this file adds the x402 "exact" rail.
+  const escrow = createEscrowClient({ node, privateKey, maxPerPaymentUusdc });
   let paidFetch = null;
   const account = privateKey ? privateKeyToAccount(privateKey) : null;
   if (account) {
@@ -39,80 +34,7 @@ export function createTelegraph({
   const askPath = (minerId) => (minerId ? `/engine/v1/ask/${minerId}` : "/engine/v1/ask");
 
   return {
-    node,
-    address: account?.address ?? null,
-
-    // ---- free discovery ----
-    intents: () => get("/engine/v1/intents"),
-    intent: (id) => get(`/engine/v1/intents/${id}`),
-    intentMiners: (id) => get(`/engine/v1/intents/${id}/miners`),
-    miners: (intent) => get(`/api/miners${intent ? `?intent=${encodeURIComponent(intent)}` : ""}`),
-    signal: (hash) => get(`/engine/v1/signal/${hash}`),
-
-    // Unpaid call: returns the decoded 402 challenge (price, payTo, asset) without spending anything.
-    async challenge(body, { minerId } = {}) {
-      const r = await fetch(node + askPath(minerId), {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      const text = await r.text();
-      let json = null;
-      try { json = JSON.parse(text); } catch {}
-      return { status: r.status, challenge: b64json(r.headers.get("payment-required")), body: json ?? text };
-    },
-
-    // Paid call from the escrow balance (deposit once with depositUSDC on the Diamond).
-    // No facilitator and no per-call chain tx: the node checks an EIP-191 signature and bills at epoch close.
-    async askEscrow(body, { minerId } = {}) {
-      if (!account) throw new Error("EVM_PRIVATE_KEY not set");
-      const url = node + askPath(minerId);
-      const headers = { "Content-Type": "application/json" };
-      const started = Date.now();
-      // a miner that never answers must not hang the fleet: time out, record a failed attempt, buy from the next one
-      const first = await fetch(url, { method: "POST", headers, body: JSON.stringify(body), signal: AbortSignal.timeout(30_000) });
-      if (first.status !== 402) {
-        return { ok: first.ok, status: first.status, ms: Date.now() - started, body: await first.json().catch(() => null), receipt: null };
-      }
-      const challenge = await first.json();
-      const escrow = challenge.accepts?.find((a) => a.scheme === "escrow");
-      if (!escrow) throw new Error("node does not offer escrow");
-      const template = escrow.extra.message;
-      const value = template.match(/Amount:\s*(\d+)\s*uUSDC/)[1];
-      if (BigInt(value) > BigInt(maxPerPaymentUusdc)) throw new Error(`price ${value} uUSDC over cap ${maxPerPaymentUusdc}`);
-      const now = Math.floor(Date.now() / 1000);
-      const authorization = {
-        from: account.address.toLowerCase(), // the node lowercases before checking the signature
-        to: escrow.payTo,
-        value,
-        validAfter: String(now - 5),
-        validBefore: String(now + 100), // window must stay under 2 minutes
-        nonce: crypto.randomUUID(),
-      };
-      const message = template
-        .replace("{from}", authorization.from)
-        .replace("{nonce}", authorization.nonce)
-        .replace("{validAfter}", authorization.validAfter)
-        .replace("{validBefore}", authorization.validBefore);
-      const signature = await account.signMessage({ message });
-      const payment = Buffer.from(
-        JSON.stringify({ x402Version: 2, scheme: "escrow", network: escrow.network, payload: { signature, authorization } }),
-      ).toString("base64");
-      const r = await fetch(url, { method: "POST", headers: { ...headers, "X-PAYMENT": payment }, body: JSON.stringify(body), signal: AbortSignal.timeout(ASK_TIMEOUT_MS) });
-      const text = await r.text();
-      let json = null;
-      try { json = JSON.parse(text); } catch {}
-      return {
-        ok: r.ok,
-        status: r.status,
-        ms: Date.now() - started,
-        body: json ?? text,
-        receipt: b64json(r.headers.get("x-payment-response")),
-        rail: "escrow",
-      };
-    },
-
-    ledger: () => get(`/v1/ledger/account/${account.address.toLowerCase()}`),
+    ...escrow, // intents, intentMiners, signal, ledger, challenge, askEscrow
 
     // Paid call over x402 exact. body = {intent, params} | {query} | {method, endpoint, payload} (direct).
     async ask(body, { minerId } = {}) {
