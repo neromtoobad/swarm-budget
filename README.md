@@ -164,3 +164,6 @@ First commit 2026-11-19, after the event start (2026-11-01). Nothing was reused 
 ## AI usage
 Built with Claude Code: research on the Telegraph API, code, tests and this README. Each decision and refusal shown in
 the app comes from live Telegraph answers at run time. Nothing is canned.
+
+## License
+MIT. See [LICENSE](LICENSE). The [`checked-ask`](packages/checked-ask/README.md) package is under the same license, so other builders can use it in their own apps and agents.

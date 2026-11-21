@@ -108,6 +108,9 @@ From the repo root: `npm run fund -- --deposit 2` mints test USDC and deposits i
 
 Every test runs offline on answers saved from the testnet.
 
+## License
+MIT. See [LICENSE](LICENSE).
+
 ## Not built yet
 - Published to npm. Today you install it from GitHub, as above.
 - The x402 "exact" rail. The package pays from escrow only; the fleet's own client adds exact.
