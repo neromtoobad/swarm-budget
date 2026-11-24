@@ -18,7 +18,7 @@ No wallet or sign-in needed. Everything below runs against the public Telegraph 
 | `npx -y github:neromtoobad/swarm-budget` as an MCP server in any agent (see [`packages/checked-ask`](packages/checked-ask/README.md)) | Tools `ask_checked`, `check_answer`, `find_miners`, `get_intent`, `escrow_balance`. Without a key, the free tools work and `ask_checked` buys nothing and says why |
 
 ## Failure cases to try
-- **Wrong place:** `evidence/junk-STORM_ALERT-kerman-iran.json`. Two miners answered for Kerman, Iran. The test "same town name in another country is refused" replays it.
+- **Wrong place:** `evidence/junk-STORM_ALERT-kerman-iran.json`. TxLens answered for Kerman, Iran on Nov 19; on Nov 20 Amanat Weather Risk made the same mistake (docs/TUTORIAL.md, step 5). The test "same town name in another country is refused" replays it.
 - **Wrong market:** Mule's **Bad miner** button.
 - **No imagery analysed:** `evidence/junk-SATELLITE-no-reading.json` ("the vision model was unavailable"), replayed by the test "a satellite answer with no reading is refused". Lark's **Bad miner** button sends to TxLens 9002; at the moment the node returns 503 for that direct ask, which the page shows as "No answer" and nothing is charged.
 - **Budget spent:** set `DAILY_BUDGET_USD=0.02` and run Kite twice. The second decision pays for nothing, because the buyer stops before paying (`packages/checked-ask/checked-ask.mjs:75-79`), and the drone stays on the pad.

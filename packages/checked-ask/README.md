@@ -8,7 +8,7 @@ This is the guard and re-buy loop from [Swarm Budget](../../README.md), taken ou
 
 ## Why check a paid answer
 
-A miner can answer the question you asked confidently and still be wrong about what you meant. On 2026-11-19, two Telegraph miners answered a storm alert for "Kerman, California" with weather for Kerman, Iran (saved in [`evidence/junk-STORM_ALERT-kerman-iran.json`](../../evidence/junk-STORM_ALERT-kerman-iran.json)). Both answers were well-formed and paid for. A machine acting on them would have used gusts from the wrong country.
+A miner can answer the question you asked confidently and still be wrong about what you meant. On 2026-11-19, a Telegraph miner answered a storm alert for "Kerman, California" with weather for Kerman, Iran, twice (saved in [`evidence/junk-STORM_ALERT-kerman-iran.json`](../../evidence/junk-STORM_ALERT-kerman-iran.json)). The next day a second miner made the same mistake. Every one of those answers was well-formed and paid for. A machine acting on them would have used gusts from the wrong country.
 
 `checked-ask` refuses an answer like that, then buys from the next compatible miner. That miner is ranked by how often its answers have passed, so a miner refused twice with nothing accepted is skipped.
 
