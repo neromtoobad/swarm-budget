@@ -32,7 +32,7 @@ Everything the H2 submission form asks for (rules, section 08), in the order the
 > To try it, open https://swarmbudget.nerom.site and press Run now on any machine, run one of the three failure tests, or type your own farm. To check it, run `node tools/check-live.mjs https://swarmbudget.nerom.site`, which prints PASS or FAIL for each claim against the app and the public node. Code, tests and saved evidence: https://github.com/neromtoobad/swarm-budget.
 
 **Links to original H2 updates** (add each one as it is posted):
-- X update 1: **[you]** link
+- X update 1: https://x.com/NeromStudio/status/2125357221441589297 (Nov 24)
 - X update 2: **[you]** link
 - X update 3: **[you]** link
 - Tutorial: [Pay for an answer on Telegraph from Node, check it, and buy again when it's wrong](https://github.com/neromtoobad/swarm-budget/blob/main/docs/TUTORIAL.md), with a one-file example, [examples/pay-and-check.mjs](https://github.com/neromtoobad/swarm-budget/blob/main/examples/pay-and-check.mjs). Also on DEV: **[you]** add the public dev.to link once the draft (staged Nov 20) is published
