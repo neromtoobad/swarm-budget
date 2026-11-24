@@ -248,8 +248,9 @@ h1 .w { display: inline-block; opacity: 0; transform: translateY(0.5em); animati
 .frow small { color: var(--muted); font-size: 12.5px; }
 .frow .ok { color: var(--ok); font-weight: 500; }
 .frow .bad { color: var(--bad); font-weight: 500; }
-.frow .proof { display: flex; gap: 10px; flex-wrap: wrap; font-size: 13px; }
-.frow .proof a { color: var(--ink-2); }
+.frow .f-proof { display: flex; gap: 10px; flex-wrap: wrap; font-size: 13px; }
+.frow .f-proof a { color: var(--ink-2); display: inline-flex; align-items: center; gap: 2px; }
+.frow .f-proof svg { width: 9px; height: 9px; stroke-width: 2.2; }
 .board .empty { padding: 12px 0 14px; color: var(--muted); font-size: 14.5px; }
 #forecast .board + .board { margin-top: 12px; }
 .sec-head.sub { margin-top: 56px; }

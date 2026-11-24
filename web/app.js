@@ -208,13 +208,14 @@ function renderForecast() {
       <span>${g.high_mae_c != null ? `${g.high_mae_c} / ${g.low_mae_c ?? "–"} °C` : g.horizon_h === 24 ? "–" : "<small>rain only</small>"}</span></div>`).join("")
     : `<p class="empty">No forecasts bought yet.</p>`;
   const sig = (h, label) => (h ? `<a href="${NODE}/engine/v1/signal/${encodeURIComponent(h)}" target="_blank" rel="noopener" title="Open this answer's record on the Telegraph node">${label}${ICON.ext}</a>` : "");
+  const r1 = (n) => Math.round(n * 10) / 10;
   $("#f-rows").innerHTML = f.rows.length
     ? `<div class="frow pair head"><span>Day</span><span>Horizon</span><span>Forecast said</span><span>Recorded</span><span>Rain call</span><span>Proof</span></div>` + f.rows.map((p) => `<div class="frow pair">
       <span>${esc(p.date)}</span><span>${p.horizon_h} h</span>
-      <span>${p.said.rain_pct ?? "?"}% rain${p.said.high != null ? `, ${p.said.high}° / ${p.said.low ?? "?"}°` : ""}</span>
+      <span>${p.said.rain_pct ?? "?"}% rain${p.said.high != null ? `, ${r1(p.said.high)}° / ${p.said.low != null ? r1(p.said.low) : "?"}°` : ""}</span>
       <span>${p.recorded.rain_mm ?? "?"} mm${p.horizon_h === 24 && p.recorded.high != null ? `, ${p.recorded.high}° / ${p.recorded.low ?? "?"}°` : ""}</span>
       <span class="${p.rain_call_right == null ? "" : p.rain_call_right ? "ok" : "bad"}">${p.rain_call_right == null ? "–" : p.rain_call_right ? "right" : "wrong"}</span>
-      <span class="proof">${sig(p.forecast_signal, "forecast")} ${sig(p.record_signal, "record")}</span></div>`).join("")
+      <span class="f-proof">${sig(p.forecast_signal, "forecast")} ${sig(p.record_signal, "record")}</span></div>`).join("")
     : `<p class="empty">Nothing checked yet. Each forecast is checked on Ledger's first run after its day ends${f.overdue?.length ? `; ${f.overdue.length} day${f.overdue.length === 1 ? " is" : "s are"} ready to check now` : ""}.</p>`;
 }
 function setBusy(label) {
