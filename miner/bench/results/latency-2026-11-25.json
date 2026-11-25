@@ -1,0 +1,72 @@
+{
+ "benchmark": "latency",
+ "run_at": "2026-11-25T13:31:03.610Z",
+ "miner": "https://pinpoint.nerom.site",
+ "note": "Client times include the round trip from the machine that ran this (Lagos, Nigeria) to the server. Server-side times are the x-response-ms header: what the miner itself took, including its calls to the weather sources.",
+ "results": {
+  "/storm-alert": {
+   "requests": 40,
+   "failures": 0,
+   "first_time_place": {
+    "p50_ms": 610,
+    "p95_ms": 1600
+   },
+   "repeat_within_cache": {
+    "p50_ms": 410,
+    "p95_ms": 1345
+   },
+   "inside_the_server_first_time": {
+    "p50_ms": 202,
+    "p95_ms": 813
+   }
+  },
+  "/forecast": {
+   "requests": 40,
+   "failures": 0,
+   "first_time_place": {
+    "p50_ms": 440,
+    "p95_ms": 568
+   },
+   "repeat_within_cache": {
+    "p50_ms": 414,
+    "p95_ms": 567
+   },
+   "inside_the_server_first_time": {
+    "p50_ms": 24,
+    "p95_ms": 29
+   }
+  },
+  "/verify": {
+   "requests": 40,
+   "failures": 0,
+   "first_time_place": {
+    "p50_ms": 664,
+    "p95_ms": 805
+   },
+   "repeat_within_cache": {
+    "p50_ms": 416,
+    "p95_ms": 504
+   },
+   "inside_the_server_first_time": {
+    "p50_ms": 252,
+    "p95_ms": 345
+   }
+  },
+  "/temperature": {
+   "requests": 40,
+   "failures": 0,
+   "first_time_place": {
+    "p50_ms": 576,
+    "p95_ms": 988
+   },
+   "repeat_within_cache": {
+    "p50_ms": 471,
+    "p95_ms": 491
+   },
+   "inside_the_server_first_time": {
+    "p50_ms": 165,
+    "p95_ms": 496
+   }
+  }
+ }
+}

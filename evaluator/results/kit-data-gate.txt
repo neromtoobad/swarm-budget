@@ -1,0 +1,24 @@
+== STORM_ALERT_GENERAL
+dataset gate: PASS (220 pairs)
+  unique negatives    100.0%
+  largest single neg  0.4%
+  length shortcut     56.1%
+  held-out leak       0.0%
+  surface probe       61.5%  (50% = no tell)
+  mean length         chosen 196 / rejected 198 characters
+== WEATHER_FORECAST_GENERAL
+dataset gate: PASS (220 pairs)
+  unique negatives    100.0%
+  largest single neg  0.4%
+  length shortcut     56.6%
+  held-out leak       0.0%
+  surface probe       54.2%  (50% = no tell)
+  mean length         chosen 209 / rejected 196 characters
+== WEATHER_FORECAST_VERIFY_GENERAL
+dataset gate: PASS (130 pairs)
+  unique negatives    100.0%
+  largest single neg  0.8%
+  length shortcut     63.1%
+  held-out leak       0.0%
+  surface probe       61.6%  (50% = no tell)
+  mean length         chosen 167 / rejected 169 characters

@@ -1,0 +1,288 @@
+{
+ "run_at": "2026-11-25T13:41:55.708Z",
+ "win_rule": "better answer scored strictly above the worse one; a tie counts 0.5",
+ "packs": {
+  "STORM_ALERT_GENERAL": {
+   "rows": 220,
+   "held_out_rows": 45,
+   "real_traffic_rows": 3,
+   "all_rows": {
+    "all": {
+     "pairs": 220,
+     "longer_answer": 0.439,
+     "well_formed_only": 0.641,
+     "rule_checker": 1
+    },
+    "wrong_place": {
+     "pairs": 97,
+     "longer_answer": 0.459,
+     "well_formed_only": 0.5,
+     "rule_checker": 1
+    },
+    "missing": {
+     "pairs": 22,
+     "longer_answer": 0.591,
+     "well_formed_only": 1,
+     "rule_checker": 1
+    },
+    "wrong_window": {
+     "pairs": 31,
+     "longer_answer": 0.613,
+     "well_formed_only": 0.5,
+     "rule_checker": 1
+    },
+    "contradiction": {
+     "pairs": 30,
+     "longer_answer": 0.417,
+     "well_formed_only": 0.5,
+     "rule_checker": 1
+    },
+    "out_of_range": {
+     "pairs": 20,
+     "longer_answer": 0.375,
+     "well_formed_only": 1,
+     "rule_checker": 1
+    },
+    "off_topic": {
+     "pairs": 20,
+     "longer_answer": 0,
+     "well_formed_only": 1,
+     "rule_checker": 1
+    }
+   },
+   "held_out": {
+    "all": {
+     "pairs": 45,
+     "longer_answer": 0.522,
+     "well_formed_only": 0.622,
+     "rule_checker": 1
+    },
+    "wrong_place": {
+     "pairs": 20,
+     "longer_answer": 0.5,
+     "well_formed_only": 0.5,
+     "rule_checker": 1
+    },
+    "missing": {
+     "pairs": 5,
+     "longer_answer": 0.8,
+     "well_formed_only": 1,
+     "rule_checker": 1
+    },
+    "out_of_range": {
+     "pairs": 2,
+     "longer_answer": 0.5,
+     "well_formed_only": 1,
+     "rule_checker": 1
+    },
+    "wrong_window": {
+     "pairs": 8,
+     "longer_answer": 0.813,
+     "well_formed_only": 0.5,
+     "rule_checker": 1
+    },
+    "off_topic": {
+     "pairs": 4,
+     "longer_answer": 0,
+     "well_formed_only": 1,
+     "rule_checker": 1
+    },
+    "contradiction": {
+     "pairs": 6,
+     "longer_answer": 0.333,
+     "well_formed_only": 0.5,
+     "rule_checker": 1
+    }
+   },
+   "rule_checker_misses": []
+  },
+  "WEATHER_FORECAST_GENERAL": {
+   "rows": 220,
+   "held_out_rows": 48,
+   "real_traffic_rows": 2,
+   "all_rows": {
+    "all": {
+     "pairs": 220,
+     "longer_answer": 0.566,
+     "well_formed_only": 0.641,
+     "rule_checker": 1
+    },
+    "missing": {
+     "pairs": 22,
+     "longer_answer": 0.591,
+     "well_formed_only": 1,
+     "rule_checker": 1
+    },
+    "wrong_place": {
+     "pairs": 97,
+     "longer_answer": 0.582,
+     "well_formed_only": 0.5,
+     "rule_checker": 1
+    },
+    "wrong_window": {
+     "pairs": 31,
+     "longer_answer": 0.548,
+     "well_formed_only": 0.5,
+     "rule_checker": 1
+    },
+    "contradiction": {
+     "pairs": 30,
+     "longer_answer": 0.517,
+     "well_formed_only": 0.5,
+     "rule_checker": 1
+    },
+    "out_of_range": {
+     "pairs": 20,
+     "longer_answer": 0.125,
+     "well_formed_only": 1,
+     "rule_checker": 1
+    },
+    "not_a_forecast": {
+     "pairs": 20,
+     "longer_answer": 1,
+     "well_formed_only": 1,
+     "rule_checker": 1
+    }
+   },
+   "held_out": {
+    "all": {
+     "pairs": 48,
+     "longer_answer": 0.698,
+     "well_formed_only": 0.625,
+     "rule_checker": 1
+    },
+    "missing": {
+     "pairs": 7,
+     "longer_answer": 0.571,
+     "well_formed_only": 1,
+     "rule_checker": 1
+    },
+    "wrong_window": {
+     "pairs": 5,
+     "longer_answer": 0.8,
+     "well_formed_only": 0.5,
+     "rule_checker": 1
+    },
+    "wrong_place": {
+     "pairs": 25,
+     "longer_answer": 0.8,
+     "well_formed_only": 0.5,
+     "rule_checker": 1
+    },
+    "not_a_forecast": {
+     "pairs": 3,
+     "longer_answer": 1,
+     "well_formed_only": 1,
+     "rule_checker": 1
+    },
+    "contradiction": {
+     "pairs": 6,
+     "longer_answer": 0.417,
+     "well_formed_only": 0.5,
+     "rule_checker": 1
+    },
+    "out_of_range": {
+     "pairs": 2,
+     "longer_answer": 0,
+     "well_formed_only": 1,
+     "rule_checker": 1
+    }
+   },
+   "rule_checker_misses": []
+  },
+  "WEATHER_FORECAST_VERIFY_GENERAL": {
+   "rows": 130,
+   "held_out_rows": 19,
+   "real_traffic_rows": 0,
+   "all_rows": {
+    "all": {
+     "pairs": 130,
+     "longer_answer": 0.369,
+     "well_formed_only": 0.635,
+     "rule_checker": 1
+    },
+    "wrong_place": {
+     "pairs": 56,
+     "longer_answer": 0.509,
+     "well_formed_only": 0.5,
+     "rule_checker": 1
+    },
+    "wrong_date": {
+     "pairs": 28,
+     "longer_answer": 0.393,
+     "well_formed_only": 0.5,
+     "rule_checker": 1
+    },
+    "missing": {
+     "pairs": 14,
+     "longer_answer": 0.357,
+     "well_formed_only": 1,
+     "rule_checker": 1
+    },
+    "out_of_range": {
+     "pairs": 14,
+     "longer_answer": 0.036,
+     "well_formed_only": 1,
+     "rule_checker": 1
+    },
+    "contradiction": {
+     "pairs": 6,
+     "longer_answer": 0.5,
+     "well_formed_only": 0.5,
+     "rule_checker": 1
+    },
+    "not_a_record": {
+     "pairs": 12,
+     "longer_answer": 0,
+     "well_formed_only": 0.792,
+     "rule_checker": 1
+    }
+   },
+   "held_out": {
+    "all": {
+     "pairs": 19,
+     "longer_answer": 0.211,
+     "well_formed_only": 0.605,
+     "rule_checker": 1
+    },
+    "wrong_place": {
+     "pairs": 9,
+     "longer_answer": 0.333,
+     "well_formed_only": 0.5,
+     "rule_checker": 1
+    },
+    "missing": {
+     "pairs": 3,
+     "longer_answer": 0.167,
+     "well_formed_only": 1,
+     "rule_checker": 1
+    },
+    "wrong_date": {
+     "pairs": 4,
+     "longer_answer": 0,
+     "well_formed_only": 0.5,
+     "rule_checker": 1
+    },
+    "contradiction": {
+     "pairs": 1,
+     "longer_answer": 0.5,
+     "well_formed_only": 0.5,
+     "rule_checker": 1
+    },
+    "not_a_record": {
+     "pairs": 1,
+     "longer_answer": 0,
+     "well_formed_only": 0.5,
+     "rule_checker": 1
+    },
+    "out_of_range": {
+     "pairs": 1,
+     "longer_answer": 0,
+     "well_formed_only": 1,
+     "rule_checker": 1
+    }
+   },
+   "rule_checker_misses": []
+  }
+ }
+}

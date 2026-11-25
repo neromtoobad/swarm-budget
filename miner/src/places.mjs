@@ -98,9 +98,17 @@ export function parseCoords(text) {
   return { lat, lon };
 }
 
+// Month names in either case ("for September 16" ends a place just like "for 20 August").
+const MONTH_WORDS = "january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|sept|oct|nov|dec"
+  .split("|")
+  .map((m) => `[${m[0].toUpperCase()}${m[0]}]${m.slice(1)}`)
+  .join("|");
 const TIME_WORDS =
-  "in the next|in the coming|over the next|over the coming|during the next|during|within the next|within|for the next|for the coming|through the next|next|today|tonight|tomorrow|this (?:morning|afternoon|evening|week|weekend)|on|between|from|by|right now|now|currently|at the moment|at this moment|before|after|until|yesterday|last|as of|\\d";
-const LEAD_WORDS = "in|for|at|near|around|over|of|across|hit|hits|hitting|reach|reaches|reaching|affect|affects|affecting|threaten|threatens|threatening";
+  `in the next|in the coming|over the next|over the coming|during the next|during|within the next|within|for the next|for the coming|for the|for a|for an|for \\d+|for (?:${MONTH_WORDS})\\b|through the next|next|today|tonight|tomorrow|this (?:morning|afternoon|evening|week|weekend)|on|between|from|by|right now|now|currently|at the moment|at this moment|at any point|before|after|until|yesterday|last|as of|be|see|get|have|has|had|experience|expect|reach|stay|remain|is|was|will|would|should|could|might|must|may|needs|covering|starting|\\d+`;
+const LEAD_WORDS = "in|for|at|near|around|over|of|across|hit|hits|hitting|reach|reaches|reaching|affect|affects|affecting|threaten|threatens|threatening|said|says|say|predicted|predicts"
+  .split("|")
+  .map((w) => `[${w[0].toUpperCase()}${w[0]}]${w.slice(1)}`)
+  .join("|");
 
 // Pull the place out of a whole sentence: "Is there a storm risk in Paris, Texas in the next 6 hours?" -> "Paris, Texas"
 const FUNCTION_WORDS = /^(in|at|on|for|with|and|or|expressed|measured|please|right|as|to|from|by|during|over|within|before|after|until|if|is|are|was|were|will|did|does|do|how|what|when|the)\b/i;
@@ -112,7 +120,8 @@ function trimPlace(text, lowercaseInput = false) {
   const parts = String(text).split(",").map((x) => x.trim()).filter(Boolean);
   const keep = [];
   for (const [i, part] of parts.entries()) {
-    if (i > 0 && (lowercaseInput ? FUNCTION_WORDS.test(part) : !/^[\p{Lu}\d]/u.test(part) || FUNCTION_WORDS.test(part))) break;
+    // Written in capitals, IN, OR and ON are Indiana, Oregon and Ontario, not the words "in", "or" and "on".
+    if (i > 0 && (lowercaseInput ? FUNCTION_WORDS.test(part) : !/^[\p{Lu}\d]/u.test(part) || (FUNCTION_WORDS.test(part) && !/^[A-Z]{2,3}\b/.test(part)))) break;
     keep.push(part);
   }
   if (!lowercaseInput && keep.length) {
@@ -153,11 +162,19 @@ export function placeFromQuestion(text) {
   if (poss && !NOT_A_PLACE.has(norm(poss[1]).split(" ")[0])) return trimPlace(poss[1]);
 
   // 3. A run of capitalised words that is not the opening question word: "Will Chicago see storms tonight?"
-  const runs = [...q.matchAll(/(?:[\p{Lu}][\p{L}.\-']*|\b[A-Z]{2,3}\b)(?:,?\s+(?:[\p{Lu}][\p{L}.\-']*|[A-Z]{2,3}\b))*/gu)]
-    .map((m) => m[0].split(/\s+/).filter((w, i, arr) => !(i === 0 && NOT_A_PLACE.has(norm(w)))).join(" "))
-    .map((r) => r.replace(/^(?:(?:Is|Are|Will|What|How|Does|Do|Did|Should|Can|Could|Any|Give|Tell|Check|Was|Were|Has|Have|When|Which|Storm|Weather|Forecast)\s+)+/, "").trim())
-    .filter((r) => r && !NOT_A_PLACE.has(norm(r)));
-  if (runs.length) return trimPlace(runs.sort((x, y) => y.length - x.length)[0]);
+  //    Words written entirely in capitals (LOW, MODERATE, UTC) are not places; a 2-3 letter code after a comma is.
+  const word = "(?:[\\p{Lu}][\\p{L}.\\-']*[\\p{Ll}][\\p{L}.\\-']*)";
+  const runRe = new RegExp(`${word}(?:\\s+(?:(?:de|del|la|le|am|an|der|upon|on|sur|da|do|dos|das|di|du|el|al)\\s+)?${word})*(?:,\\s+(?:${word}(?:\\s+${word})*|[A-Z]{2,3}\\b))*`, "gu");
+  const runs = [...q.matchAll(runRe)]
+    .map((m) => ({
+      text: m[0].replace(/^(?:(?:Is|Are|Will|What|How|Does|Do|Did|Should|Can|Could|Any|Give|Tell|Check|Was|Were|Has|Have|When|Which|Storm|Weather|Forecast|Grade|Report|Assess|Verify|Recorded|Planning|Harvest|For|Over|Please|Include|The|A|An)\s+)+/, "").trim(),
+      // The first word of a sentence is capitalised whatever it is ("We have a job booked."), so a run that
+      // opens a sentence is a weaker guess than one inside it, and "Town, Region" beats a single word.
+      opensSentence: m.index === 0 || /[.!?:]\s*$/.test(q.slice(0, m.index)),
+    }))
+    .filter((r) => r.text && !NOT_A_PLACE.has(norm(r.text)) && !NOT_A_PLACE.has(norm(r.text).split(" ")[0]))
+    .sort((a, b) => Number(b.text.includes(",")) - Number(a.text.includes(",")) || Number(a.opensSentence) - Number(b.opensSentence));
+  if (runs.length) return trimPlace(runs[0].text);
 
   // 4. All-lowercase input: "weather in paris, texas tomorrow"
   const low = new RegExp(`\\b(?:in|for|at|near|around)\\s+((?!the next|the coming|the last)[\\p{L}][^?!;:]*?)${stop}`, "giu");
@@ -238,7 +255,7 @@ function toCandidate(r) {
 }
 
 async function geocodeByName(name) {
-  const url = `${GEOCODE}?name=${encodeURIComponent(name)}&count=30&language=en&format=json`;
+  const url = `${GEOCODE}?name=${encodeURIComponent(name)}&count=100&language=en&format=json`;
   const data = await cached(`geo:${norm(name)}`, 24 * 3600e3, () => getJson(url, { timeoutMs: 6000 }));
   return { url, results: (data?.results ?? []).map(toCandidate) };
 }
@@ -251,7 +268,8 @@ async function nominatimSearch(text) {
     results: (rows ?? []).map((r) => {
       const a = r.address ?? {};
       return {
-        name: a.city ?? a.town ?? a.village ?? a.hamlet ?? a.municipality ?? a.suburb ?? r.name ?? String(r.display_name ?? "").split(",")[0],
+        // OSM's own name for the match first: for a suburb, address.city is the big city around it.
+        name: r.name || (a.city ?? a.town ?? a.village ?? a.hamlet ?? a.municipality ?? a.suburb ?? String(r.display_name ?? "").split(",")[0]),
         admin1: a.state ?? a.province ?? a.region ?? null,
         admin2: a.county ?? a.state_district ?? null,
         admin3: null,
@@ -296,6 +314,14 @@ export function choose(name, qualifiers, candidates, { requested } = {}) {
   let pool = exact;
   if (qualifiers.length) {
     pool = exact.filter((c) => qualifiers.every((q) => qualifierMatches(q, c)));
+    // "Trinidad, CO" is Colorado, not Colombia: a town-comma-code written like a US state means the state
+    // whenever a town of that name exists there.
+    for (const q of qualifiers) {
+      const code = String(q).trim().toUpperCase().replace(/\./g, "");
+      if (!US_STATES[code]) continue;
+      const inState = pool.filter((c) => c.country_code === "US" && norm(c.admin1) === norm(US_STATES[code]));
+      if (inState.length) pool = inState;
+    }
     if (!pool.length)
       throw new PlaceError("place_not_found", `No "${name}" was found in ${qualifiers.join(", ")}. Nothing was guessed.`, {
         requested: asked,

@@ -1,0 +1,3055 @@
+{
+ "benchmark": "record-accuracy",
+ "run_at": "2026-11-25T13:32:22.907Z",
+ "miner": "https://pinpoint.nerom.site",
+ "dates": [
+  "2026-10-05",
+  "2026-10-15",
+  "2026-10-25",
+  "2026-11-04",
+  "2026-11-12"
+ ],
+ "truth": "NOAA GHCN-Daily station records via the NCEI Access Data Service",
+ "note": "Stations report a day on their own observation schedule, which is not always local midnight to midnight; that alone moves some days by a degree or two.",
+ "summary": {
+  "city_days_asked": 200,
+  "city_days_with_a_station_record": 100,
+  "daily_high": {
+   "compared": 100,
+   "mean_abs_error_c": 1.42,
+   "within_2c_pct": 81,
+   "within_3c_pct": 95
+  },
+  "daily_low": {
+   "compared": 100,
+   "mean_abs_error_c": 1.36,
+   "within_2c_pct": 77,
+   "within_3c_pct": 92
+  },
+  "rain_or_dry": {
+   "compared": 96,
+   "same_call_pct": 75,
+   "rule": "a wet day is 1 mm or more"
+  },
+  "when_the_two_sources_agree_on_the_high": {
+   "days": 90,
+   "mean_abs_error_c": 1.31
+  },
+  "when_they_disagree": {
+   "days": 10,
+   "mean_abs_error_c": 2.43
+  }
+ },
+ "rows": [
+  {
+   "city": "New York",
+   "date": "2026-10-05",
+   "covered": true,
+   "station": {
+    "id": "USW00094728",
+    "name": "NY CITY CNTRL PARK",
+    "km_from_city_centre": 8,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00094728&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 20,
+    "temp_min_c": 12.2,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 20.7,
+    "temp_min_c": 11.4,
+    "precipitation_mm": 0.2,
+    "record_kind": "reanalysis",
+    "second_source_high": 19.9,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "New York",
+   "date": "2026-10-15",
+   "covered": true,
+   "station": {
+    "id": "USW00094728",
+    "name": "NY CITY CNTRL PARK",
+    "km_from_city_centre": 8,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00094728&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 17.8,
+    "temp_min_c": 12.2,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 17.4,
+    "temp_min_c": 12.9,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 18.5,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "New York",
+   "date": "2026-10-25",
+   "covered": true,
+   "station": {
+    "id": "USW00094728",
+    "name": "NY CITY CNTRL PARK",
+    "km_from_city_centre": 8,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00094728&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 17.8,
+    "temp_min_c": 6.1,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 18.4,
+    "temp_min_c": 3.8,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 18.6,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "New York",
+   "date": "2026-11-04",
+   "covered": true,
+   "station": {
+    "id": "USW00094728",
+    "name": "NY CITY CNTRL PARK",
+    "km_from_city_centre": 8,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00094728&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 22.2,
+    "temp_min_c": 14.4,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 22.9,
+    "temp_min_c": 10.9,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 20.8,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "New York",
+   "date": "2026-11-12",
+   "covered": true,
+   "station": {
+    "id": "USW00094728",
+    "name": "NY CITY CNTRL PARK",
+    "km_from_city_centre": 8,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00094728&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 16.1,
+    "temp_min_c": 8.3,
+    "precipitation_mm": 42.2
+   },
+   "miner": {
+    "temp_max_c": 14.7,
+    "temp_min_c": 8.7,
+    "precipitation_mm": 17.7,
+    "record_kind": "reanalysis",
+    "second_source_high": 13.6,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Los Angeles",
+   "date": "2026-10-05",
+   "covered": true,
+   "station": {
+    "id": "USW00023174",
+    "name": "LOS ANGELES INTL AP",
+    "km_from_city_centre": 18,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00023174&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 38.3,
+    "temp_min_c": 25,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 37,
+    "temp_min_c": 23.5,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 35.4,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Los Angeles",
+   "date": "2026-10-15",
+   "covered": true,
+   "station": {
+    "id": "USW00023174",
+    "name": "LOS ANGELES INTL AP",
+    "km_from_city_centre": 18,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00023174&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 31.1,
+    "temp_min_c": 15.6,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 30.4,
+    "temp_min_c": 15.2,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 29,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Los Angeles",
+   "date": "2026-10-25",
+   "covered": true,
+   "station": {
+    "id": "USW00023174",
+    "name": "LOS ANGELES INTL AP",
+    "km_from_city_centre": 18,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00023174&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 25.6,
+    "temp_min_c": 16.1,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 24.7,
+    "temp_min_c": 15.2,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 25.8,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Los Angeles",
+   "date": "2026-11-04",
+   "covered": true,
+   "station": {
+    "id": "USW00023174",
+    "name": "LOS ANGELES INTL AP",
+    "km_from_city_centre": 18,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00023174&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 23.9,
+    "temp_min_c": 13.9,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 24,
+    "temp_min_c": 13.7,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 23.6,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Los Angeles",
+   "date": "2026-11-12",
+   "covered": true,
+   "station": {
+    "id": "USW00023174",
+    "name": "LOS ANGELES INTL AP",
+    "km_from_city_centre": 18,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00023174&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 24.4,
+    "temp_min_c": 16.1,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 24.1,
+    "temp_min_c": 16.2,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 24.2,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Chicago",
+   "date": "2026-10-05",
+   "covered": true,
+   "station": {
+    "id": "USW00014819",
+    "name": "CHICAGO MIDWAY AP",
+    "km_from_city_centre": 15,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00014819&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 20,
+    "temp_min_c": 9.4,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 19.8,
+    "temp_min_c": 7.6,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 17.7,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Chicago",
+   "date": "2026-10-15",
+   "covered": true,
+   "station": {
+    "id": "USW00014819",
+    "name": "CHICAGO MIDWAY AP",
+    "km_from_city_centre": 15,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00014819&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 18.9,
+    "temp_min_c": 14.4,
+    "precipitation_mm": 10.7
+   },
+   "miner": {
+    "temp_max_c": 19.4,
+    "temp_min_c": 13.6,
+    "precipitation_mm": 13.1,
+    "record_kind": "reanalysis",
+    "second_source_high": 17.6,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Chicago",
+   "date": "2026-10-25",
+   "covered": true,
+   "station": {
+    "id": "USW00014819",
+    "name": "CHICAGO MIDWAY AP",
+    "km_from_city_centre": 15,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00014819&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 23.3,
+    "temp_min_c": 11.7,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 22.3,
+    "temp_min_c": 8.6,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 19,
+    "sources_agree_on_high": false
+   }
+  },
+  {
+   "city": "Chicago",
+   "date": "2026-11-04",
+   "covered": true,
+   "station": {
+    "id": "USW00014819",
+    "name": "CHICAGO MIDWAY AP",
+    "km_from_city_centre": 15,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00014819&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 20.6,
+    "temp_min_c": 10.6,
+    "precipitation_mm": 1
+   },
+   "miner": {
+    "temp_max_c": 18.3,
+    "temp_min_c": 11.3,
+    "precipitation_mm": 6.3,
+    "record_kind": "reanalysis",
+    "second_source_high": 17,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Chicago",
+   "date": "2026-11-12",
+   "covered": true,
+   "station": {
+    "id": "USW00014819",
+    "name": "CHICAGO MIDWAY AP",
+    "km_from_city_centre": 15,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00014819&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 8.9,
+    "temp_min_c": 4.4,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 7.1,
+    "temp_min_c": 3,
+    "precipitation_mm": 0.2,
+    "record_kind": "reanalysis",
+    "second_source_high": 9.1,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Houston",
+   "date": "2026-10-05",
+   "covered": true,
+   "station": {
+    "id": "USW00012918",
+    "name": "HOUSTON WILLIAM P HOBBY AP",
+    "km_from_city_centre": 15,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00012918&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 31.1,
+    "temp_min_c": 21.1,
+    "precipitation_mm": 0.3
+   },
+   "miner": {
+    "temp_max_c": 29,
+    "temp_min_c": 21.7,
+    "precipitation_mm": 17.3,
+    "record_kind": "reanalysis",
+    "second_source_high": 29.6,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Houston",
+   "date": "2026-10-15",
+   "covered": true,
+   "station": {
+    "id": "USW00012918",
+    "name": "HOUSTON WILLIAM P HOBBY AP",
+    "km_from_city_centre": 15,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00012918&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 32.2,
+    "temp_min_c": 22.2,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 32.4,
+    "temp_min_c": 22.1,
+    "precipitation_mm": 1.3,
+    "record_kind": "reanalysis",
+    "second_source_high": 30.8,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Houston",
+   "date": "2026-10-25",
+   "covered": true,
+   "station": {
+    "id": "USW00012918",
+    "name": "HOUSTON WILLIAM P HOBBY AP",
+    "km_from_city_centre": 15,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00012918&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 27.2,
+    "temp_min_c": 17.8,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 27.3,
+    "temp_min_c": 18.4,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 25.9,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Houston",
+   "date": "2026-11-04",
+   "covered": true,
+   "station": {
+    "id": "USW00012918",
+    "name": "HOUSTON WILLIAM P HOBBY AP",
+    "km_from_city_centre": 15,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00012918&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 26.1,
+    "temp_min_c": 15,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 24.3,
+    "temp_min_c": 14.8,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 25,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Houston",
+   "date": "2026-11-12",
+   "covered": true,
+   "station": {
+    "id": "USW00012918",
+    "name": "HOUSTON WILLIAM P HOBBY AP",
+    "km_from_city_centre": 15,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00012918&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 26.7,
+    "temp_min_c": 13.9,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 24.5,
+    "temp_min_c": 13.9,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 24.3,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Phoenix",
+   "date": "2026-10-05",
+   "covered": true,
+   "station": {
+    "id": "USW00023183",
+    "name": "PHOENIX AP",
+    "km_from_city_centre": 7,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00023183&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 36.7,
+    "temp_min_c": 26.7,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 36,
+    "temp_min_c": 26.4,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 36.4,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Phoenix",
+   "date": "2026-10-15",
+   "covered": true,
+   "station": {
+    "id": "USW00023183",
+    "name": "PHOENIX AP",
+    "km_from_city_centre": 7,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00023183&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 31.1,
+    "temp_min_c": 15.6,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 30.6,
+    "temp_min_c": 14.4,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 29.9,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Phoenix",
+   "date": "2026-10-25",
+   "covered": true,
+   "station": {
+    "id": "USW00023183",
+    "name": "PHOENIX AP",
+    "km_from_city_centre": 7,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00023183&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 28.3,
+    "temp_min_c": 15.6,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 26.5,
+    "temp_min_c": 13.6,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 26.1,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Phoenix",
+   "date": "2026-11-04",
+   "covered": true,
+   "station": {
+    "id": "USW00023183",
+    "name": "PHOENIX AP",
+    "km_from_city_centre": 7,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00023183&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 24.4,
+    "temp_min_c": 15,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 22.7,
+    "temp_min_c": 12.3,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 23.5,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Phoenix",
+   "date": "2026-11-12",
+   "covered": true,
+   "station": {
+    "id": "USW00023183",
+    "name": "PHOENIX AP",
+    "km_from_city_centre": 7,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00023183&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 30,
+    "temp_min_c": 16.7,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 28.5,
+    "temp_min_c": 14.6,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 26.9,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Miami",
+   "date": "2026-10-05",
+   "covered": true,
+   "station": {
+    "id": "USW00012839",
+    "name": "MIAMI INTL AP",
+    "km_from_city_centre": 13,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00012839&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 32.2,
+    "temp_min_c": 26.7,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 31.4,
+    "temp_min_c": 25.2,
+    "precipitation_mm": 1.2,
+    "record_kind": "reanalysis",
+    "second_source_high": 31.8,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Miami",
+   "date": "2026-10-15",
+   "covered": true,
+   "station": {
+    "id": "USW00012839",
+    "name": "MIAMI INTL AP",
+    "km_from_city_centre": 13,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00012839&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 32.2,
+    "temp_min_c": 26.7,
+    "precipitation_mm": 0.5
+   },
+   "miner": {
+    "temp_max_c": 31.7,
+    "temp_min_c": 25.7,
+    "precipitation_mm": 2.1,
+    "record_kind": "reanalysis",
+    "second_source_high": 31.3,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Miami",
+   "date": "2026-10-25",
+   "covered": true,
+   "station": {
+    "id": "USW00012839",
+    "name": "MIAMI INTL AP",
+    "km_from_city_centre": 13,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00012839&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 27.8,
+    "temp_min_c": 21.7,
+    "precipitation_mm": 9.7
+   },
+   "miner": {
+    "temp_max_c": 26.7,
+    "temp_min_c": 19.5,
+    "precipitation_mm": 14.5,
+    "record_kind": "reanalysis",
+    "second_source_high": 26.4,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Miami",
+   "date": "2026-11-04",
+   "covered": true,
+   "station": {
+    "id": "USW00012839",
+    "name": "MIAMI INTL AP",
+    "km_from_city_centre": 13,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00012839&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 29.4,
+    "temp_min_c": 24.4,
+    "precipitation_mm": 38.1
+   },
+   "miner": {
+    "temp_max_c": 27.2,
+    "temp_min_c": 22.8,
+    "precipitation_mm": 14.9,
+    "record_kind": "reanalysis",
+    "second_source_high": 28.2,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Miami",
+   "date": "2026-11-12",
+   "covered": true,
+   "station": {
+    "id": "USW00012839",
+    "name": "MIAMI INTL AP",
+    "km_from_city_centre": 13,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00012839&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 30.6,
+    "temp_min_c": 22.2,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 30,
+    "temp_min_c": 21.9,
+    "precipitation_mm": 1.8,
+    "record_kind": "reanalysis",
+    "second_source_high": 28.3,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Seattle",
+   "date": "2026-10-05",
+   "covered": true,
+   "station": {
+    "id": "USW00024233",
+    "name": "SEATTLE TACOMA AP",
+    "km_from_city_centre": 18,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00024233&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 20,
+    "temp_min_c": 11.1,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 19.9,
+    "temp_min_c": 10.2,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 20.1,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Seattle",
+   "date": "2026-10-15",
+   "covered": true,
+   "station": {
+    "id": "USW00024233",
+    "name": "SEATTLE TACOMA AP",
+    "km_from_city_centre": 18,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00024233&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 20,
+    "temp_min_c": 10,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 19.8,
+    "temp_min_c": 9.2,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 20.8,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Seattle",
+   "date": "2026-10-25",
+   "covered": true,
+   "station": {
+    "id": "USW00024233",
+    "name": "SEATTLE TACOMA AP",
+    "km_from_city_centre": 18,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00024233&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 14.4,
+    "temp_min_c": 7.8,
+    "precipitation_mm": 5.6
+   },
+   "miner": {
+    "temp_max_c": 14.5,
+    "temp_min_c": 7.6,
+    "precipitation_mm": 8.8,
+    "record_kind": "reanalysis",
+    "second_source_high": 10.1,
+    "sources_agree_on_high": false
+   }
+  },
+  {
+   "city": "Seattle",
+   "date": "2026-11-04",
+   "covered": true,
+   "station": {
+    "id": "USW00024233",
+    "name": "SEATTLE TACOMA AP",
+    "km_from_city_centre": 18,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00024233&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 13.9,
+    "temp_min_c": 5,
+    "precipitation_mm": 2.5
+   },
+   "miner": {
+    "temp_max_c": 12.6,
+    "temp_min_c": 3.9,
+    "precipitation_mm": 2.5,
+    "record_kind": "reanalysis",
+    "second_source_high": 13.9,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Seattle",
+   "date": "2026-11-12",
+   "covered": true,
+   "station": {
+    "id": "USW00024233",
+    "name": "SEATTLE TACOMA AP",
+    "km_from_city_centre": 18,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00024233&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 16.1,
+    "temp_min_c": 10,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 15.8,
+    "temp_min_c": 9.1,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 15.7,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Denver",
+   "date": "2026-10-05",
+   "covered": true,
+   "station": {
+    "id": "USW00003017",
+    "name": "DENVER INTL AP",
+    "km_from_city_centre": 31,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00003017&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 30.6,
+    "temp_min_c": 12.8,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 30.8,
+    "temp_min_c": 12.9,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 32.2,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Denver",
+   "date": "2026-10-15",
+   "covered": true,
+   "station": {
+    "id": "USW00003017",
+    "name": "DENVER INTL AP",
+    "km_from_city_centre": 31,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00003017&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 12.2,
+    "temp_min_c": 1.7,
+    "precipitation_mm": 0.8
+   },
+   "miner": {
+    "temp_max_c": 12.5,
+    "temp_min_c": 3.5,
+    "precipitation_mm": 2.2,
+    "record_kind": "reanalysis",
+    "second_source_high": 15.1,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Denver",
+   "date": "2026-10-25",
+   "covered": true,
+   "station": {
+    "id": "USW00003017",
+    "name": "DENVER INTL AP",
+    "km_from_city_centre": 31,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00003017&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 14.4,
+    "temp_min_c": 2.8,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 13.8,
+    "temp_min_c": 5.3,
+    "precipitation_mm": 0.1,
+    "record_kind": "reanalysis",
+    "second_source_high": 17.9,
+    "sources_agree_on_high": false
+   }
+  },
+  {
+   "city": "Denver",
+   "date": "2026-11-04",
+   "covered": true,
+   "station": {
+    "id": "USW00003017",
+    "name": "DENVER INTL AP",
+    "km_from_city_centre": 31,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00003017&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 13.9,
+    "temp_min_c": -1.1,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 12.6,
+    "temp_min_c": 1.9,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 14,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Denver",
+   "date": "2026-11-12",
+   "covered": true,
+   "station": {
+    "id": "USW00003017",
+    "name": "DENVER INTL AP",
+    "km_from_city_centre": 31,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00003017&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 18.9,
+    "temp_min_c": 3.9,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 18.7,
+    "temp_min_c": 4.5,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 19.8,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Fresno",
+   "date": "2026-10-05",
+   "covered": true,
+   "station": {
+    "id": "USW00093193",
+    "name": "FRESNO YOSEMITE INTL",
+    "km_from_city_centre": 8,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00093193&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 37.8,
+    "temp_min_c": 21.1,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 37.4,
+    "temp_min_c": 20.9,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 37.9,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Fresno",
+   "date": "2026-10-15",
+   "covered": true,
+   "station": {
+    "id": "USW00093193",
+    "name": "FRESNO YOSEMITE INTL",
+    "km_from_city_centre": 8,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00093193&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 29.4,
+    "temp_min_c": 11.7,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 28.5,
+    "temp_min_c": 12.1,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 30.8,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Fresno",
+   "date": "2026-10-25",
+   "covered": true,
+   "station": {
+    "id": "USW00093193",
+    "name": "FRESNO YOSEMITE INTL",
+    "km_from_city_centre": 8,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00093193&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 26.1,
+    "temp_min_c": 12.2,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 23.3,
+    "temp_min_c": 10,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 25.8,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Fresno",
+   "date": "2026-11-04",
+   "covered": true,
+   "station": {
+    "id": "USW00093193",
+    "name": "FRESNO YOSEMITE INTL",
+    "km_from_city_centre": 8,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00093193&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 16.7,
+    "temp_min_c": 10.6,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 16.3,
+    "temp_min_c": 10.3,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 21.2,
+    "sources_agree_on_high": false
+   }
+  },
+  {
+   "city": "Fresno",
+   "date": "2026-11-12",
+   "covered": true,
+   "station": {
+    "id": "USW00093193",
+    "name": "FRESNO YOSEMITE INTL",
+    "km_from_city_centre": 8,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00093193&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 27.8,
+    "temp_min_c": 10,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 24.9,
+    "temp_min_c": 10,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 25.2,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Anchorage",
+   "date": "2026-10-05",
+   "covered": true,
+   "station": {
+    "id": "USW00026401",
+    "name": "ELMENDORF AFB",
+    "km_from_city_centre": 6,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00026401&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 8.3,
+    "temp_min_c": 4.5,
+    "precipitation_mm": 2.3
+   },
+   "miner": {
+    "temp_max_c": 8.5,
+    "temp_min_c": 1.7,
+    "precipitation_mm": 5.1,
+    "record_kind": "reanalysis",
+    "second_source_high": 10.8,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Anchorage",
+   "date": "2026-10-15",
+   "covered": true,
+   "station": {
+    "id": "USW00026401",
+    "name": "ELMENDORF AFB",
+    "km_from_city_centre": 6,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00026401&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 9,
+    "temp_min_c": 2,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 6.9,
+    "temp_min_c": 2.4,
+    "precipitation_mm": 7.1,
+    "record_kind": "reanalysis",
+    "second_source_high": 6.4,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Anchorage",
+   "date": "2026-10-25",
+   "covered": true,
+   "station": {
+    "id": "USW00026401",
+    "name": "ELMENDORF AFB",
+    "km_from_city_centre": 6,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00026401&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 6,
+    "temp_min_c": 2,
+    "precipitation_mm": 2.4
+   },
+   "miner": {
+    "temp_max_c": 4.2,
+    "temp_min_c": 0.9,
+    "precipitation_mm": 5.3,
+    "record_kind": "reanalysis",
+    "second_source_high": 3,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Anchorage",
+   "date": "2026-11-04",
+   "covered": true,
+   "station": {
+    "id": "USW00026401",
+    "name": "ELMENDORF AFB",
+    "km_from_city_centre": 6,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00026401&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 7.2,
+    "temp_min_c": 2,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 5.6,
+    "temp_min_c": 0.3,
+    "precipitation_mm": 3.3,
+    "record_kind": "reanalysis",
+    "second_source_high": 3.5,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Anchorage",
+   "date": "2026-11-12",
+   "covered": false,
+   "station": "USW00026401",
+   "why": "station has no record for this day"
+  },
+  {
+   "city": "Honolulu",
+   "date": "2026-10-05",
+   "covered": true,
+   "station": {
+    "id": "USW00022521",
+    "name": "HONOLULU INTL AP",
+    "km_from_city_centre": 9,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00022521&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 30,
+    "temp_min_c": 23.9,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 29.1,
+    "temp_min_c": 23.4,
+    "precipitation_mm": 0.2,
+    "record_kind": "reanalysis",
+    "second_source_high": 27.4,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Honolulu",
+   "date": "2026-10-15",
+   "covered": true,
+   "station": {
+    "id": "USW00022521",
+    "name": "HONOLULU INTL AP",
+    "km_from_city_centre": 9,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00022521&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 31.1,
+    "temp_min_c": 24.4,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 29.4,
+    "temp_min_c": 23.6,
+    "precipitation_mm": 0.7,
+    "record_kind": "reanalysis",
+    "second_source_high": 27.9,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Honolulu",
+   "date": "2026-10-25",
+   "covered": true,
+   "station": {
+    "id": "USW00022521",
+    "name": "HONOLULU INTL AP",
+    "km_from_city_centre": 9,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00022521&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 30,
+    "temp_min_c": 22.2,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 30.1,
+    "temp_min_c": 22,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 26.9,
+    "sources_agree_on_high": false
+   }
+  },
+  {
+   "city": "Honolulu",
+   "date": "2026-11-04",
+   "covered": true,
+   "station": {
+    "id": "USW00022521",
+    "name": "HONOLULU INTL AP",
+    "km_from_city_centre": 9,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00022521&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 29.4,
+    "temp_min_c": 23.3,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 26.9,
+    "temp_min_c": 23.2,
+    "precipitation_mm": 3.7,
+    "record_kind": "reanalysis",
+    "second_source_high": 26.4,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Honolulu",
+   "date": "2026-11-12",
+   "covered": true,
+   "station": {
+    "id": "USW00022521",
+    "name": "HONOLULU INTL AP",
+    "km_from_city_centre": 9,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=USW00022521&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 28.9,
+    "temp_min_c": 23.3,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 27.1,
+    "temp_min_c": 23.3,
+    "precipitation_mm": 0.4,
+    "record_kind": "reanalysis",
+    "second_source_high": 25.8,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Toronto",
+   "date": "2026-10-05",
+   "covered": true,
+   "station": {
+    "id": "CAN06158355",
+    "name": "TORONTO CITY",
+    "km_from_city_centre": 2,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=CAN06158355&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 16,
+    "temp_min_c": 7.2,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 15,
+    "temp_min_c": 6.8,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 15.6,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Toronto",
+   "date": "2026-10-15",
+   "covered": true,
+   "station": {
+    "id": "CAN06158355",
+    "name": "TORONTO CITY",
+    "km_from_city_centre": 2,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=CAN06158355&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 14,
+    "temp_min_c": 9.7,
+    "precipitation_mm": 0.8
+   },
+   "miner": {
+    "temp_max_c": 13,
+    "temp_min_c": 8.5,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 12.9,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Toronto",
+   "date": "2026-10-25",
+   "covered": true,
+   "station": {
+    "id": "CAN06158355",
+    "name": "TORONTO CITY",
+    "km_from_city_centre": 2,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=CAN06158355&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 17.7,
+    "temp_min_c": 7.3,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 16.1,
+    "temp_min_c": 4.5,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 16.4,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Toronto",
+   "date": "2026-11-04",
+   "covered": true,
+   "station": {
+    "id": "CAN06158355",
+    "name": "TORONTO CITY",
+    "km_from_city_centre": 2,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=CAN06158355&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 19.9,
+    "temp_min_c": 13.4,
+    "precipitation_mm": 2.4
+   },
+   "miner": {
+    "temp_max_c": 19.7,
+    "temp_min_c": 12.8,
+    "precipitation_mm": 0.7,
+    "record_kind": "reanalysis",
+    "second_source_high": 19,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Toronto",
+   "date": "2026-11-12",
+   "covered": true,
+   "station": {
+    "id": "CAN06158355",
+    "name": "TORONTO CITY",
+    "km_from_city_centre": 2,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=CAN06158355&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 8.7,
+    "temp_min_c": 1.9,
+    "precipitation_mm": 0.9
+   },
+   "miner": {
+    "temp_max_c": 7.1,
+    "temp_min_c": 1.7,
+    "precipitation_mm": 1.9,
+    "record_kind": "reanalysis",
+    "second_source_high": 9.1,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Vancouver",
+   "date": "2026-10-05",
+   "covered": true,
+   "station": {
+    "id": "CAN01108446",
+    "name": "VANCOUVER HARBOUR CS",
+    "km_from_city_centre": 1,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=CAN01108446&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 18.5,
+    "temp_min_c": 11.5,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 17,
+    "temp_min_c": 10.7,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 16.2,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Vancouver",
+   "date": "2026-10-15",
+   "covered": true,
+   "station": {
+    "id": "CAN01108446",
+    "name": "VANCOUVER HARBOUR CS",
+    "km_from_city_centre": 1,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=CAN01108446&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 15.7,
+    "temp_min_c": 9.2,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 15.6,
+    "temp_min_c": 8.4,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 17.8,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Vancouver",
+   "date": "2026-10-25",
+   "covered": true,
+   "station": {
+    "id": "CAN01108446",
+    "name": "VANCOUVER HARBOUR CS",
+    "km_from_city_centre": 1,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=CAN01108446&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 12.4,
+    "temp_min_c": 7.8,
+    "precipitation_mm": 8.3
+   },
+   "miner": {
+    "temp_max_c": 13,
+    "temp_min_c": 7.5,
+    "precipitation_mm": 12.4,
+    "record_kind": "reanalysis",
+    "second_source_high": 5.7,
+    "sources_agree_on_high": false
+   }
+  },
+  {
+   "city": "Vancouver",
+   "date": "2026-11-04",
+   "covered": true,
+   "station": {
+    "id": "CAN01108446",
+    "name": "VANCOUVER HARBOUR CS",
+    "km_from_city_centre": 1,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=CAN01108446&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 12.2,
+    "temp_min_c": 6,
+    "precipitation_mm": 2.5
+   },
+   "miner": {
+    "temp_max_c": 11.7,
+    "temp_min_c": 4.4,
+    "precipitation_mm": 3.8,
+    "record_kind": "reanalysis",
+    "second_source_high": 9.5,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Vancouver",
+   "date": "2026-11-12",
+   "covered": true,
+   "station": {
+    "id": "CAN01108446",
+    "name": "VANCOUVER HARBOUR CS",
+    "km_from_city_centre": 1,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=CAN01108446&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 14.3,
+    "temp_min_c": 10.9,
+    "precipitation_mm": 2.8
+   },
+   "miner": {
+    "temp_max_c": 16.8,
+    "temp_min_c": 12,
+    "precipitation_mm": 11.7,
+    "record_kind": "reanalysis",
+    "second_source_high": 10.1,
+    "sources_agree_on_high": false
+   }
+  },
+  {
+   "city": "Mexico City",
+   "date": "2026-10-05",
+   "covered": true,
+   "station": {
+    "id": "MXM00076680",
+    "name": "MEXICO CITY",
+    "km_from_city_centre": 6,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=MXM00076680&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 25.8,
+    "temp_min_c": 13.8,
+    "precipitation_mm": 46.1
+   },
+   "miner": {
+    "temp_max_c": 20.7,
+    "temp_min_c": 13.9,
+    "precipitation_mm": 24.8,
+    "record_kind": "reanalysis",
+    "second_source_high": 20.2,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Mexico City",
+   "date": "2026-10-15",
+   "covered": true,
+   "station": {
+    "id": "MXM00076680",
+    "name": "MEXICO CITY",
+    "km_from_city_centre": 6,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=MXM00076680&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 32.4,
+    "temp_min_c": 23.8,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 21.6,
+    "temp_min_c": 12.8,
+    "precipitation_mm": 2.1,
+    "record_kind": "reanalysis",
+    "second_source_high": 21.4,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Mexico City",
+   "date": "2026-10-25",
+   "covered": true,
+   "station": {
+    "id": "MXM00076680",
+    "name": "MEXICO CITY",
+    "km_from_city_centre": 6,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=MXM00076680&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 31.7,
+    "temp_min_c": 15.3,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 19.3,
+    "temp_min_c": 12.1,
+    "precipitation_mm": 1.9,
+    "record_kind": "reanalysis",
+    "second_source_high": 13.9,
+    "sources_agree_on_high": false
+   }
+  },
+  {
+   "city": "Mexico City",
+   "date": "2026-11-04",
+   "covered": true,
+   "station": {
+    "id": "MXM00076680",
+    "name": "MEXICO CITY",
+    "km_from_city_centre": 6,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=MXM00076680&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 29.6,
+    "temp_min_c": 17.3,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 24.4,
+    "temp_min_c": 11.6,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 22.2,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Mexico City",
+   "date": "2026-11-12",
+   "covered": false,
+   "station": "MXM00076680",
+   "why": "station has no record for this day"
+  },
+  {
+   "city": "London",
+   "date": "2026-10-05",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "London",
+   "date": "2026-10-15",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "London",
+   "date": "2026-10-25",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "London",
+   "date": "2026-11-04",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "London",
+   "date": "2026-11-12",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Paris",
+   "date": "2026-10-05",
+   "covered": true,
+   "station": {
+    "id": "FRM00007156",
+    "name": "PARIS-MONTSOURIS",
+    "km_from_city_centre": 4,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=FRM00007156&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 21,
+    "temp_min_c": 14,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 23.6,
+    "temp_min_c": 11.5,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 23.7,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Paris",
+   "date": "2026-10-15",
+   "covered": true,
+   "station": {
+    "id": "FRM00007156",
+    "name": "PARIS-MONTSOURIS",
+    "km_from_city_centre": 4,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=FRM00007156&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 20.5,
+    "temp_min_c": 10.3,
+    "precipitation_mm": 0.6
+   },
+   "miner": {
+    "temp_max_c": 23.2,
+    "temp_min_c": 10.4,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 21.9,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Paris",
+   "date": "2026-10-25",
+   "covered": true,
+   "station": {
+    "id": "FRM00007156",
+    "name": "PARIS-MONTSOURIS",
+    "km_from_city_centre": 4,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=FRM00007156&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 14.4,
+    "temp_min_c": 8.7,
+    "precipitation_mm": 1.6
+   },
+   "miner": {
+    "temp_max_c": 15.2,
+    "temp_min_c": 8.9,
+    "precipitation_mm": 9.7,
+    "record_kind": "reanalysis",
+    "second_source_high": 15.1,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Paris",
+   "date": "2026-11-04",
+   "covered": true,
+   "station": {
+    "id": "FRM00007156",
+    "name": "PARIS-MONTSOURIS",
+    "km_from_city_centre": 4,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=FRM00007156&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 9.1,
+    "temp_min_c": 4,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 9.4,
+    "temp_min_c": 4.6,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 9.2,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Paris",
+   "date": "2026-11-12",
+   "covered": false,
+   "station": "FRM00007156",
+   "why": "station has no record for this day"
+  },
+  {
+   "city": "Berlin",
+   "date": "2026-10-05",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Berlin",
+   "date": "2026-10-15",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Berlin",
+   "date": "2026-10-25",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Berlin",
+   "date": "2026-11-04",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Berlin",
+   "date": "2026-11-12",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Madrid",
+   "date": "2026-10-05",
+   "covered": true,
+   "station": {
+    "id": "SP000003195",
+    "name": "MADRID - RETIRO",
+    "km_from_city_centre": 2,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=SP000003195&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 23.4,
+    "temp_min_c": 15.2,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 23.6,
+    "temp_min_c": 13.4,
+    "precipitation_mm": 1.7,
+    "record_kind": "reanalysis",
+    "second_source_high": 24.8,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Madrid",
+   "date": "2026-10-15",
+   "covered": true,
+   "station": {
+    "id": "SP000003195",
+    "name": "MADRID - RETIRO",
+    "km_from_city_centre": 2,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=SP000003195&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 23.6,
+    "temp_min_c": 17.1,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 25.4,
+    "temp_min_c": 15.6,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 26.1,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Madrid",
+   "date": "2026-10-25",
+   "covered": true,
+   "station": {
+    "id": "SP000003195",
+    "name": "MADRID - RETIRO",
+    "km_from_city_centre": 2,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=SP000003195&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 19.7,
+    "temp_min_c": 9.3,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 22.7,
+    "temp_min_c": 7.6,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 21.9,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Madrid",
+   "date": "2026-11-04",
+   "covered": true,
+   "station": {
+    "id": "SP000003195",
+    "name": "MADRID - RETIRO",
+    "km_from_city_centre": 2,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=SP000003195&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 12.3,
+    "temp_min_c": 5.2,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 13.9,
+    "temp_min_c": 3.1,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 13.7,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Madrid",
+   "date": "2026-11-12",
+   "covered": false,
+   "station": "SP000003195",
+   "why": "station has no record for this day"
+  },
+  {
+   "city": "Rome",
+   "date": "2026-10-05",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Rome",
+   "date": "2026-10-15",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Rome",
+   "date": "2026-10-25",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Rome",
+   "date": "2026-11-04",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Rome",
+   "date": "2026-11-12",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Stockholm",
+   "date": "2026-10-05",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Stockholm",
+   "date": "2026-10-15",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Stockholm",
+   "date": "2026-10-25",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Stockholm",
+   "date": "2026-11-04",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Stockholm",
+   "date": "2026-11-12",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Warsaw",
+   "date": "2026-10-05",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Warsaw",
+   "date": "2026-10-15",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Warsaw",
+   "date": "2026-10-25",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Warsaw",
+   "date": "2026-11-04",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Warsaw",
+   "date": "2026-11-12",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Athens",
+   "date": "2026-10-05",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Athens",
+   "date": "2026-10-15",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Athens",
+   "date": "2026-10-25",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Athens",
+   "date": "2026-11-04",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Athens",
+   "date": "2026-11-12",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Istanbul",
+   "date": "2026-10-05",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Istanbul",
+   "date": "2026-10-15",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Istanbul",
+   "date": "2026-10-25",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Istanbul",
+   "date": "2026-11-04",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Istanbul",
+   "date": "2026-11-12",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Moscow",
+   "date": "2026-10-05",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Moscow",
+   "date": "2026-10-15",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Moscow",
+   "date": "2026-10-25",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Moscow",
+   "date": "2026-11-04",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Moscow",
+   "date": "2026-11-12",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Cairo",
+   "date": "2026-10-05",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Cairo",
+   "date": "2026-10-15",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Cairo",
+   "date": "2026-10-25",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Cairo",
+   "date": "2026-11-04",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Cairo",
+   "date": "2026-11-12",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Nairobi",
+   "date": "2026-10-05",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Nairobi",
+   "date": "2026-10-15",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Nairobi",
+   "date": "2026-10-25",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Nairobi",
+   "date": "2026-11-04",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Nairobi",
+   "date": "2026-11-12",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Johannesburg",
+   "date": "2026-10-05",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Johannesburg",
+   "date": "2026-10-15",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Johannesburg",
+   "date": "2026-10-25",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Johannesburg",
+   "date": "2026-11-04",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Johannesburg",
+   "date": "2026-11-12",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Dubai",
+   "date": "2026-10-05",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Dubai",
+   "date": "2026-10-15",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Dubai",
+   "date": "2026-10-25",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Dubai",
+   "date": "2026-11-04",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Dubai",
+   "date": "2026-11-12",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Delhi",
+   "date": "2026-10-05",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Delhi",
+   "date": "2026-10-15",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Delhi",
+   "date": "2026-10-25",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Delhi",
+   "date": "2026-11-04",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Delhi",
+   "date": "2026-11-12",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Mumbai",
+   "date": "2026-10-05",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Mumbai",
+   "date": "2026-10-15",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Mumbai",
+   "date": "2026-10-25",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Mumbai",
+   "date": "2026-11-04",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Mumbai",
+   "date": "2026-11-12",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Bangkok",
+   "date": "2026-10-05",
+   "covered": true,
+   "station": {
+    "id": "TH000048455",
+    "name": "BANGKOK METROPOLIS",
+    "km_from_city_centre": 8,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=TH000048455&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 31.8,
+    "temp_min_c": 25.1,
+    "precipitation_mm": 72
+   },
+   "miner": {
+    "temp_max_c": 34.2,
+    "temp_min_c": 26.8,
+    "precipitation_mm": 6.9,
+    "record_kind": "reanalysis",
+    "second_source_high": 32,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Bangkok",
+   "date": "2026-10-15",
+   "covered": true,
+   "station": {
+    "id": "TH000048455",
+    "name": "BANGKOK METROPOLIS",
+    "km_from_city_centre": 8,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=TH000048455&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 32.7,
+    "temp_min_c": 26.5,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 32.2,
+    "temp_min_c": 25.3,
+    "precipitation_mm": 8.5,
+    "record_kind": "reanalysis",
+    "second_source_high": 31.8,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Bangkok",
+   "date": "2026-10-25",
+   "covered": true,
+   "station": {
+    "id": "TH000048455",
+    "name": "BANGKOK METROPOLIS",
+    "km_from_city_centre": 8,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=TH000048455&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 36.1,
+    "temp_min_c": 27.6,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 34.8,
+    "temp_min_c": 25.8,
+    "precipitation_mm": 1.6,
+    "record_kind": "reanalysis",
+    "second_source_high": 31.1,
+    "sources_agree_on_high": false
+   }
+  },
+  {
+   "city": "Bangkok",
+   "date": "2026-11-04",
+   "covered": true,
+   "station": {
+    "id": "TH000048455",
+    "name": "BANGKOK METROPOLIS",
+    "km_from_city_centre": 8,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=TH000048455&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 32.2,
+    "temp_min_c": 25.8,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 32.1,
+    "temp_min_c": 26.8,
+    "precipitation_mm": 7.9,
+    "record_kind": "reanalysis",
+    "second_source_high": 31.7,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Bangkok",
+   "date": "2026-11-12",
+   "covered": false,
+   "station": "TH000048455",
+   "why": "station has no record for this day"
+  },
+  {
+   "city": "Singapore",
+   "date": "2026-10-05",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Singapore",
+   "date": "2026-10-15",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Singapore",
+   "date": "2026-10-25",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Singapore",
+   "date": "2026-11-04",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Singapore",
+   "date": "2026-11-12",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Hong Kong",
+   "date": "2026-10-05",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Hong Kong",
+   "date": "2026-10-15",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Hong Kong",
+   "date": "2026-10-25",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Hong Kong",
+   "date": "2026-11-04",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Hong Kong",
+   "date": "2026-11-12",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Tokyo",
+   "date": "2026-10-05",
+   "covered": true,
+   "station": {
+    "id": "JA000047670",
+    "name": "YOKOHAMA",
+    "km_from_city_centre": 27,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=JA000047670&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 21.8,
+    "temp_min_c": 20.4,
+    "precipitation_mm": 39
+   },
+   "miner": {
+    "temp_max_c": 20.9,
+    "temp_min_c": 17.1,
+    "precipitation_mm": 0.3,
+    "record_kind": "reanalysis",
+    "second_source_high": 19.3,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Tokyo",
+   "date": "2026-10-15",
+   "covered": true,
+   "station": {
+    "id": "JA000047670",
+    "name": "YOKOHAMA",
+    "km_from_city_centre": 27,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=JA000047670&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 22.9,
+    "temp_min_c": 19.2,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 22.9,
+    "temp_min_c": 17.5,
+    "precipitation_mm": 0.2,
+    "record_kind": "reanalysis",
+    "second_source_high": 20.8,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Tokyo",
+   "date": "2026-10-25",
+   "covered": true,
+   "station": {
+    "id": "JA000047670",
+    "name": "YOKOHAMA",
+    "km_from_city_centre": 27,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=JA000047670&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 24.1,
+    "temp_min_c": 19.2,
+    "precipitation_mm": 20.5
+   },
+   "miner": {
+    "temp_max_c": 25.8,
+    "temp_min_c": 16.2,
+    "precipitation_mm": 8.7,
+    "record_kind": "reanalysis",
+    "second_source_high": 25,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Tokyo",
+   "date": "2026-11-04",
+   "covered": true,
+   "station": {
+    "id": "JA000047670",
+    "name": "YOKOHAMA",
+    "km_from_city_centre": 27,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=JA000047670&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 13.3,
+    "temp_min_c": 11.9,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 14.7,
+    "temp_min_c": 11.9,
+    "precipitation_mm": 18.2,
+    "record_kind": "reanalysis",
+    "second_source_high": 12.6,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Tokyo",
+   "date": "2026-11-12",
+   "covered": false,
+   "station": "JA000047670",
+   "why": "station has no record for this day"
+  },
+  {
+   "city": "Seoul",
+   "date": "2026-10-05",
+   "covered": true,
+   "station": {
+    "id": "KS000047112",
+    "name": "INCHEON",
+    "km_from_city_centre": 32,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=KS000047112&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 20.5,
+    "temp_min_c": 12.6,
+    "precipitation_mm": 3.4
+   },
+   "miner": {
+    "temp_max_c": 19.7,
+    "temp_min_c": 14.1,
+    "precipitation_mm": 1.5,
+    "record_kind": "reanalysis",
+    "second_source_high": 19.1,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Seoul",
+   "date": "2026-10-15",
+   "covered": true,
+   "station": {
+    "id": "KS000047112",
+    "name": "INCHEON",
+    "km_from_city_centre": 32,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=KS000047112&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 21.7,
+    "temp_min_c": 16.5,
+    "precipitation_mm": 0.5
+   },
+   "miner": {
+    "temp_max_c": 20.8,
+    "temp_min_c": 13.4,
+    "precipitation_mm": 1.7,
+    "record_kind": "reanalysis",
+    "second_source_high": 20.1,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Seoul",
+   "date": "2026-10-25",
+   "covered": true,
+   "station": {
+    "id": "KS000047112",
+    "name": "INCHEON",
+    "km_from_city_centre": 32,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=KS000047112&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 22,
+    "temp_min_c": 13.4,
+    "precipitation_mm": 29
+   },
+   "miner": {
+    "temp_max_c": 22.7,
+    "temp_min_c": 10.4,
+    "precipitation_mm": 0.1,
+    "record_kind": "reanalysis",
+    "second_source_high": 21.3,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Seoul",
+   "date": "2026-11-04",
+   "covered": true,
+   "station": {
+    "id": "KS000047112",
+    "name": "INCHEON",
+    "km_from_city_centre": 32,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=KS000047112&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 18.8,
+    "temp_min_c": 11.2,
+    "precipitation_mm": 5.2
+   },
+   "miner": {
+    "temp_max_c": 17.7,
+    "temp_min_c": 8.6,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 16.1,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Seoul",
+   "date": "2026-11-12",
+   "covered": false,
+   "station": "KS000047112",
+   "why": "station has no record for this day"
+  },
+  {
+   "city": "Sydney",
+   "date": "2026-10-05",
+   "covered": true,
+   "station": {
+    "id": "ASN00066196",
+    "name": "SYDNEY HARBOUR (WEDDING CAKE W",
+    "km_from_city_centre": 6,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=ASN00066196&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 21.9,
+    "temp_min_c": 17,
+    "precipitation_mm": null
+   },
+   "miner": {
+    "temp_max_c": 21,
+    "temp_min_c": 14.5,
+    "precipitation_mm": 2.2,
+    "record_kind": "reanalysis",
+    "second_source_high": 22.2,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Sydney",
+   "date": "2026-10-15",
+   "covered": true,
+   "station": {
+    "id": "ASN00066196",
+    "name": "SYDNEY HARBOUR (WEDDING CAKE W",
+    "km_from_city_centre": 6,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=ASN00066196&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 18.3,
+    "temp_min_c": 12.2,
+    "precipitation_mm": null
+   },
+   "miner": {
+    "temp_max_c": 16.6,
+    "temp_min_c": 11.8,
+    "precipitation_mm": 6.9,
+    "record_kind": "reanalysis",
+    "second_source_high": 17.3,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Sydney",
+   "date": "2026-10-25",
+   "covered": true,
+   "station": {
+    "id": "ASN00066196",
+    "name": "SYDNEY HARBOUR (WEDDING CAKE W",
+    "km_from_city_centre": 6,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=ASN00066196&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 26,
+    "temp_min_c": 19,
+    "precipitation_mm": null
+   },
+   "miner": {
+    "temp_max_c": 31.3,
+    "temp_min_c": 19.6,
+    "precipitation_mm": 1.6,
+    "record_kind": "reanalysis",
+    "second_source_high": 27.7,
+    "sources_agree_on_high": false
+   }
+  },
+  {
+   "city": "Sydney",
+   "date": "2026-11-04",
+   "covered": true,
+   "station": {
+    "id": "ASN00066196",
+    "name": "SYDNEY HARBOUR (WEDDING CAKE W",
+    "km_from_city_centre": 6,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=ASN00066196&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 23.7,
+    "temp_min_c": 17.6,
+    "precipitation_mm": null
+   },
+   "miner": {
+    "temp_max_c": 22.3,
+    "temp_min_c": 17.3,
+    "precipitation_mm": 2.1,
+    "record_kind": "reanalysis",
+    "second_source_high": 22.4,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Sydney",
+   "date": "2026-11-12",
+   "covered": false,
+   "station": "ASN00066196",
+   "why": "station has no record for this day"
+  },
+  {
+   "city": "Melbourne",
+   "date": "2026-10-05",
+   "covered": true,
+   "station": {
+    "id": "ASN00086038",
+    "name": "ESSENDON AIRPORT",
+    "km_from_city_centre": 11,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=ASN00086038&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 18.9,
+    "temp_min_c": 9.3,
+    "precipitation_mm": 0.2
+   },
+   "miner": {
+    "temp_max_c": 17.4,
+    "temp_min_c": 9.2,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 19.3,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Melbourne",
+   "date": "2026-10-15",
+   "covered": true,
+   "station": {
+    "id": "ASN00086038",
+    "name": "ESSENDON AIRPORT",
+    "km_from_city_centre": 11,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=ASN00086038&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 20.8,
+    "temp_min_c": 4.9,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 19.7,
+    "temp_min_c": 5.4,
+    "precipitation_mm": 0,
+    "record_kind": "reanalysis",
+    "second_source_high": 19.7,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Melbourne",
+   "date": "2026-10-25",
+   "covered": true,
+   "station": {
+    "id": "ASN00086038",
+    "name": "ESSENDON AIRPORT",
+    "km_from_city_centre": 11,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=ASN00086038&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 15.4,
+    "temp_min_c": 15.1,
+    "precipitation_mm": 20
+   },
+   "miner": {
+    "temp_max_c": 17.9,
+    "temp_min_c": 9.2,
+    "precipitation_mm": 40.9,
+    "record_kind": "reanalysis",
+    "second_source_high": 16.4,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Melbourne",
+   "date": "2026-11-04",
+   "covered": true,
+   "station": {
+    "id": "ASN00086038",
+    "name": "ESSENDON AIRPORT",
+    "km_from_city_centre": 11,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=ASN00086038&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 21.6,
+    "temp_min_c": 9.4,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 21.1,
+    "temp_min_c": 9.6,
+    "precipitation_mm": 17.2,
+    "record_kind": "reanalysis",
+    "second_source_high": 19.1,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Melbourne",
+   "date": "2026-11-12",
+   "covered": false,
+   "station": "ASN00086038",
+   "why": "station has no record for this day"
+  },
+  {
+   "city": "Auckland",
+   "date": "2026-10-05",
+   "covered": true,
+   "station": {
+    "id": "NZM00093110",
+    "name": "AUCKLAND AERO AWS",
+    "km_from_city_centre": 17,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=NZM00093110&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 16.4,
+    "temp_min_c": 7.5,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 16.4,
+    "temp_min_c": 7.9,
+    "precipitation_mm": 0.2,
+    "record_kind": "reanalysis",
+    "second_source_high": 16.6,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Auckland",
+   "date": "2026-10-15",
+   "covered": true,
+   "station": {
+    "id": "NZM00093110",
+    "name": "AUCKLAND AERO AWS",
+    "km_from_city_centre": 17,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=NZM00093110&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 16.8,
+    "temp_min_c": 10.1,
+    "precipitation_mm": 4.6
+   },
+   "miner": {
+    "temp_max_c": 18.3,
+    "temp_min_c": 11.6,
+    "precipitation_mm": 6.9,
+    "record_kind": "reanalysis",
+    "second_source_high": 16.6,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Auckland",
+   "date": "2026-10-25",
+   "covered": true,
+   "station": {
+    "id": "NZM00093110",
+    "name": "AUCKLAND AERO AWS",
+    "km_from_city_centre": 17,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=NZM00093110&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 18.9,
+    "temp_min_c": 11.4,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 19.6,
+    "temp_min_c": 13.1,
+    "precipitation_mm": 0.7,
+    "record_kind": "reanalysis",
+    "second_source_high": 18.1,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Auckland",
+   "date": "2026-11-04",
+   "covered": true,
+   "station": {
+    "id": "NZM00093110",
+    "name": "AUCKLAND AERO AWS",
+    "km_from_city_centre": 17,
+    "source": "https://www.ncei.noaa.gov/access/services/data/v1?dataset=daily-summaries&stations=NZM00093110&startDate=2026-10-05&endDate=2026-11-12&dataTypes=TMAX,TMIN,PRCP&units=metric&format=json"
+   },
+   "observed": {
+    "temp_max_c": 22.6,
+    "temp_min_c": 16.2,
+    "precipitation_mm": 0
+   },
+   "miner": {
+    "temp_max_c": 22.2,
+    "temp_min_c": 16,
+    "precipitation_mm": 3.4,
+    "record_kind": "reanalysis",
+    "second_source_high": 20.5,
+    "sources_agree_on_high": true
+   }
+  },
+  {
+   "city": "Auckland",
+   "date": "2026-11-12",
+   "covered": false,
+   "station": "NZM00093110",
+   "why": "station has no record for this day"
+  },
+  {
+   "city": "Sao Paulo",
+   "date": "2026-10-05",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Sao Paulo",
+   "date": "2026-10-15",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Sao Paulo",
+   "date": "2026-10-25",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Sao Paulo",
+   "date": "2026-11-04",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Sao Paulo",
+   "date": "2026-11-12",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Buenos Aires",
+   "date": "2026-10-05",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Buenos Aires",
+   "date": "2026-10-15",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Buenos Aires",
+   "date": "2026-10-25",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Buenos Aires",
+   "date": "2026-11-04",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  },
+  {
+   "city": "Buenos Aires",
+   "date": "2026-11-12",
+   "covered": false,
+   "why": "the nearby stations have no record for these days"
+  }
+ ]
+}

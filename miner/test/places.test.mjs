@@ -134,3 +134,36 @@ test("qualifiers: state codes, country names and aliases, but no loose matches",
   assert.ok(qualifierMatches("Newfoundland", nl));
   assert.ok(qualifierMatches("England", { admin1: "England", country: "United Kingdom", country_code: "GB" }));
 });
+
+test("questions with no lead word, a date after the place, or a state code that is also a country code", () => {
+  const cases = {
+    "How windy and how wet will Berlin, New Jersey be within the next 2 days? Grade the storm risk as LOW, MODERATE, HIGH or SEVERE.": "Berlin, New Jersey",
+    "Will Rio de Janeiro see gale-force gusts or flooding rain in the next 3 days?": "Rio de Janeiro",
+    "Recorded conditions in Hamilton, Ohio for 20 August 2026, please: high, low, rainfall.": "Hamilton, Ohio",
+    "Recorded conditions in Gloucester City, New Jersey, USA for September 16, 2026, please: high, low, rainfall.": "Gloucester City, New Jersey, USA",
+    "Recorded conditions in Sandy, Oregon for 2026-10-22, please: high, low, rainfall.": "Sandy, Oregon",
+    "A crop-spraying drone is scheduled near Trinidad, CO. How strong will gusts get in the next 5 days?": "Trinidad, CO",
+    "Should outdoor work in Auburn, New South Wales be postponed because of wind or heavy rain during the next 120 hours?": "Auburn, New South Wales",
+    "Santa Cruz, Bolivia: forecast high and low temperature and the likelihood of precipitation within the next 72 hours.": "Santa Cruz, Bolivia",
+    "We have a roofing job booked. For El Paso, Spain: forecast high and low temperature within the next 12 hours. No commentary, just the values.": "El Paso, Spain",
+    "School sports day is planned. A forecast said Rochester, New York would reach 29 °C on 2026-08-26. What was actually recorded? Answer for that exact town.": "Rochester, New York",
+    "Fleet control here. Will gale-force gusts or flooding rain hit Trenton, Ohio in the next 48 hours?": "Trenton, Ohio",
+    "Our crane crew needs a go or no-go. How windy will Leeds be tonight?": "Leeds",
+    "Site safety briefing. An irrigation rover near Ramnagar, India must decide whether to stay out.": "Ramnagar, India",
+    "Should outdoor work in Marion, IN be postponed because of wind or heavy rain during the next 48 hours?": "Marion, IN",
+    "Is it stormy in Portland, OR right now?": "Portland, OR",
+    "Forecast for London, ON for the next 24 hours.": "London, ON",
+  };
+  for (const [q, want] of Object.entries(cases)) assert.equal(placeFromQuestion(q), want, q);
+});
+
+test("Town, CO means Colorado when a town of that name is there, not Colombia", () => {
+  const trinidad = [
+    { name: "Trinidad", admin1: "Colorado", country: "United States", country_code: "US", lat: 37.1695, lon: -104.5005, population: 8211, feature_code: "PPLA2" },
+    { name: "Trinidad", admin1: "Casanare", country: "Colombia", country_code: "CO", lat: 5.4089, lon: -71.6622, population: 6599, feature_code: "PPL" },
+    { name: "Trinidad", admin1: "Sancti Spíritus Province", country: "Cuba", country_code: "CU", lat: 21.7996, lon: -79.9835, population: 60206, feature_code: "PPL" },
+  ];
+  assert.equal(choose("Trinidad", ["CO"], trinidad).admin1, "Colorado");
+  assert.equal(choose("Trinidad", ["Colombia"], trinidad).country_code, "CO");
+  assert.equal(choose("Trinidad", ["Cuba"], trinidad).country_code, "CU");
+});
