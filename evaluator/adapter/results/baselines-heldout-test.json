@@ -1,0 +1,226 @@
+{
+ "data": "adapter/heldout-test.jsonl",
+ "win_rule": "better answer scored strictly above the worse one; ties are not wins",
+ "by_kind": {
+  "wrong_city": {
+   "longer_answer": {
+    "pairs": 26,
+    "won": 14,
+    "tied": 1,
+    "win_rate": 0.5385
+   },
+   "well_formed_only": {
+    "pairs": 26,
+    "won": 0,
+    "tied": 26,
+    "win_rate": 0
+   },
+   "rule_checker": {
+    "pairs": 26,
+    "won": 26,
+    "tied": 0,
+    "win_rate": 1
+   }
+  },
+  "all": {
+   "longer_answer": {
+    "pairs": 248,
+    "won": 122,
+    "tied": 28,
+    "win_rate": 0.4919
+   },
+   "well_formed_only": {
+    "pairs": 248,
+    "won": 42,
+    "tied": 206,
+    "win_rate": 0.1694
+   },
+   "rule_checker": {
+    "pairs": 248,
+    "won": 241,
+    "tied": 7,
+    "win_rate": 0.9718
+   }
+  },
+  "wrong_place": {
+   "longer_answer": {
+    "pairs": 131,
+    "won": 63,
+    "tied": 4,
+    "win_rate": 0.4809
+   },
+   "well_formed_only": {
+    "pairs": 131,
+    "won": 0,
+    "tied": 131,
+    "win_rate": 0
+   },
+   "rule_checker": {
+    "pairs": 131,
+    "won": 131,
+    "tied": 0,
+    "win_rate": 1
+   }
+  },
+  "not_a_forecast": {
+   "longer_answer": {
+    "pairs": 11,
+    "won": 11,
+    "tied": 0,
+    "win_rate": 1
+   },
+   "well_formed_only": {
+    "pairs": 11,
+    "won": 9,
+    "tied": 2,
+    "win_rate": 0.8182
+   },
+   "rule_checker": {
+    "pairs": 11,
+    "won": 11,
+    "tied": 0,
+    "win_rate": 1
+   }
+  },
+  "contradiction": {
+   "longer_answer": {
+    "pairs": 21,
+    "won": 4,
+    "tied": 15,
+    "win_rate": 0.1905
+   },
+   "well_formed_only": {
+    "pairs": 21,
+    "won": 0,
+    "tied": 21,
+    "win_rate": 0
+   },
+   "rule_checker": {
+    "pairs": 21,
+    "won": 21,
+    "tied": 0,
+    "win_rate": 1
+   }
+  },
+  "missing": {
+   "longer_answer": {
+    "pairs": 18,
+    "won": 14,
+    "tied": 2,
+    "win_rate": 0.7778
+   },
+   "well_formed_only": {
+    "pairs": 18,
+    "won": 16,
+    "tied": 2,
+    "win_rate": 0.8889
+   },
+   "rule_checker": {
+    "pairs": 18,
+    "won": 16,
+    "tied": 2,
+    "win_rate": 0.8889
+   }
+  },
+  "out_of_range": {
+   "longer_answer": {
+    "pairs": 12,
+    "won": 1,
+    "tied": 2,
+    "win_rate": 0.0833
+   },
+   "well_formed_only": {
+    "pairs": 12,
+    "won": 11,
+    "tied": 1,
+    "win_rate": 0.9167
+   },
+   "rule_checker": {
+    "pairs": 12,
+    "won": 11,
+    "tied": 1,
+    "win_rate": 0.9167
+   }
+  },
+  "wrong_window": {
+   "longer_answer": {
+    "pairs": 17,
+    "won": 7,
+    "tied": 0,
+    "win_rate": 0.4118
+   },
+   "well_formed_only": {
+    "pairs": 17,
+    "won": 0,
+    "tied": 17,
+    "win_rate": 0
+   },
+   "rule_checker": {
+    "pairs": 17,
+    "won": 17,
+    "tied": 0,
+    "win_rate": 1
+   }
+  },
+  "refusal": {
+   "longer_answer": {
+    "pairs": 4,
+    "won": 4,
+    "tied": 0,
+    "win_rate": 1
+   },
+   "well_formed_only": {
+    "pairs": 4,
+    "won": 4,
+    "tied": 0,
+    "win_rate": 1
+   },
+   "rule_checker": {
+    "pairs": 4,
+    "won": 4,
+    "tied": 0,
+    "win_rate": 1
+   }
+  },
+  "stale": {
+   "longer_answer": {
+    "pairs": 4,
+    "won": 0,
+    "tied": 4,
+    "win_rate": 0
+   },
+   "well_formed_only": {
+    "pairs": 4,
+    "won": 0,
+    "tied": 4,
+    "win_rate": 0
+   },
+   "rule_checker": {
+    "pairs": 4,
+    "won": 0,
+    "tied": 4,
+    "win_rate": 0
+   }
+  },
+  "vague": {
+   "longer_answer": {
+    "pairs": 4,
+    "won": 4,
+    "tied": 0,
+    "win_rate": 1
+   },
+   "well_formed_only": {
+    "pairs": 4,
+    "won": 2,
+    "tied": 2,
+    "win_rate": 0.5
+   },
+   "rule_checker": {
+    "pairs": 4,
+    "won": 4,
+    "tied": 0,
+    "win_rate": 1
+   }
+  }
+ }
+}

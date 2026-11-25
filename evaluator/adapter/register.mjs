@@ -30,13 +30,22 @@ const hosted = Buffer.from(await (await fetch(wasmUrl)).arrayBuffer());
 if (keccak256(hosted) !== hash) throw new Error(`The hosted package differs from the local file.\n local  ${hash}\n hosted ${keccak256(hosted)} (${hosted.length} bytes)`);
 console.log(`package ${pkgPath} (${local.length} bytes)\n keccak256 ${hash}\n hosted copy matches: ${wasmUrl}`);
 
-// A real batch request: two tiny token lists ([CLS] x [SEP] in ModernBERT's vocabulary). The reply must carry
-// one score per item and name this package's hash.
-const probe = await fetch(runnableUrl, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ batch: [{ tokens: [50281, 2594, 50282] }, { tokens: [50281, 9846, 4868, 50282] }] }), signal: AbortSignal.timeout(180000) });
+// A real batch request, shaped like a validator's: two tiny token lists ([CLS] x [SEP] in ModernBERT's
+// vocabulary) plus the identity it expects. The reply must carry one score per item and name the package,
+// Foundation Model and tokenizer it actually scored with.
+const FOUNDATION = "0a49b325304bb4cf292e683929689d0457966be264f60bfc94d0072b614bf8e6";
+const TOKENIZER = "67bc76f8b9386efba1a761c1c8e5ad439fd0eaf1c2826e9dd1a205c7af4dc456";
+const probe = await fetch(runnableUrl, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ batch: [{ tokens: [50281, 2594, 50282] }, { tokens: [50281, 9846, 4868, 50282] }], foundation_hash: FOUNDATION, adapter_hash: hash.slice(2), tokenizer_hash: TOKENIZER, input_root: "00" }),
+  signal: AbortSignal.timeout(180000),
+});
 const reply = await probe.json().catch(() => null);
 if (probe.status !== 200 || !Array.isArray(reply?.results) || reply.results.length !== 2 || reply.results.some((x) => typeof x.score !== "number")) throw new Error(`the executor did not answer the batch request: HTTP ${probe.status} ${JSON.stringify(reply).slice(0, 300)}`);
 if (String(reply.adapter_hash).toLowerCase() !== hash.slice(2).toLowerCase()) throw new Error(`the executor is running a different package: ${reply.adapter_hash}`);
-console.log(`executor answers the batch request with this package (foundation ${String(reply.foundation_hash).slice(0, 12)}…)`);
+if (reply.foundation_hash !== FOUNDATION || reply.tokenizer_hash !== TOKENIZER) throw new Error(`the executor runs another foundation or tokenizer: ${reply.foundation_hash} ${reply.tokenizer_hash}`);
+console.log(`executor answers the batch request with this package, the network's Foundation Model and its tokenizer`);
 
 const account = privateKeyToAccount(process.env.EVM_PRIVATE_KEY);
 const pub = createPublicClient({ chain: sepolia, transport: http(rpc) });
