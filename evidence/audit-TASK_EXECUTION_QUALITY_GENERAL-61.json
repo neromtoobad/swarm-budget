@@ -1,0 +1,22 @@
+{
+  "note": "Real answer bought by Ledger on 2026-11-25 (purchase 61), copied from /api/state. The drone had held.",
+  "at": "2026-11-25T05:14:17.885Z",
+  "miner_id": "302",
+  "miner_name": "ChainSight — Universal Intelligence & Data Oracle",
+  "signal_hash": "0x8df8a5e4022d6e94245ed7b6860246adb223e76c3085d684b9417c646d8dd54d",
+  "receipt_hash": "0xa509e17c8a2c7fad9d337064296e1ed44624eeba8fc60d10fa3e633252ed1ef3",
+  "intent": "TASK_EXECUTION_QUALITY_GENERAL",
+  "params": {
+    "task": "Only spray when gusts are under 15 km/h and rain chance under 40%. Weather recorded that day: 0 mm rain.",
+    "result": "Holds spraying: gusts 19.4 km/h (limit 15)."
+  },
+  "ok": true,
+  "status": 200,
+  "body": {
+    "result": {
+      "verdict": "fails",
+      "reason": "Fail - the spray was applied despite gusts exceeding the 15 km/h limit, violating the task condition.",
+      "score": null
+    }
+  }
+}

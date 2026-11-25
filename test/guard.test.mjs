@@ -89,3 +89,23 @@ test("a satellite answer with no reading is refused (PREFLIGHT: 'the vision mode
   assert.equal(v.verdict, "rejected");
   assert.match(v.checks.find((c) => !c.pass).why, /no reading/);
 });
+
+test("an audit that says a held drone sprayed is refused (Nov 25, purchase 61)", () => {
+  const v = verdictOf("audit-TASK_EXECUTION_QUALITY_GENERAL-61.json", KERMAN);
+  assert.equal(v.verdict, "rejected");
+  assert.ok(v.checks.some((c) => !c.pass && /machine held/.test(c.why)), JSON.stringify(v.checks));
+});
+
+test("an audit with a reason but no verdict is still refused (Nov 25, purchase 60)", () => {
+  assert.equal(verdictOf("audit-TASK_EXECUTION_QUALITY_GENERAL-60.json", KERMAN).verdict, "rejected");
+});
+
+test("an audit whose reason matches what the machine did is accepted", () => {
+  const params = { task: "Only spray when gusts are under 15 km/h.", result: "Holds spraying: gusts 19.4 km/h (limit 15)." };
+  const ok = (result) => judge({ ok: true, status: 200, body: { result } }, { intent: "TASK_EXECUTION_QUALITY_GENERAL", params, place: KERMAN }).verdict;
+  assert.equal(ok({ verdict: "satisfies", reason: "Correctly holds spraying because gusts were above the limit." }), "accepted");
+  assert.equal(ok({ verdict: "fails", reason: "Correctly holds spraying because gusts were above the limit." }), "rejected");
+  const acted = { ...params, result: "Sprays at 06:00: gusts 9 km/h (limit 15)." };
+  const v = judge({ ok: true, status: 200, body: { result: { verdict: "satisfies", reason: "The spray was applied with gusts under the limit." } } }, { intent: "TASK_EXECUTION_QUALITY_GENERAL", params: acted, place: KERMAN });
+  assert.equal(v.verdict, "accepted", JSON.stringify(v.checks));
+});

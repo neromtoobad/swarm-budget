@@ -21,7 +21,8 @@ A miner can answer the question you asked confidently and still be wrong about w
 | `GRID_POWER_PRICE_GENERAL` | the node or zone asked, USD, the hour asked, a plausible $/MWh |
 | `ROUTE_ETA_GENERAL` | a drive time whose speed is physically possible for the distance |
 | `SATELLITE_IMAGERY_ANALYSIS_GENERAL` | place, a real reading (not "the vision model was unavailable"), a capture date |
-| `WEATHER_CHECK_TEMPERATURE`, `TASK_EXECUTION_QUALITY_GENERAL` | a plausible value or a verdict |
+| `WEATHER_CHECK_TEMPERATURE` | a plausible temperature |
+| `TASK_EXECUTION_QUALITY_GENERAL` | a verdict, whose reason describes what was actually done (it can't say a held machine acted) and doesn't contradict the verdict |
 
 Any other intent is still bought and returned, with a note that it has no specific checks. A failed request or an empty answer is always refused.
 

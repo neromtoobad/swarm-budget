@@ -128,8 +128,22 @@ const CHECKS = {
     if (res.temp_max_c == null && res.precipitation_mm == null) c.push(fail("no recorded values"));
     return c;
   },
-  TASK_EXECUTION_QUALITY_GENERAL(res) {
-    return [["satisfies", "partially_satisfies", "fails"].includes(res.verdict) ? okk(`verdict: ${res.verdict}`) : fail("no verdict")];
+  TASK_EXECUTION_QUALITY_GENERAL(res, body, ctx) {
+    if (!["satisfies", "partially_satisfies", "fails"].includes(res.verdict)) return [fail("no verdict")];
+    const c = [okk(`verdict: ${res.verdict}`)];
+    // A verdict is only worth paying for if its reason judges what was actually done.
+    // Nov 25: a judge called a held spray drone a failure "because the spray was applied". The drone never flew.
+    const why = String(res.reason ?? "");
+    const done = String(ctx?.params?.result ?? "");
+    const held = /\b(holds?|held|stays?|stayed|waits?|did not|didn't|does not|skips?|skipped|no spray)\b/i.test(done);
+    const saysActed = /\b(was|were|got|been) (applied|sprayed|carried out|performed|done)\b|\b(sprayed|went ahead|proceeded)\b/i.test(why);
+    const saysHeld = /\b(holds?|held|stays?|stayed|did not|didn't|was not (applied|sprayed)|wasn't (applied|sprayed)|no spray)\b/i.test(why);
+    if (done && held && saysActed && !saysHeld) c.push(fail("reason says the action went ahead, but the machine held"));
+    else if (done && !held && saysHeld && !saysActed) c.push(fail("reason says the machine held, but it acted"));
+    // ...and agree with itself: "fails" with a reason that opens "Correctly ..." is two answers in one.
+    if (res.verdict === "fails" && /^\W*(correct|correctly|right|yes|satisf)/i.test(why)) c.push(fail("verdict says fails, its own reason says the call was right"));
+    if (res.verdict === "satisfies" && /^\W*(fail|fails|incorrect|wrong|violat)/i.test(why)) c.push(fail("verdict says satisfies, its own reason says the call was wrong"));
+    return c;
   },
 };
 
