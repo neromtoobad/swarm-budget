@@ -179,9 +179,7 @@ intent_mapping:
   STORM_ALERT_GENERAL:
     endpoint: /storm-alert
     input:
-      location:
-        from: location
-        how: The requested place, verbatim, keeping any region or country ("Paris, Texas"), or "latitude,longitude".
+      location: {from: location}
       window_hours: {from: window_hours}
     output:
       location: {path: location}
@@ -193,9 +191,7 @@ intent_mapping:
   WEATHER_FORECAST_GENERAL:
     endpoint: /forecast
     input:
-      location:
-        from: location
-        how: The requested place, verbatim, keeping any region or country ("Paris, Texas"), or "latitude,longitude".
+      location: {from: location}
       window_hours: {from: window_hours}
     output:
       location: {path: location}
@@ -207,12 +203,8 @@ intent_mapping:
   WEATHER_FORECAST_VERIFY_GENERAL:
     endpoint: /verify
     input:
-      location:
-        from: location
-        how: The requested place, verbatim, keeping any region or country ("Portland, Maine"), or "latitude,longitude".
-      date:
-        from: date
-        how: The requested past day as YYYY-MM-DD, verbatim.
+      location: {from: location}
+      date: {from: date}
     output:
       location: {path: location}
       date: {path: date}
@@ -223,9 +215,7 @@ intent_mapping:
   WEATHER_CHECK_TEMPERATURE:
     endpoint: /temperature
     input:
-      location:
-        from: location
-        how: The requested place, verbatim, keeping any region or country, or "latitude,longitude".
+      location: {from: location}
     output:
       temperature_c: {path: temperature_c, unit: degrees Celsius}
 semantics:

@@ -1,0 +1,619 @@
+{
+ "frozen_on": "2026-11-25",
+ "truth_source": "OpenStreetMap Nominatim structured search (city + state + country)",
+ "cases": [
+  {
+   "kind": "namesake",
+   "ask": "Kerman, California",
+   "truth": {
+    "lat": 36.7236,
+    "lon": -120.0599,
+    "label": "Kerman, Fresno County, California, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Kerman&country=United+States&format=jsonv2&limit=1&accept-language=en&state=California"
+   },
+   "confused_with": "Kerman, Iran"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Paris, Texas",
+   "truth": {
+    "lat": 33.6618,
+    "lon": -95.5555,
+    "label": "Paris, Lamar County, Texas, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Paris&country=United+States&format=jsonv2&limit=1&accept-language=en&state=Texas"
+   },
+   "confused_with": "Paris, France"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Cairo, Illinois",
+   "truth": {
+    "lat": 37.0058,
+    "lon": -89.1772,
+    "label": "Cairo, Alexander County, Illinois, 62914, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Cairo&country=United+States&format=jsonv2&limit=1&accept-language=en&state=Illinois"
+   },
+   "confused_with": "Cairo, Egypt"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Delhi, New York",
+   "truth": {
+    "lat": 42.2781,
+    "lon": -74.916,
+    "label": "Village of Delhi, Town of Delhi, Delaware County, New York, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Delhi&country=United+States&format=jsonv2&limit=1&accept-language=en&state=New+York"
+   },
+   "confused_with": "Delhi, India"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Birmingham, Alabama",
+   "truth": {
+    "lat": 33.5207,
+    "lon": -86.8024,
+    "label": "Birmingham, Jefferson County, Alabama, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Birmingham&country=United+States&format=jsonv2&limit=1&accept-language=en&state=Alabama"
+   },
+   "confused_with": "Birmingham, England"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Moscow, Idaho",
+   "truth": {
+    "lat": 46.7324,
+    "lon": -117.0002,
+    "label": "Moscow, Latah County, Idaho, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Moscow&country=United+States&format=jsonv2&limit=1&accept-language=en&state=Idaho"
+   },
+   "confused_with": "Moscow, Russia"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Rome, Georgia",
+   "truth": {
+    "lat": 34.257,
+    "lon": -85.1647,
+    "label": "Rome, Floyd County, Georgia, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Rome&country=United+States&format=jsonv2&limit=1&accept-language=en&state=Georgia"
+   },
+   "confused_with": "Rome, Italy"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Athens, Georgia",
+   "truth": {
+    "lat": 33.9598,
+    "lon": -83.3764,
+    "label": "Athens, Clarke County, Georgia, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Athens&country=United+States&format=jsonv2&limit=1&accept-language=en&state=Georgia"
+   },
+   "confused_with": "Athens, Greece"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Dublin, Ohio",
+   "truth": {
+    "lat": 40.0996,
+    "lon": -83.1136,
+    "label": "Dublin, Washington Township, Franklin County, Ohio, 43016, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Dublin&country=United+States&format=jsonv2&limit=1&accept-language=en&state=Ohio"
+   },
+   "confused_with": "Dublin, Ireland"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Lima, Ohio",
+   "truth": {
+    "lat": 40.74,
+    "lon": -84.105,
+    "label": "Lima, Allen County, Ohio, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Lima&country=United+States&format=jsonv2&limit=1&accept-language=en&state=Ohio"
+   },
+   "confused_with": "Lima, Peru"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Naples, Florida",
+   "truth": {
+    "lat": 26.1422,
+    "lon": -81.7943,
+    "label": "Naples, Collier County, Florida, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Naples&country=United+States&format=jsonv2&limit=1&accept-language=en&state=Florida"
+   },
+   "confused_with": "Naples, Italy"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Melbourne, Florida",
+   "truth": {
+    "lat": 28.0785,
+    "lon": -80.6078,
+    "label": "Melbourne, Brevard County, Florida, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Melbourne&country=United+States&format=jsonv2&limit=1&accept-language=en&state=Florida"
+   },
+   "confused_with": "Melbourne, Australia"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Manchester, New Hampshire",
+   "truth": {
+    "lat": 42.9956,
+    "lon": -71.4548,
+    "label": "Manchester, Hillsborough County, New Hampshire, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Manchester&country=United+States&format=jsonv2&limit=1&accept-language=en&state=New+Hampshire"
+   },
+   "confused_with": "Manchester, England"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Toledo, Ohio",
+   "truth": {
+    "lat": 41.6529,
+    "lon": -83.5378,
+    "label": "Toledo, Lucas County, Ohio, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Toledo&country=United+States&format=jsonv2&limit=1&accept-language=en&state=Ohio"
+   },
+   "confused_with": "Toledo, Spain"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Odessa, Texas",
+   "truth": {
+    "lat": 31.8457,
+    "lon": -102.3677,
+    "label": "Odessa, Ector County, Texas, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Odessa&country=United+States&format=jsonv2&limit=1&accept-language=en&state=Texas"
+   },
+   "confused_with": "Odesa, Ukraine"
+  },
+  {
+   "kind": "namesake",
+   "ask": "St. Petersburg, Florida",
+   "truth": {
+    "lat": 27.7712,
+    "lon": -82.634,
+    "label": "Saint Petersburg, Pinellas County, Florida, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=St.+Petersburg&country=United+States&format=jsonv2&limit=1&accept-language=en&state=Florida"
+   },
+   "confused_with": "Saint Petersburg, Russia"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Vienna, Virginia",
+   "truth": {
+    "lat": 38.9014,
+    "lon": -77.2652,
+    "label": "Vienna, Fairfax County, Virginia, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Vienna&country=United+States&format=jsonv2&limit=1&accept-language=en&state=Virginia"
+   },
+   "confused_with": "Vienna, Austria"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Geneva, New York",
+   "truth": {
+    "lat": 42.869,
+    "lon": -76.9786,
+    "label": "City of Geneva, Ontario County, New York, 14456, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Geneva&country=United+States&format=jsonv2&limit=1&accept-language=en&state=New+York"
+   },
+   "confused_with": "Geneva, Switzerland"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Berlin, New Hampshire",
+   "truth": {
+    "lat": 44.4697,
+    "lon": -71.1811,
+    "label": "Berlin, Coös County, New Hampshire, 03570, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Berlin&country=United+States&format=jsonv2&limit=1&accept-language=en&state=New+Hampshire"
+   },
+   "confused_with": "Berlin, Germany"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Florence, South Carolina",
+   "truth": {
+    "lat": 34.1984,
+    "lon": -79.7672,
+    "label": "Florence, Florence County, South Carolina, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Florence&country=United+States&format=jsonv2&limit=1&accept-language=en&state=South+Carolina"
+   },
+   "confused_with": "Florence, Italy"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Venice, Florida",
+   "truth": {
+    "lat": 27.0998,
+    "lon": -82.4443,
+    "label": "Venice, Sarasota County, Florida, 34285, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Venice&country=United+States&format=jsonv2&limit=1&accept-language=en&state=Florida"
+   },
+   "confused_with": "Venice, Italy"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Cambridge, Massachusetts",
+   "truth": {
+    "lat": 42.3656,
+    "lon": -71.104,
+    "label": "Cambridge, Middlesex County, Massachusetts, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Cambridge&country=United+States&format=jsonv2&limit=1&accept-language=en&state=Massachusetts"
+   },
+   "confused_with": "Cambridge, England"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Oxford, Mississippi",
+   "truth": {
+    "lat": 34.3664,
+    "lon": -89.5188,
+    "label": "Oxford, Lafayette County, Mississippi, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Oxford&country=United+States&format=jsonv2&limit=1&accept-language=en&state=Mississippi"
+   },
+   "confused_with": "Oxford, England"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Bristol, Tennessee",
+   "truth": {
+    "lat": 36.5945,
+    "lon": -82.1885,
+    "label": "Bristol, Sullivan County, East Tennessee, Tennessee, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Bristol&country=United+States&format=jsonv2&limit=1&accept-language=en&state=Tennessee"
+   },
+   "confused_with": "Bristol, England"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Alexandria, Virginia",
+   "truth": {
+    "lat": 38.8051,
+    "lon": -77.047,
+    "label": "Alexandria, Virginia, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Alexandria&country=United+States&format=jsonv2&limit=1&accept-language=en&state=Virginia"
+   },
+   "confused_with": "Alexandria, Egypt"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Lebanon, New Hampshire",
+   "truth": {
+    "lat": 43.643,
+    "lon": -72.2516,
+    "label": "Lebanon, Grafton County, New Hampshire, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Lebanon&country=United+States&format=jsonv2&limit=1&accept-language=en&state=New+Hampshire"
+   },
+   "confused_with": "Lebanon (country)"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Peru, Indiana",
+   "truth": {
+    "lat": 40.7537,
+    "lon": -86.069,
+    "label": "Peru, Miami County, Indiana, 46970, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Peru&country=United+States&format=jsonv2&limit=1&accept-language=en&state=Indiana"
+   },
+   "confused_with": "Peru (country)"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Mexico, Missouri",
+   "truth": {
+    "lat": 39.1698,
+    "lon": -91.8829,
+    "label": "Mexico, Audrain County, Missouri, 65265, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Mexico&country=United+States&format=jsonv2&limit=1&accept-language=en&state=Missouri"
+   },
+   "confused_with": "Mexico (country)"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Warsaw, Indiana",
+   "truth": {
+    "lat": 41.2381,
+    "lon": -85.8531,
+    "label": "Warsaw, Kosciusko County, Indiana, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Warsaw&country=United+States&format=jsonv2&limit=1&accept-language=en&state=Indiana"
+   },
+   "confused_with": "Warsaw, Poland"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Amsterdam, New York",
+   "truth": {
+    "lat": 42.9362,
+    "lon": -74.1906,
+    "label": "City of Amsterdam, Montgomery County, New York, 12010, United States",
+    "source": "https://nominatim.openstreetmap.org/search?city=Amsterdam&country=United+States&format=jsonv2&limit=1&accept-language=en&state=New+York"
+   },
+   "confused_with": "Amsterdam, Netherlands"
+  },
+  {
+   "kind": "namesake",
+   "ask": "London, Ontario",
+   "truth": {
+    "lat": 42.9837,
+    "lon": -81.2496,
+    "label": "London, Southwestern Ontario, Ontario, Canada",
+    "source": "https://nominatim.openstreetmap.org/search?city=London&country=Canada&format=jsonv2&limit=1&accept-language=en&state=Ontario"
+   },
+   "confused_with": "London, England"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Sydney, Nova Scotia",
+   "truth": {
+    "lat": 46.1382,
+    "lon": -60.1942,
+    "label": "Sydney, Cape Breton Regional Municipality, Cape Breton County, Nova Scotia, Canada",
+    "source": "https://nominatim.openstreetmap.org/search?city=Sydney&country=Canada&format=jsonv2&limit=1&accept-language=en&state=Nova+Scotia"
+   },
+   "confused_with": "Sydney, Australia"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Kingston, Ontario",
+   "truth": {
+    "lat": 44.2307,
+    "lon": -76.4813,
+    "label": "Kingston, Eastern Ontario, Ontario, K7L 2Z3, Canada",
+    "source": "https://nominatim.openstreetmap.org/search?city=Kingston&country=Canada&format=jsonv2&limit=1&accept-language=en&state=Ontario"
+   },
+   "confused_with": "Kingston, Jamaica"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Perth, Scotland",
+   "truth": {
+    "lat": 56.3959,
+    "lon": -3.4303,
+    "label": "Perth, Perth and Kinross, Scotland, PH1 5TZ, United Kingdom",
+    "source": "https://nominatim.openstreetmap.org/search?city=Perth&country=United+Kingdom&format=jsonv2&limit=1&accept-language=en&state=Scotland"
+   },
+   "confused_with": "Perth, Australia"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Hyderabad, Pakistan",
+   "truth": {
+    "lat": 25.4075,
+    "lon": 68.3613,
+    "label": "حیدرآباد, Hyderabad District, Hyderabad Division, Sindh, Pakistan",
+    "source": "https://nominatim.openstreetmap.org/search?city=Hyderabad&country=Pakistan&format=jsonv2&limit=1&accept-language=en"
+   },
+   "confused_with": "Hyderabad, India"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Tripoli, Lebanon",
+   "truth": {
+    "lat": 34.4374,
+    "lon": 35.8349,
+    "label": "Tripoli, Tripoli District, North Governorate, 1300, Lebanon",
+    "source": "https://nominatim.openstreetmap.org/search?city=Tripoli&country=Lebanon&format=jsonv2&limit=1&accept-language=en"
+   },
+   "confused_with": "Tripoli, Libya"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Valencia, Venezuela",
+   "truth": {
+    "lat": 10.17,
+    "lon": -68.0004,
+    "label": "Valencia, Parroquia Santa Rosa, Municipio Valencia, Carabobo State, 2001, Venezuela",
+    "source": "https://nominatim.openstreetmap.org/search?city=Valencia&country=Venezuela&format=jsonv2&limit=1&accept-language=en"
+   },
+   "confused_with": "Valencia, Spain"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Cordoba, Argentina",
+   "truth": {
+    "lat": -31.4167,
+    "lon": -64.1834,
+    "label": "Cordoba, Municipio de Córdoba, Pedanía Capital, Departamento Capital, Córdoba, X5000, Argentina",
+    "source": "https://nominatim.openstreetmap.org/search?city=C%C3%B3rdoba&country=Argentina&format=jsonv2&limit=1&accept-language=en"
+   },
+   "confused_with": "Córdoba, Spain"
+  },
+  {
+   "kind": "namesake",
+   "ask": "San Jose, Costa Rica",
+   "truth": {
+    "lat": 9.9327,
+    "lon": -84.0797,
+    "label": "San José, San Jose Province, Costa Rica",
+    "source": "https://nominatim.openstreetmap.org/search?city=San+Jos%C3%A9&country=Costa+Rica&format=jsonv2&limit=1&accept-language=en"
+   },
+   "confused_with": "San Jose, California"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Santiago, Dominican Republic",
+   "truth": {
+    "lat": 19.4508,
+    "lon": -70.6947,
+    "label": "Santiago de los Caballeros, Santiago, Dominican Republic",
+    "source": "https://nominatim.openstreetmap.org/search?city=Santiago+de+los+Caballeros&country=Dominican+Republic&format=jsonv2&limit=1&accept-language=en"
+   },
+   "confused_with": "Santiago, Chile"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Newcastle, Australia",
+   "truth": {
+    "lat": -32.9193,
+    "lon": 151.7795,
+    "label": "Newcastle, Newcastle-Maitland, New South Wales, 2300, Australia",
+    "source": "https://nominatim.openstreetmap.org/search?city=Newcastle&country=Australia&format=jsonv2&limit=1&accept-language=en&state=New+South+Wales"
+   },
+   "confused_with": "Newcastle upon Tyne, England"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Hamilton, New Zealand",
+   "truth": {
+    "lat": -37.7879,
+    "lon": 175.2818,
+    "label": "Hamilton City, Waikato, New Zealand",
+    "source": "https://nominatim.openstreetmap.org/search?city=Hamilton&country=New+Zealand&format=jsonv2&limit=1&accept-language=en"
+   },
+   "confused_with": "Hamilton, Ontario"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Georgetown, Guyana",
+   "truth": {
+    "lat": 6.8033,
+    "lon": -58.1455,
+    "label": "City of Georgetown, Demerara-Mahaica, Guyana",
+    "source": "https://nominatim.openstreetmap.org/search?city=Georgetown&country=Guyana&format=jsonv2&limit=1&accept-language=en"
+   },
+   "confused_with": "George Town, Malaysia"
+  },
+  {
+   "kind": "namesake",
+   "ask": "La Paz, Mexico",
+   "truth": {
+    "lat": 24.162,
+    "lon": -110.3159,
+    "label": "La Paz, Municipio de La Paz, Baja California Sur, 23020, Mexico",
+    "source": "https://nominatim.openstreetmap.org/search?city=La+Paz&country=Mexico&format=jsonv2&limit=1&accept-language=en&state=Baja+California+Sur"
+   },
+   "confused_with": "La Paz, Bolivia"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Barcelona, Venezuela",
+   "truth": {
+    "lat": 10.1326,
+    "lon": -64.682,
+    "label": "Barcelona, Parroquia San Cristóbal, Municipio Simón Bolívar, Anzoategui State, Venezuela",
+    "source": "https://nominatim.openstreetmap.org/search?city=Barcelona&country=Venezuela&format=jsonv2&limit=1&accept-language=en"
+   },
+   "confused_with": "Barcelona, Spain"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Granada, Nicaragua",
+   "truth": {
+    "lat": 11.98,
+    "lon": -85.95,
+    "label": "Granada, Granada Department, 43000, Nicaragua",
+    "source": "https://nominatim.openstreetmap.org/search?city=Granada&country=Nicaragua&format=jsonv2&limit=1&accept-language=en"
+   },
+   "confused_with": "Granada, Spain"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Merida, Venezuela",
+   "truth": {
+    "lat": 8.5817,
+    "lon": -71.1658,
+    "label": "Mérida, Parroquia El Llano, Municipio Libertador, Merida State, 5115, Venezuela",
+    "source": "https://nominatim.openstreetmap.org/search?city=M%C3%A9rida&country=Venezuela&format=jsonv2&limit=1&accept-language=en"
+   },
+   "confused_with": "Mérida, Mexico"
+  },
+  {
+   "kind": "namesake",
+   "ask": "Cartagena, Spain",
+   "truth": {
+    "lat": 37.6155,
+    "lon": -0.9875,
+    "label": "Cartagena, Campo de Cartagena y Mar Menor, Region of Murcia, Spain",
+    "source": "https://nominatim.openstreetmap.org/search?city=Cartagena&country=Spain&format=jsonv2&limit=1&accept-language=en"
+   },
+   "confused_with": "Cartagena, Colombia"
+  },
+  {
+   "kind": "not_real",
+   "ask": "Xyzzyville",
+   "why": "no such town anywhere"
+  },
+  {
+   "kind": "not_real",
+   "ask": "Qwertyburg, Ohio",
+   "why": "no such town anywhere"
+  },
+  {
+   "kind": "not_real",
+   "ask": "Tokyo, France",
+   "why": "there is no Tokyo in France"
+  },
+  {
+   "kind": "not_real",
+   "ask": "Chennai, Brazil",
+   "why": "there is no Chennai in Brazil"
+  },
+  {
+   "kind": "not_real",
+   "ask": "Nairobi, Canada",
+   "why": "there is no Nairobi in Canada"
+  },
+  {
+   "kind": "not_real",
+   "ask": "Reykjavik, Australia",
+   "why": "there is no Reykjavik in Australia"
+  },
+  {
+   "kind": "not_real",
+   "ask": "Karachi, Germany",
+   "why": "there is no Karachi in Germany"
+  },
+  {
+   "kind": "not_real",
+   "ask": "Lagos, Japan",
+   "why": "there is no Lagos in Japan"
+  },
+  {
+   "kind": "point",
+   "ask": "36.7236,-120.0599",
+   "truth": {
+    "lat": 36.7236,
+    "lon": -120.0599,
+    "label": "a field near Kerman, California"
+   }
+  },
+  {
+   "kind": "point",
+   "ask": "-33.8688,151.2093",
+   "truth": {
+    "lat": -33.8688,
+    "lon": 151.2093,
+    "label": "central Sydney, Australia"
+   }
+  },
+  {
+   "kind": "point",
+   "ask": "64.1466,-21.9426",
+   "truth": {
+    "lat": 64.1466,
+    "lon": -21.9426,
+    "label": "Reykjavik, Iceland"
+   }
+  },
+  {
+   "kind": "point",
+   "ask": "6.5244,3.3792",
+   "truth": {
+    "lat": 6.5244,
+    "lon": 3.3792,
+    "label": "Lagos, Nigeria"
+   }
+  },
+  {
+   "kind": "point",
+   "ask": "-0.1807,-78.4678",
+   "truth": {
+    "lat": -0.1807,
+    "lon": -78.4678,
+    "label": "Quito, Ecuador"
+   }
+  }
+ ]
+}
