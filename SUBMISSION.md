@@ -33,7 +33,7 @@ Everything the H2 submission form asks for (rules, section 08), in the order the
 
 **Links to original H2 updates** (add each one as it is posted):
 - X update 1: https://x.com/NeromStudio/status/2125357221441589297 (Nov 24)
-- X update 2: **[you]** link
+- X update 2: https://x.com/NeromStudio/status/2125499811767910815 (Nov 25)
 - X update 3: **[you]** link
 - Tutorial: [Pay for an answer on Telegraph from Node, check it, and buy again when it's wrong](https://github.com/neromtoobad/swarm-budget/blob/main/docs/TUTORIAL.md), with a one-file example, [examples/pay-and-check.mjs](https://github.com/neromtoobad/swarm-budget/blob/main/examples/pay-and-check.mjs). Also on DEV: **[you]** add the public dev.to link once the draft (staged Nov 20) is published
 - Bounty progress: [#199 /progress](https://github.com/telegraphprotocol/bounties/issues/199), [#194 /progress](https://github.com/telegraphprotocol/bounties/issues/194)
