@@ -6,6 +6,7 @@
 - Registered on Telegraph testnet (Ethereum Sepolia) on 25 November 2026: registration `244`, tx [0xc810c7ec…](https://sepolia.etherscan.io/tx/0xc810c7ec97dc7c96b69157aa66dda81f4ffa16bfaa293a99cdc1a77c3e57e524)
 - **Status: rejected.** On 25 November 2026 at 18:17 UTC the node tested it on a hidden sample of 30 pairs (seed from epoch 55) and it picked the better answer in 43.3% of them, below the 70% floor. Every status the node reported is in [results/registration-244.jsonl](results/registration-244.jsonl); the live one is `curl -s https://devnode.telegraphprotocol.com/api/wasm/244`.
 - **What that sample was drawn from.** The test used pool version `702fe078…`, published 22 November, before our 220 forecast pairs were in it. So all 30 test pairs came from other contributors' material, which we cannot see. The scorer's 96.8% below is on pairs built the way ours are; it did not carry over to other contributors' idea of a better answer. The pool version that includes our pairs (`eec94823…`, 506 rows from five contributors) went live at 17:24 UTC the same day.
+- **A second registration of the same package was refused** on 25 November at 19:04 UTC, before anything was sent: the registry rejects a package hash it has seen before (`IntentRegistryFacet: duplicate wasm hash`). Testing against the new pool would need a newly trained package. We have not made one, and the executor is now set to sleep.
 - Before this, `WEATHER_FORECAST` had no scorer of its own. The node scored it with its generic fallback.
 
 ## What it does
