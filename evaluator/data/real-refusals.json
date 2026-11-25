@@ -1,0 +1,67 @@
+{
+ "taken_from": "https://swarmbudget.nerom.site/api/state and evidence/",
+ "taken_at": "2026-11-25T13:24:40.247Z",
+ "rows": [
+  {
+   "intent": "STORM_ALERT_GENERAL",
+   "kind": "wrong_place",
+   "asked": "Kerman, California",
+   "place": "Kerman, California, United States (36.7236, -120.0599)",
+   "other": "Kerman, Iran (30.2832, 57.0788)",
+   "prompt": "Is there a storm risk in Kerman, California in the next 6 hours?",
+   "chosen": "{\"location\":\"36.7236, -120.0599\",\"risk_score\":0,\"risk_level\":\"LOW\",\"peak_gust_kmh\":13,\"precipitation_mm\":0,\"window\":\"2026-11-25T11:00Z to 2026-11-25T16:00Z (6 hours)\"}",
+   "rejected": "{\"location\":\"Kerman, Kerman, Iran\",\"risk_score\":0.16,\"risk_level\":\"LOW\",\"peak_gust_kmh\":21,\"precipitation_mm\":0,\"window\":\"2026-11-19T18:30\"}",
+   "rejected_signal_url": "https://devnode.telegraphprotocol.com/engine/v1/signal/0xbacdfad8d51bae03ad979085f22b8ec21bbac3e153e0ad66c2d1092cbb073a18",
+   "chosen_signal_url": "https://devnode.telegraphprotocol.com/engine/v1/signal/0x86238f5a6865efd18c0b461fca70fd8e8eb6849b874d666344a31f8d21bde2a5",
+   "note": "Bought by the fleet on 2026-11-19 for a farm in Kerman, California: the answer is for Kerman, Iran, about 12,500 km away. The better answer is a later accepted purchase for the same farm (by coordinates), so the two differ in date as well as place."
+  },
+  {
+   "intent": "WEATHER_FORECAST_GENERAL",
+   "kind": "missing",
+   "asked": "36.7236,-120.0599",
+   "place": "Point near Kerman, California, United States (36.7236, -120.0599)",
+   "prompt": "Forecast for the point 36.7236,-120.0599 over the next 6 hours: high, low, chance of rain and conditions.",
+   "chosen": "{\"location\":\"36.7236,-120.0599\",\"when\":\"2026-11-25T12:00:00.000Z/2026-11-25T18:00:00.000Z\",\"temp_max_c\":10,\"temp_min_c\":6.111,\"precipitation_probability_pct\":1,\"condition\":\"Cloudy; Mostly Cloudy; Partly Sunny; Mostly Sunny\"}",
+   "rejected": "{\"location\":null,\"when\":\"2026-11-25T00:00\",\"temp_max_c\":18.7,\"temp_min_c\":6,\"precipitation_probability_pct\":null,\"condition\":null}",
+   "rejected_signal_url": "https://devnode.telegraphprotocol.com/engine/v1/signal/0x9053100b235ff7dd025838b70b8c16512eb1af017f28b5588796c55f716dd6b2",
+   "chosen_signal_url": "https://devnode.telegraphprotocol.com/engine/v1/signal/0x2467841c69126f4e35799979d3b11ed21afeb8f911651a5d65547ba0e6150e31",
+   "note": "Bought by the fleet on 2026-11-25. The guard refused the first answer (no rain probability in the answer) and accepted the re-buy."
+  },
+  {
+   "intent": "STORM_ALERT_GENERAL",
+   "kind": "missing",
+   "asked": "36.7236,-120.0599",
+   "place": "Point near Kerman, California, United States (36.7236, -120.0599)",
+   "prompt": "Storm risk at 36.7236,-120.0599 for the next 6 hours: risk level, peak gust in km/h and rainfall in mm.",
+   "chosen": "{\"location\":\"36.7236, -120.0599\",\"risk_score\":0,\"risk_level\":\"LOW\",\"peak_gust_kmh\":19.4,\"precipitation_mm\":0,\"window\":\"2026-11-24T05:00Z to 2026-11-24T10:00Z (6 hours)\"}",
+   "rejected": "{\"location\":null,\"risk_score\":0.06,\"risk_level\":\"LOW\",\"peak_gust_kmh\":null,\"precipitation_mm\":null,\"window\":null}",
+   "rejected_signal_url": "https://devnode.telegraphprotocol.com/engine/v1/signal/0x29607d9df8aec7f9aad57ac2c6b57dbdc59a728e9692cb508aa3fbb0d6e12925",
+   "chosen_signal_url": "https://devnode.telegraphprotocol.com/engine/v1/signal/0x9b35189c37dbac06802dc2dc1fe3490f2a74335ba50388f3b4deb456b59af5c8",
+   "note": "Bought by the fleet on 2026-11-24. The guard refused the first answer (no gust speed in the answer) and accepted the re-buy."
+  },
+  {
+   "intent": "STORM_ALERT_GENERAL",
+   "kind": "missing",
+   "asked": "36.7236,-120.0599",
+   "place": "Point near Kerman, California, United States (36.7236, -120.0599)",
+   "prompt": "A spray drone is waiting at 36.7236,-120.0599. What is the storm risk and the strongest gust over the next 6 hours?",
+   "chosen": "{\"location\":\"36.7236, -120.0599\",\"risk_score\":0.001,\"risk_level\":\"LOW\",\"peak_gust_kmh\":14,\"precipitation_mm\":0.1,\"window\":\"2026-11-22T23:00Z to 2026-11-23T04:00Z (6 hours)\"}",
+   "rejected": "{\"location\":null,\"risk_score\":0.07,\"risk_level\":\"LOW\",\"peak_gust_kmh\":null,\"precipitation_mm\":null,\"window\":null}",
+   "rejected_signal_url": "https://devnode.telegraphprotocol.com/engine/v1/signal/0x6504311181f6f6f0672b9e6c7db5dac2b7221657ff647649edeb7b23c1d314c2",
+   "chosen_signal_url": "https://devnode.telegraphprotocol.com/engine/v1/signal/0x937f846a4cef333dd1fd42f4f1a07ccb28a017d14c11055c2a2f025c82f41dd5",
+   "note": "Bought by the fleet on 2026-11-22. The guard refused the first answer (no gust speed in the answer) and accepted the re-buy."
+  },
+  {
+   "intent": "WEATHER_FORECAST_GENERAL",
+   "kind": "missing",
+   "asked": "36.7236,-120.0599",
+   "place": "Point near Kerman, California, United States (36.7236, -120.0599)",
+   "prompt": "What weather should a field at 36.7236,-120.0599 expect during the next 6 hours? Give the temperature range and the rain probability.",
+   "chosen": "{\"location\":\"36.7236,-120.0599\",\"when\":\"2026-11-23T00:00:00.000Z/2026-11-23T06:00:00.000Z\",\"temp_max_c\":12.222,\"temp_min_c\":7.778,\"precipitation_probability_pct\":30,\"condition\":\"Chance Light Rain\"}",
+   "rejected": "{\"location\":null,\"when\":\"2026-11-22\",\"temp_max_c\":18.7,\"temp_min_c\":2.9,\"precipitation_probability_pct\":null,\"condition\":null}",
+   "rejected_signal_url": "https://devnode.telegraphprotocol.com/engine/v1/signal/0x3d2fb0d85d24d210c1e327723ad22eeb3c01ab46a9916edcacc51d712a3f169f",
+   "chosen_signal_url": "https://devnode.telegraphprotocol.com/engine/v1/signal/0x96cb0ad47e52944245442c3e8e232f696568dd215b474f3202fe74af136d626b",
+   "note": "Bought by the fleet on 2026-11-22. The guard refused the first answer (no rain probability in the answer) and accepted the re-buy."
+  }
+ ]
+}
