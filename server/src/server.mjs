@@ -10,6 +10,7 @@ import { costReport } from "./costs.mjs";
 import { nextAutoRun } from "./autopilot.mjs";
 import { pairForecasts, forecastReport } from "./forecast-check.mjs";
 import { createBudget, parseShares } from "./budget.mjs";
+import { annotate } from "./corrections.mjs";
 
 const PORT = Number(process.env.PORT || 4380);
 const DAILY_BUDGET_USD = Number(process.env.DAILY_BUDGET_USD || 3);
@@ -108,7 +109,7 @@ createServer(async (req, res) => {
     if (url.pathname === "/api/state") {
       return json(res, 200, {
         farm: DEFAULT_FARM, machines: MACHINES, budget: budget.state(), busy, totals: store.totals(),
-        junk: store.junkByIntent(), decisions: store.recent(Number(url.searchParams.get("limit") || 30), url.searchParams.get("farm") || undefined),
+        junk: store.junkByIntent(), decisions: annotate(store.recent(Number(url.searchParams.get("limit") || 30), url.searchParams.get("farm") || undefined)),
         refusals: store.refusals(8), miners: store.minerBoard(), costs: costReport(store.costRows(), MACHINES), authority: authority(), failure_runs: store.failureRuns(),
         forecasts: forecastReport(pairForecasts(store.acceptedAnswers("WEATHER_FORECAST_GENERAL"), store.acceptedAnswers("WEATHER_FORECAST_VERIFY_GENERAL"))),
         node: tg.node, payer: tg.address, tick_seconds: TICK_SECONDS,

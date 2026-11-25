@@ -122,7 +122,7 @@ function receipt(d) {
   li.innerHTML = `<div class="rc-head"><img src="${THUMB[d.machine] ?? ""}" alt="" /><b>${esc(nameOf(d.machine))}</b>
       <span class="chip ${d.outcome ?? "thinking"}">${d.outcome ? OUT[d.outcome] : "Buying answers"}</span>${where}
       <time ${d.at ? `datetime="${esc(d.at)}"` : ""}>${d.at ? ago(d.at) : ""}</time></div>
-    <p class="rc-sum">${esc(d.summary ?? "")}</p><ul class="rc-buys"></ul><div class="rc-foot"></div>`;
+    <p class="rc-sum">${esc(d.summary ?? "")}</p>${d.correction ? `<p class="rc-fix">${esc(d.correction)}</p>` : ""}<ul class="rc-buys"></ul><div class="rc-foot"></div>`;
   const ul = $(".rc-buys", li);
   ps.forEach((p) => ul.appendChild(buyRow(p)));
   if (d.outcome) {
@@ -339,7 +339,8 @@ function renderGuard() {
   }).join("") || `<div class="brow"><span class="intent">No purchases yet</span></div>`;
 }
 function renderSteps() {
-  const ex = state.decisions.find((d) => d.purchases.some((p) => p.verdict === "rejected") && d.purchases.some((p) => p.verdict === "accepted")) ?? state.decisions.find((d) => d.purchases.length);
+  const ok = state.decisions.filter((d) => !d.correction);
+  const ex = ok.find((d) => d.purchases.some((p) => p.verdict === "rejected") && d.purchases.some((p) => p.verdict === "accepted")) ?? ok.find((d) => d.purchases.length);
   const bad = ex?.purchases.find((p) => p.verdict === "rejected"), good = ex?.purchases.find((p) => p.verdict === "accepted"), first = ex?.purchases[0];
   const eg = (label, body, cls = "") => (ex ? `<div class="eg ${cls}"><small>${label}</small>${body}</div>` : "");
   const steps = [

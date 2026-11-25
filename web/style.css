@@ -158,6 +158,7 @@ h1 .w { display: inline-block; opacity: 0; transform: translateY(0.5em); animati
 .chip.thinking { background: #fff6cf; color: #6b5600; }
 .rc-sum { margin-top: 9px; font-size: 14.5px; line-height: 1.4; letter-spacing: -0.005em; }
 .rc-sum:empty { display: none; }
+.rc-fix { margin-top: 8px; padding: 8px 10px; border-radius: 10px; background: var(--hold-bg); color: var(--ink-2); font-size: 13px; line-height: 1.4; }
 .rc-buys { margin-top: 10px; display: grid; }
 .rc-buys:empty { display: none; }
 .by { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; column-gap: 9px; padding: 8px 0; border-top: 1px solid var(--line-2); animation: fade 0.4s var(--ease) backwards; }
