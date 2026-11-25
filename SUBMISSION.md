@@ -9,7 +9,7 @@ Everything the H2 submission form asks for (rules, section 08), in the order the
 | Field | Answer |
 |---|---|
 | Team / contact | **[you]** solo entry, your name and contact email as on your H2 registration |
-| Track | 03 Apps & Agents |
+| Track | Apps & Agents. Two more entries by the same team: [Miners / Providers](SUBMISSION-MINER.md) and [Evaluators](SUBMISSION-EVALUATOR.md) |
 | Project name | Swarm Budget |
 | Missions | 11 Autonomous Systems (route 1 "Budget per machine", [bounty #199](https://github.com/telegraphprotocol/bounties/issues/199)); 06 Resources & Agriculture ([bounty #194](https://github.com/telegraphprotocol/bounties/issues/194)) |
 | Intents | `STORM_ALERT_GENERAL`, `WEATHER_FORECAST_GENERAL`, `GRID_POWER_PRICE_GENERAL`, `ROUTE_ETA_GENERAL`, `SATELLITE_IMAGERY_ANALYSIS_GENERAL`, `WEATHER_FORECAST_VERIFY_GENERAL`, `TASK_EXECUTION_QUALITY_GENERAL` |

@@ -1,0 +1,43 @@
+{
+ "intent": "WEATHER_FORECAST_GENERAL",
+ "uploaded_at": "2026-11-25T13:44:50.690Z",
+ "submitter": "0x8482E592d6B28d3F5B713CC4576D6Ce216B2A78E",
+ "rows": 220,
+ "body_sha256": "97493769e84fa9c79d7055baa55272766a6cf7600efbde0f496b54e17eb0b851",
+ "http_status": 200,
+ "node_reply": {
+  "intent_id": "WEATHER_FORECAST_GENERAL",
+  "submitter": "0x8482e592d6b28d3f5b713cc4576d6ce216b2a78e",
+  "signed": true,
+  "received": 220,
+  "accepted": 220,
+  "duplicate": 0,
+  "rejected": 0,
+  "curated": 220,
+  "state_counts": {
+   "admitted": 220,
+   "eligible": 272,
+   "quarantine": 14
+  }
+ },
+ "pool_before": {
+  "by_state": {
+   "eligible": 272,
+   "quarantine": 14
+  },
+  "submitters": 4,
+  "eligible_submitters": 4,
+  "snapshot_rows": 272
+ },
+ "pool_after": {
+  "by_state": {
+   "admitted": 220,
+   "eligible": 272,
+   "quarantine": 14
+  },
+  "submitters": 5,
+  "eligible_submitters": 4,
+  "snapshot_rows": 272
+ },
+ "readback": "https://devnode.telegraphprotocol.com/api/evalpool/submissions/mine?submitter=0x8482E592d6B28d3F5B713CC4576D6Ce216B2A78E&intent_id=WEATHER_FORECAST_GENERAL"
+}

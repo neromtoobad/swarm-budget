@@ -17,6 +17,18 @@ No wallet or sign-in needed. Everything below runs against the public Telegraph 
 | `npm test` | Guard tests built on real junk answers saved in `evidence/` |
 | `npx -y github:neromtoobad/swarm-budget` as an MCP server in any agent (see [`packages/checked-ask`](packages/checked-ask/README.md)) | Tools `ask_checked`, `check_answer`, `find_miners`, `get_intent`, `escrow_balance`. Without a key, the free tools work and `ask_checked` buys nothing and says why |
 
+## The other two entries
+
+| Do this | You see |
+|---|---|
+| Open [pinpoint.nerom.site](https://pinpoint.nerom.site) and press the **Paris, Texas**, **Paris, Kansas** and **Springfield** buttons | The miner answers for Paris in Texas with its coordinates, refuses a Paris that is not in Kansas, and refuses Springfield with the list of towns it could be |
+| `node tools/check-tracks.mjs` | 19 checks against the live miner and the node: registration active, requests mapped in code on four intents, refusals, and our 570 rows in the evaluation pool |
+| `cd miner && npm test` | 26 tests, offline, on recorded geocoder and forecast data |
+| `node miner/bench/place-trap.mjs` (about 5 minutes) | Eight live storm miners asked about 48 towns that share a name with a bigger place. Raw replies are saved |
+| `cd evaluator && node build/pairs.mjs --offline && node check/compare.mjs` | The three packs rebuilt byte for byte from frozen inputs, then a table: how often a length rule, a format check and a rule checker pick the better answer |
+
+Details: [miner/README.md](miner/README.md), [evaluator/README.md](evaluator/README.md), [SUBMISSION-MINER.md](SUBMISSION-MINER.md), [SUBMISSION-EVALUATOR.md](SUBMISSION-EVALUATOR.md).
+
 ## Failure cases to try
 - **Wrong place:** `evidence/junk-STORM_ALERT-kerman-iran.json`. TxLens answered for Kerman, Iran on Nov 19; on Nov 20 Amanat Weather Risk made the same mistake (docs/TUTORIAL.md, step 5). The test "same town name in another country is refused" replays it.
 - **Wrong market:** Mule's **Bad miner** button.

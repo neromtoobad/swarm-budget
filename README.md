@@ -15,6 +15,18 @@ scout drone and an auditor. They share one daily budget, and each has its own sh
 (wind, storms, rain, power price, drive time, satellite imagery). A guard checks each answer is about the right place, market,
 hour and unit. If an answer fails, the machine buys again from a different miner. A machine never acts on a refused answer.
 
+## Three entries, one finding
+
+The fleet's first surprise was a storm alert for Kerman, Iran, sold to a farm in Kerman, California. That one finding became three separate hackathon entries:
+
+| Track | Entry | What it is | Start here |
+|---|---|---|---|
+| Apps & Agents | **Swarm Budget** (this page) | Machines that pay for answers, check them and buy again when they are wrong | [SUBMISSION.md](SUBMISSION.md) |
+| Miners / Providers | **Pinpoint Weather** | A miner for four weather intents that always names the place it answers for. Registered and active on testnet. On 48 trap towns it got 48 right; the two miners ranked first and second got 5 | [miner/](miner/README.md) · [live](https://pinpoint.nerom.site) |
+| Evaluators | **Place-trap evaluation packs** | 570 better-and-worse answer pairs for three weather intents, all admitted to the node's evaluation pool. A format-only check wins 64% of them | [evaluator/](evaluator/README.md) |
+
+`node tools/check-tracks.mjs` prints PASS or FAIL for the miner's and the packs' claims against the live miner and the node.
+
 ## For judges: verify in 2 minutes
 | Do this | You see |
 |---|---|
