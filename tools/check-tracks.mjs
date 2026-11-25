@@ -89,8 +89,9 @@ await check("coordinates are used as given", async () => {
   return `${body.location}: ${body.temperature_c} °C`;
 });
 await check("a day that has not ended is refused", async () => {
+  // Honolulu is UTC-10, so the UTC date has not ended there at any hour of the UTC day.
   const today = new Date().toISOString().slice(0, 10);
-  const { status, body } = await call(`${MINER}/verify?${q({ location: "Tokyo", date: today })}`);
+  const { status, body } = await call(`${MINER}/verify?${q({ location: "Honolulu, Hawaii", date: today })}`);
   must(status === 422 && body.error === "day_not_finished", `HTTP ${status} ${body?.error}`);
   return body.message;
 });
