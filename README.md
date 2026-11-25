@@ -30,7 +30,7 @@ The fleet's first surprise was a storm alert for Kerman, Iran, sold to a farm in
 ## For judges: verify in 2 minutes
 | Do this | You see |
 |---|---|
-| `npm install && npm test` | 50 tests. Guard tests run on real answers saved in `evidence/`, including the Kerman, Iran one. Failure tests (`test/failures.test.mjs`) replay saved answers through the real buyer, guard and fleet |
+| `npm install && npm test` | 53 tests. Guard tests run on real answers saved in `evidence/`, including the Kerman, Iran one. Failure tests (`test/failures.test.mjs`) replay saved answers through the real buyer, guard and fleet |
 | `node tools/check-live.mjs` (against a running app) | PASS/FAIL for each claim below, read from the app and the public Telegraph node |
 | Open the app and click **Run now** on Kite | The camera moves to Kite and a pulse leaves the telegraph mast. A card opens with the miner's answer, each guard check ticks in, then **Accepted** or **Refused**. The receipt lands on the right with a signal link to the node and the escrow receipt |
 | Click **Bad miner** on Mule | First purchase goes to Grid Elering (Estonia) for a California node. The guard refuses it and re-buys from a CAISO miner |
