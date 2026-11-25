@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pinpoint Weather</title>
+<meta name="description" content="A Telegraph weather miner that always says which place its answer is for.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ffd426'/%3E%3Ccircle cx='16' cy='14' r='5' fill='none' stroke='%2310150f' stroke-width='3'/%3E%3Cpath d='M16 19v8' stroke='%2310150f' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+  :root { --bg:#f3f5f2; --card:#fff; --ink:#10150f; --ink2:#48524a; --line:#dfe4dd; --ok:#17914f; --bad:#c2371f; --hold:#9a5c00; --mark:#ffd426; --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font: 16px/1.5 "Host Grotesk", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 920px; margin: 0 auto; padding: 40px 16px 72px; }
+  .tag { display:inline-flex; gap:8px; align-items:center; font-size:13px; color:var(--ink2); }
+  .tag b { background:var(--mark); color:var(--ink); padding:2px 8px; border-radius:6px; font-weight:600; }
+  h1 { font-size: clamp(30px, 5.4vw, 46px); line-height:1.08; letter-spacing:-0.02em; margin: 14px 0 12px; max-width: 17ch; }
+  .lede { font-size:18px; color:var(--ink2); max-width: 60ch; margin:0 0 28px; }
+  h2 { font-size:21px; margin: 44px 0 12px; letter-spacing:-0.01em; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; }
+  form { display:flex; flex-wrap:wrap; gap:8px; }
+  select, input, button { font: inherit; border:1px solid var(--line); border-radius:10px; padding:10px 12px; background:#fff; color:var(--ink); min-width:0; }
+  input[name=location] { flex: 1 1 240px; }
+  input[name=extra] { flex: 0 1 150px; }
+  button { background:var(--ink); color:#fff; border-color:var(--ink); font-weight:600; cursor:pointer; }
+  button:disabled { opacity:.55; cursor:default; }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .chips button { background:#fff; color:var(--ink); border-color:var(--line); font-weight:500; font-size:13px; padding:5px 10px; }
+  .result { margin-top:14px; display:none; }
+  .where { font-size:18px; font-weight:600; }
+  .where.no { color:var(--bad); }
+  .line { color:var(--ink2); margin:4px 0 10px; }
+  .facts { display:flex; flex-wrap:wrap; gap:8px; margin: 0 0 10px; padding:0; list-style:none; }
+  .facts li { border:1px solid var(--line); border-radius:10px; padding:6px 10px; font-size:14px; }
+  .facts b { font-family:var(--mono); font-weight:600; }
+  pre { margin:0; padding:14px; background:#f7f8f6; border:1px solid var(--line); border-radius:10px; font: 12.5px/1.5 var(--mono); overflow:auto; max-height:380px; white-space:pre-wrap; word-break:break-word; }
+  details summary { cursor:pointer; color:var(--ink2); font-size:14px; margin-bottom:8px; }
+  .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:12px; }
+  .grid h3 { margin:0 0 4px; font-size:16px; }
+  .grid p { margin:0 0 8px; color:var(--ink2); font-size:14.5px; }
+  code { font-family:var(--mono); font-size:13px; background:#f1f3ef; padding:1px 5px; border-radius:5px; word-break:break-word; }
+  table { width:100%; border-collapse:collapse; font-size:14.5px; }
+  th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { color:var(--ink2); font-weight:500; font-size:13px; }
+  td.n { font-family:var(--mono); white-space:nowrap; }
+  .scroll { overflow-x:auto; }
+  ul.plain { margin:0; padding-left:18px; color:var(--ink2); }
+  ul.plain li { margin:5px 0; }
+  ul.plain b { color:var(--ink); font-weight:600; }
+  footer { margin-top:48px; color:var(--ink2); font-size:14px; }
+  a { color:inherit; }
+</style>
+</head>
+<body>
+<main>
+  <span class="tag"><b>Pinpoint Weather</b> A Telegraph miner · testnet</span>
+  <h1>Weather answers that say which place they are for.</h1>
+  <p class="lede">Ask for storm risk, a forecast, the temperature now, or what the weather was on a past day. Every answer names the exact place it is for, with region, country and coordinates. If it can't tell which place you mean, it refuses instead of guessing.</p>
+
+  <div class="card">
+    <form id="f">
+      <select name="kind" aria-label="What to ask">
+        <option value="storm-alert">Storm risk</option>
+        <option value="forecast">Forecast</option>
+        <option value="temperature">Temperature now</option>
+        <option value="verify">A past day</option>
+      </select>
+      <input name="location" aria-label="Place" value="Kerman, California" placeholder="Town, region or lat,lon" required maxlength="200">
+      <input name="extra" aria-label="Hours ahead" value="24" inputmode="numeric">
+      <button id="go">Ask</button>
+    </form>
+    <div class="chips" id="chips">
+      <button type="button">Kerman, California</button>
+      <button type="button">Kerman</button>
+      <button type="button">Paris, Texas</button>
+      <button type="button">Paris, Kansas</button>
+      <button type="button">Springfield</button>
+      <button type="button">36.7236,-120.0599</button>
+    </div>
+    <div class="result" id="r">
+      <div class="where" id="where"></div>
+      <div class="line" id="line"></div>
+      <ul class="facts" id="facts"></ul>
+      <details><summary>The full answer</summary><pre id="raw"></pre></details>
+    </div>
+  </div>
+
+  <h2>What you can ask</h2>
+  <div class="grid">
+    <div class="card"><h3>Storm risk</h3><p>A grade from LOW to SEVERE, the peak gust, the total rain and the exact hours covered, for the next 1 to 240 hours.</p><code>GET /storm-alert?location=…&amp;window_hours=24</code></div>
+    <div class="card"><h3>Forecast</h3><p>High, low, the peak chance of rain and the conditions in plain words, for the next 1 to 240 hours.</p><code>GET /forecast?location=…&amp;window_hours=24</code></div>
+    <div class="card"><h3>Temperature now</h3><p>The current air temperature in °C, when it was read, and a second source to compare.</p><code>GET /temperature?location=…</code></div>
+    <div class="card"><h3>A past day</h3><p>The recorded high, low and rain for one finished day at that place. Use it to check a forecast.</p><code>GET /verify?location=…&amp;date=2026-11-15</code></div>
+  </div>
+
+  <h2>When it refuses</h2>
+  <div class="card">
+    <ul class="plain">
+      <li><b>The region has no such town.</b> "Paris, Kansas" is refused. It is never swapped for Paris, France or Paris, Texas.</li>
+      <li><b>Several towns of similar size share the name.</b> "Springfield" is refused with the list, so you can pick one.</li>
+      <li><b>The name is a country or a whole region.</b> A forecast needs a point.</li>
+      <li><b>The day hasn't ended there yet</b>, by that place's own clock.</li>
+      <li><b>A weather source didn't answer.</b> Nothing is filled in with zeros or guesses.</li>
+    </ul>
+    <p class="line" style="margin:12px 0 0">A refusal is an error reply (4xx or 502), so Telegraph does not bill the buyer for it.</p>
+  </div>
+
+  <h2>How the storm grade is worked out</h2>
+  <div class="card scroll">
+    <table>
+      <tr><th>What is measured</th><th>LOW</th><th>MODERATE</th><th>HIGH</th><th>SEVERE</th></tr>
+      <tr><td>Peak wind gust, km/h</td><td class="n">under 40</td><td class="n">40 to 62</td><td class="n">62 to 89</td><td class="n">89 or more</td></tr>
+      <tr><td>Wettest 24 hours, mm</td><td class="n">under 10</td><td class="n">10 to 30</td><td class="n">30 to 80</td><td class="n">80 or more</td></tr>
+      <tr><td>Wettest single hour, mm</td><td class="n">under 7.6</td><td class="n">7.6 to 20</td><td class="n">20 to 50</td><td class="n">50 or more</td></tr>
+      <tr><td>Snowfall in 24 hours, cm</td><td class="n">under 5</td><td class="n">5 to 15</td><td class="n">15 to 40</td><td class="n">40 or more</td></tr>
+      <tr><td>Thunderstorm forecast</td><td></td><td>yes</td><td>with hail</td><td></td></tr>
+      <tr><td>Official US alert</td><td>Minor</td><td>Moderate</td><td>Severe</td><td>Extreme</td></tr>
+    </table>
+    <p class="line" style="margin:12px 0 0">The grade is the worst of these. Every factor is returned in the answer under <code>drivers</code>, so you can recompute it. It is a rule, not a probability and not an official warning.</p>
+  </div>
+
+  <h2>Where the numbers come from</h2>
+  <div class="card">
+    <ul class="plain">
+      <li><b>Forecasts:</b> Open-Meteo, with three models side by side (its best match, NOAA GFS and DWD ICON) and how far apart they are.</li>
+      <li><b>Official alerts:</b> the US National Weather Service, for places in the United States only.</li>
+      <li><b>Past days:</b> the Open-Meteo archive, with NASA POWER as a second record and the difference between them.</li>
+      <li><b>Place names:</b> GeoNames through Open-Meteo, then OpenStreetMap if the town is missing.</li>
+    </ul>
+    <p class="line" style="margin:12px 0 0">No language model writes any part of an answer. Every answer lists its sources as links you can open.</p>
+  </div>
+
+  <footer>
+    Built by the <a href="https://swarmbudget.nerom.site">Swarm Budget</a> team for the Telegraph Hackathon, Season II. The machines in Swarm Budget kept being sold answers for the wrong Kerman, so this miner exists.
+    <br><a href="https://github.com/neromtoobad/swarm-budget/tree/main/miner">Code and tests</a> · <a href="/miner.yaml">Miner YAML</a> · <a href="/health">Health</a> · Runs on Telegraph testnet (Ethereum Sepolia).
+  </footer>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+const form = $("f"), kind = form.kind, extra = form.extra;
+const yesterday = () => new Date(Date.now() - 2 * 864e5).toISOString().slice(0, 10);
+function setExtra() {
+  const k = kind.value;
+  extra.style.display = k === "temperature" ? "none" : "";
+  if (k === "verify") { extra.value = yesterday(); extra.setAttribute("aria-label", "Date"); extra.inputMode = "text"; }
+  else { extra.value = "24"; extra.setAttribute("aria-label", "Hours ahead"); extra.inputMode = "numeric"; }
+}
+kind.addEventListener("change", setExtra);
+$("chips").addEventListener("click", (e) => { if (e.target.tagName === "BUTTON") { form.location.value = e.target.textContent; form.requestSubmit(); } });
+const fact = (label, value) => value == null ? "" : `<li>${label} <b>${String(value).replace(/</g, "&lt;")}</b></li>`;
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const k = kind.value;
+  const qs = new URLSearchParams({ location: form.location.value });
+  if (k === "verify") qs.set("date", extra.value); else if (k !== "temperature") qs.set("window_hours", extra.value);
+  $("go").disabled = true;
+  try {
+    const res = await fetch(`/${k}?${qs}`);
+    const d = await res.json();
+    $("r").style.display = "block";
+    $("raw").textContent = JSON.stringify(d, null, 2);
+    if (!res.ok) {
+      $("where").className = "where no";
+      $("where").textContent = "Refused: " + (d.error || res.status).replace(/_/g, " ");
+      $("line").textContent = d.message || "";
+      const list = d.candidates || d.other_places_with_this_name || [];
+      $("facts").innerHTML = list.map((c) => `<li>${c.location.replace(/</g, "&lt;")}</li>`).join("");
+    } else {
+      $("where").className = "where";
+      $("where").textContent = d.location;
+      $("line").textContent = d.answer;
+      $("facts").innerHTML = [
+        fact("Risk", d.risk_level), fact("Peak gust km/h", d.peak_gust_kmh), fact("Rain mm", d.precipitation_mm),
+        fact("High °C", d.temp_max_c), fact("Low °C", d.temp_min_c), fact("Rain chance %", d.precipitation_probability_pct),
+        fact("Now °C", d.temperature_c), fact("Matched on", d.place && d.place.matched_on), fact("Reply ms", res.headers.get("x-response-ms")),
+      ].join("");
+    }
+  } catch (err) {
+    $("r").style.display = "block"; $("where").className = "where no"; $("where").textContent = "Could not reach the miner"; $("line").textContent = String(err); $("facts").innerHTML = ""; $("raw").textContent = "";
+  } finally { $("go").disabled = false; }
+});
+</script>
+</body>
+</html>

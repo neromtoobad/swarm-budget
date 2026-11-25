@@ -1,0 +1,16 @@
+{
+  "name": "pinpoint-weather-miner",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "description": "A Telegraph miner for four weather intents that always says which place its answer is for.",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node src/server.mjs",
+    "test": "node --test test/*.test.mjs",
+    "bench:places": "node bench/place-trap.mjs",
+    "bench:records": "node bench/record-accuracy.mjs",
+    "bench:latency": "node bench/latency.mjs"
+  }
+}

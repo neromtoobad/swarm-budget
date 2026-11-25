@@ -1,0 +1,238 @@
+version: "1"
+kind: miner
+id: 3672120
+slug: pinpoint-weather
+protocol: generic
+name: Pinpoint Weather
+description: >
+  Storm risk, forecasts, current temperature and recorded past-day weather for a named place or a
+  latitude,longitude pair, anywhere in the world. Every answer states exactly which place it is for,
+  with region, country and coordinates, so "Paris, Texas" is never answered with Paris, France. A
+  region or country in the request is never dropped: if no such town exists there the request is
+  refused. A name shared by several towns of similar size is refused with the candidates, and so is
+  a country or a day that has not ended. Numbers come from Open-Meteo forecast models (best match,
+  NOAA GFS, DWD ICON) with the spread between models reported, US National Weather Service alerts
+  inside the United States, and NASA POWER as a second record for past days. No language model is
+  used. Risk is a published threshold rule; every factor behind the grade is returned.
+base_url: https://pinpoint.nerom.site
+auth:
+  type: none
+rate_limit_per_sec: 5
+cache_ttl_sec: 0
+circuit_threshold: 5
+circuit_cooldown_seconds: 30
+docs:
+  website: https://pinpoint.nerom.site
+  documentation: https://github.com/neromtoobad/swarm-budget/tree/main/miner
+  repository: https://github.com/neromtoobad/swarm-budget
+limitations:
+  - code: MAX_PARAM_VALUE
+    message: window_hours must be between 1 and 240.
+    param: window_hours
+    property: value
+    value_num: 240
+    operator: lte
+  - code: MAX_PARAM_SIZE
+    message: location may be at most 200 characters.
+    param: location
+    property: length
+    value_num: 200
+    operator: lte
+  - code: UPSTREAM_QUOTA
+    message: About 3000 uncached answers a day (the free Open-Meteo allowance this testnet deployment runs on).
+    property: rate
+    value_num: 3000
+    window_seconds: 86400
+errors:
+  message_path: message
+  code_path: error
+endpoints:
+  - path: /storm-alert
+    external_path: /storm-alert
+    method: GET
+    description: >
+      Storm and weather-disruption risk for one place over the next window_hours (1 to 240, default 24).
+      Returns location (name, region, country and coordinates), risk_score from 0 to 1, risk_level
+      (LOW, MODERATE, HIGH or SEVERE), peak_gust_kmh, precipitation_mm and the exact window as two
+      UTC timestamps, plus the factors behind the grade. Send the place as the buyer wrote it,
+      including any region or country ("Kerman, California"), or as "latitude,longitude".
+    intents: [STORM_ALERT_GENERAL]
+    params:
+      query:
+        required:
+          - name: location
+            type: string
+            intents: ["*"]
+            description: "The place, verbatim: a town with its region or country if given (\"Paris, Texas\", \"Chennai\", \"Birmingham, UK\"), or decimal \"latitude,longitude\" (\"36.7236,-120.0599\"). At most 200 characters."
+        optional:
+          - name: window_hours
+            type: integer
+            intents: ["*"]
+            description: "Look-ahead window in whole hours, 1 to 240. Defaults to 24."
+          - name: question
+            type: string
+            intents: ["*"]
+            description: "The original question, verbatim. Used only when location is missing: the place and the window are read from it."
+  - path: /forecast
+    external_path: /forecast
+    method: GET
+    description: >
+      Weather forecast for one place over the next window_hours (1 to 240, default 24). Returns
+      location (name, region, country and coordinates), when (the window as two UTC timestamps),
+      temp_max_c, temp_min_c, precipitation_probability_pct (the peak chance in the window) and
+      condition in plain words. Send the place as the buyer wrote it, including any region or
+      country, or as "latitude,longitude".
+    intents: [WEATHER_FORECAST_GENERAL]
+    params:
+      query:
+        required:
+          - name: location
+            type: string
+            intents: ["*"]
+            description: "The place, verbatim: a town with its region or country if given (\"Paris, Texas\", \"Lahore\", \"Sydney, NS\"), or decimal \"latitude,longitude\". At most 200 characters."
+        optional:
+          - name: window_hours
+            type: integer
+            intents: ["*"]
+            description: "Forecast window in whole hours, 1 to 240. Defaults to 24."
+          - name: question
+            type: string
+            intents: ["*"]
+            description: "The original question, verbatim. Used only when location is missing: the place and the window are read from it."
+  - path: /verify
+    external_path: /verify
+    method: GET
+    description: >
+      Recorded weather for one place on one past day: temp_max_c, temp_min_c, precipitation_mm and
+      condition for the local calendar day, with location (name, region, country and coordinates) and
+      date. Use it to check whether a forecast came true. A day that has not ended at that place is
+      refused. Send the place as the buyer wrote it, including any region or country, or as
+      "latitude,longitude".
+    intents: [WEATHER_FORECAST_VERIFY_GENERAL]
+    params:
+      query:
+        required:
+          - name: location
+            type: string
+            intents: ["*"]
+            description: "The place, verbatim: a town with its region or country if given (\"Portland, Maine\", \"Lisbon\"), or decimal \"latitude,longitude\". At most 200 characters."
+          - name: date
+            type: string
+            intents: ["*"]
+            description: "The past day to look up, as YYYY-MM-DD (for example 2026-11-15). It must have ended at that place. Records start in 1940."
+        optional:
+          - name: question
+            type: string
+            intents: ["*"]
+            description: "The original question, verbatim. Used only when location or date is missing."
+  - path: /temperature
+    external_path: /temperature
+    method: GET
+    description: >
+      Current air temperature at one place in degrees Celsius (temperature_c), with the time it was
+      observed, the place it is for and a second source for comparison. Send the place as the buyer
+      wrote it, including any region or country, or as "latitude,longitude".
+    intents: [WEATHER_CHECK_TEMPERATURE]
+    params:
+      query:
+        required:
+          - name: location
+            type: string
+            intents: ["*"]
+            description: "The place, verbatim: a town with its region or country if given (\"London\", \"Karachi\", \"Tokyo\", \"Paris, Texas\"), or decimal \"latitude,longitude\". At most 200 characters."
+        optional:
+          - name: question
+            type: string
+            intents: ["*"]
+            description: "The original question, verbatim. Used only when location is missing."
+input_schema:
+  type: object
+  required: [location]
+  properties:
+    location: {type: string, minLength: 1, maxLength: 200}
+    window_hours: {type: integer, minimum: 1, maximum: 240}
+    date: {type: string, pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"}
+    question: {type: string, maxLength: 1000}
+output_schema:
+  type: object
+  required: [answer, location, place, sources, checked_at, limitations]
+  properties:
+    answer: {type: string}
+    location: {type: string}
+    risk_score: {type: [number, "null"], minimum: 0, maximum: 1}
+    risk_level: {type: [string, "null"], enum: [LOW, MODERATE, HIGH, SEVERE, null]}
+    peak_gust_kmh: {type: [number, "null"]}
+    precipitation_mm: {type: [number, "null"]}
+    window: {type: string}
+    when: {type: string}
+    temp_max_c: {type: [number, "null"]}
+    temp_min_c: {type: [number, "null"]}
+    precipitation_probability_pct: {type: [number, "null"]}
+    condition: {type: [string, "null"]}
+    date: {type: string}
+    temperature_c: {type: number}
+    place: {type: object}
+    sources: {type: array}
+    checked_at: {type: string}
+    limitations: {type: array}
+intent_mapping:
+  STORM_ALERT_GENERAL:
+    endpoint: /storm-alert
+    input:
+      location:
+        from: location
+        how: The requested place, verbatim, keeping any region or country ("Paris, Texas"), or "latitude,longitude".
+      window_hours: {from: window_hours}
+    output:
+      location: {path: location}
+      risk_score: {path: risk_score, unit: "fraction (0-1)"}
+      risk_level: {path: risk_level}
+      peak_gust_kmh: {path: peak_gust_kmh, unit: km/h}
+      precipitation_mm: {path: precipitation_mm, unit: mm}
+      window: {path: window}
+  WEATHER_FORECAST_GENERAL:
+    endpoint: /forecast
+    input:
+      location:
+        from: location
+        how: The requested place, verbatim, keeping any region or country ("Paris, Texas"), or "latitude,longitude".
+      window_hours: {from: window_hours}
+    output:
+      location: {path: location}
+      when: {path: when}
+      temp_max_c: {path: temp_max_c, unit: degrees Celsius}
+      temp_min_c: {path: temp_min_c, unit: degrees Celsius}
+      precipitation_probability_pct: {path: precipitation_probability_pct, unit: percent}
+      condition: {path: condition}
+  WEATHER_FORECAST_VERIFY_GENERAL:
+    endpoint: /verify
+    input:
+      location:
+        from: location
+        how: The requested place, verbatim, keeping any region or country ("Portland, Maine"), or "latitude,longitude".
+      date:
+        from: date
+        how: The requested past day as YYYY-MM-DD, verbatim.
+    output:
+      location: {path: location}
+      date: {path: date}
+      temp_max_c: {path: temp_max_c, unit: degrees Celsius}
+      temp_min_c: {path: temp_min_c, unit: degrees Celsius}
+      precipitation_mm: {path: precipitation_mm, unit: mm}
+      condition: {path: condition}
+  WEATHER_CHECK_TEMPERATURE:
+    endpoint: /temperature
+    input:
+      location:
+        from: location
+        how: The requested place, verbatim, keeping any region or country, or "latitude,longitude".
+    output:
+      temperature_c: {path: temperature_c, unit: degrees Celsius}
+semantics:
+  signal_mapping:
+    reason_field: answer
+  supported_intents:
+    - STORM_ALERT_GENERAL
+    - WEATHER_FORECAST_GENERAL
+    - WEATHER_FORECAST_VERIFY_GENERAL
+    - WEATHER_CHECK_TEMPERATURE
