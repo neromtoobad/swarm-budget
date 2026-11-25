@@ -87,6 +87,28 @@ The middle row is the point. A well-formedness check wins every `missing` and `o
 
 Read the last row for what it is. The rule checker and the packs were written together, and where they disagreed we fixed whichever was wrong (a rule that graded a day of concentrated rain too gently; questions that were themselves ambiguous). So 100% shows the pairs are decidable by published, explicit rules. It is not a held-out score for a learned scorer. That test is the node's: an Evaluator adapter competing on the hidden half of the pool.
 
+### Does the material change what a scorer learns?
+
+Yes, on the pairs it is about. We trained the same small model twice with the network's adapter kit, changing one thing: whether the training set contains wrong-place pairs. Both were then tested on the same 248 pairs about towns neither had seen.
+
+| Kind of worse answer | Pairs | Trained without wrong-place pairs | Trained with them |
+|---|---|---|---|
+| All | 248 | 75.0% | **96.8%** |
+| Wrong town with the same name | 131 | 65.6% | **96.9%** |
+| An unrelated city | 26 | 69.2% | **100%** |
+| Wrong hours | 17 | 76.5% | 88.2% |
+| Contradicts its own numbers | 21 | 81.0% | 90.5% |
+| Everything else (missing, impossible, not a forecast, stale, vague, refusal) | 53 | 98.1% | 100% |
+
+A scorer that never saw a wrong-town pair picks the right town two times in three, not far above a coin toss. With them it gets 127 of 131.
+
+Three limits on this comparison:
+- The second training set is also bigger (1,446 pairs against 971), so part of the gain on the other rows may be from having more examples.
+- The smaller set fails the kit's data gate, because without the wrong-place pairs too many of its worse answers can be spotted by their wording. We trained on it anyway for the comparison; the gate was skipped for that run only.
+- Both tests use pairs from our own generator. This says the material teaches what it is meant to teach. It does not say how either model does on other contributors' material.
+
+The scorer trained with them is registered for the `WEATHER_FORECAST` family: [adapter/](adapter/README.md). Numbers: [adapter/results/](adapter/results/).
+
 ### It separates live miners
 
 The same trap, asked of eight live miners' own endpoints, splits them into three groups: 48 of 48 right, 44 of 48, and 5 of 48 ([table and raw replies](../miner/README.md#1-place-handling-against-other-live-storm-miners)).

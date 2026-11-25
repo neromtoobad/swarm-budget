@@ -39,7 +39,15 @@ Numbers: [results/scorer-full-heldout-test.json](results/scorer-full-heldout-tes
 
 ### Does the wrong-town material matter?
 
-The same model, trained the same way, but with every wrong-place pair taken out of its training set ([train-without-place.jsonl](train-without-place.jsonl)), then tested on the same 248 pairs: see [results/scorer-without-place-heldout-test.json](results/scorer-without-place-heldout-test.json). The comparison is in the table in [../README.md](../README.md#does-the-material-change-what-a-scorer-learns).
+Yes. The same model, trained the same way but with every wrong-place pair taken out of its training set ([train-without-place.jsonl](train-without-place.jsonl), 971 pairs), then tested on the same 248 pairs:
+
+| | Trained without wrong-place pairs | This scorer |
+|---|---|---|
+| Wrong town with the same name (131) | 65.6% | **96.9%** |
+| An unrelated city (26) | 69.2% | **100%** |
+| All 248 | 75.0% | **96.8%** |
+
+The full table and its limits are in [../README.md](../README.md#does-the-material-change-what-a-scorer-learns). Numbers: [results/scorer-without-place-heldout-test.json](results/scorer-without-place-heldout-test.json), [results/train-without-place-result.json](results/train-without-place-result.json).
 
 ## What these numbers do not show
 

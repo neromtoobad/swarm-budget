@@ -1,0 +1,55 @@
+{
+  "intent": "WEATHER_FORECAST",
+  "base_model": "answerdotai/ModernBERT-base",
+  "base_model_sha256": "340ac08b74eef0d7bdec2d7981a6a3d4249bf0e6aab60634b72ad02c2b8023a9",
+  "tokenizer_sha256": "67bc76f8b9386efba1a761c1c8e5ad439fd0eaf1c2826e9dd1a205c7af4dc456",
+  "adapter_dir": "runs/WF-noplace/adapter",
+  "reward_head": "runs/WF-noplace/adapter/reward_head.pt",
+  "train_pairs": 971,
+  "gate_split": "test",
+  "dataset_gate": {
+    "ok": false,
+    "n": 971,
+    "metrics": {
+      "unique_rejected_frac": 0.9959,
+      "top_rejected_share": 0.0021,
+      "length_shortcut_acc": 0.5649,
+      "eval_negative_leak": 0.0069,
+      "surface_probe_acc": 0.7262,
+      "mean_len_chosen": 237.6,
+      "mean_len_rejected": 215.1
+    },
+    "failures": [
+      "a bag-of-words probe tells chosen from rejected at 72.6% (> 65%) without seeing the prompt: the negatives share a surface style the model will learn instead of the task"
+    ]
+  },
+  "n_eval": 248,
+  "pairwise_accuracy": 0.75,
+  "val_loss": 0.506085,
+  "length_baseline": 0.5484,
+  "beats_length_baseline": true,
+  "verdict": "PASS",
+  "negative_memorisation": 0.0,
+  "hyperparameters": {
+    "max_length": 512,
+    "batch_size": 8,
+    "grad_accum": 2,
+    "grad_checkpointing": true,
+    "lora_rank": 8,
+    "lora_alpha": 32,
+    "lora_dropout": 0.1,
+    "epochs": 4,
+    "lr": 0.0001,
+    "weight_decay": 0.01,
+    "eval_split": 0.15,
+    "seed": 42,
+    "eval_batch": 4,
+    "gate_min_acc": 0.65,
+    "gate_min_margin_over_baseline": 0.1,
+    "early_stopping": true,
+    "es_metric": "val_loss",
+    "es_patience": 1,
+    "es_min_delta": 0.001,
+    "loss_floor": 0.0001
+  }
+}
