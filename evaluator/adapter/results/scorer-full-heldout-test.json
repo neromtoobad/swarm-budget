@@ -1,0 +1,2049 @@
+{
+ "run": "runs/WF-full",
+ "data": "../../evaluator/adapter/heldout-test.jsonl",
+ "pairs": 248,
+ "longer_answer_baseline": 0.5081,
+ "by_kind": {
+  "all": {
+   "pairs": 248,
+   "won": 240,
+   "win_rate": 0.9677
+  },
+  "contradiction": {
+   "pairs": 21,
+   "won": 19,
+   "win_rate": 0.9048
+  },
+  "missing": {
+   "pairs": 18,
+   "won": 18,
+   "win_rate": 1.0
+  },
+  "not_a_forecast": {
+   "pairs": 11,
+   "won": 11,
+   "win_rate": 1.0
+  },
+  "out_of_range": {
+   "pairs": 12,
+   "won": 12,
+   "win_rate": 1.0
+  },
+  "refusal": {
+   "pairs": 4,
+   "won": 4,
+   "win_rate": 1.0
+  },
+  "stale": {
+   "pairs": 4,
+   "won": 4,
+   "win_rate": 1.0
+  },
+  "vague": {
+   "pairs": 4,
+   "won": 4,
+   "win_rate": 1.0
+  },
+  "wrong_city": {
+   "pairs": 26,
+   "won": 26,
+   "win_rate": 1.0
+  },
+  "wrong_place": {
+   "pairs": 131,
+   "won": 127,
+   "win_rate": 0.9695
+  },
+  "wrong_window": {
+   "pairs": 17,
+   "won": 15,
+   "win_rate": 0.8824
+  }
+ },
+ "rows": [
+  {
+   "line": 1,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 18.1379,
+   "worse": 7.532
+  },
+  {
+   "line": 2,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 24.5137,
+   "worse": 12.9961
+  },
+  {
+   "line": 3,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 21.2944,
+   "worse": 11.7273
+  },
+  {
+   "line": 4,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 27.9747,
+   "worse": 14.0235
+  },
+  {
+   "line": 5,
+   "kind": "not_a_forecast",
+   "from": "generated",
+   "won": true,
+   "better": 19.228,
+   "worse": 6.9328
+  },
+  {
+   "line": 6,
+   "kind": "contradiction",
+   "from": "generated",
+   "won": true,
+   "better": 31.9919,
+   "worse": 31.3231
+  },
+  {
+   "line": 7,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 18.7891,
+   "worse": 8.3669
+  },
+  {
+   "line": 8,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 27.0617,
+   "worse": 22.0169
+  },
+  {
+   "line": 9,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 28.9181,
+   "worse": 13.1869
+  },
+  {
+   "line": 10,
+   "kind": "not_a_forecast",
+   "from": "generated",
+   "won": true,
+   "better": 30.2243,
+   "worse": 5.114
+  },
+  {
+   "line": 11,
+   "kind": "not_a_forecast",
+   "from": "generated",
+   "won": true,
+   "better": 21.4696,
+   "worse": 2.2262
+  },
+  {
+   "line": 12,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 23.4241,
+   "worse": 10.555
+  },
+  {
+   "line": 13,
+   "kind": "missing",
+   "from": "generated",
+   "won": true,
+   "better": 16.7436,
+   "worse": 11.4812
+  },
+  {
+   "line": 14,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 18.5353,
+   "worse": 9.0467
+  },
+  {
+   "line": 15,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 12.7778,
+   "worse": 4.7072
+  },
+  {
+   "line": 16,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 10.9532,
+   "worse": 6.0454
+  },
+  {
+   "line": 17,
+   "kind": "contradiction",
+   "from": "generated",
+   "won": true,
+   "better": 25.34,
+   "worse": 24.8059
+  },
+  {
+   "line": 18,
+   "kind": "out_of_range",
+   "from": "generated",
+   "won": true,
+   "better": 29.1016,
+   "worse": 27.1789
+  },
+  {
+   "line": 19,
+   "kind": "out_of_range",
+   "from": "generated",
+   "won": true,
+   "better": 28.7931,
+   "worse": 28.2464
+  },
+  {
+   "line": 20,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 18.584,
+   "worse": 12.6313
+  },
+  {
+   "line": 21,
+   "kind": "wrong_window",
+   "from": "generated",
+   "won": true,
+   "better": 18.0645,
+   "worse": 12.8607
+  },
+  {
+   "line": 22,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 16.042,
+   "worse": 8.4431
+  },
+  {
+   "line": 23,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 23.4816,
+   "worse": 7.221
+  },
+  {
+   "line": 24,
+   "kind": "contradiction",
+   "from": "generated",
+   "won": true,
+   "better": 20.7279,
+   "worse": 17.4326
+  },
+  {
+   "line": 25,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 23.8728,
+   "worse": 15.2954
+  },
+  {
+   "line": 26,
+   "kind": "missing",
+   "from": "generated",
+   "won": true,
+   "better": 12.9756,
+   "worse": 1.4599
+  },
+  {
+   "line": 27,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 26.715,
+   "worse": 12.8732
+  },
+  {
+   "line": 28,
+   "kind": "not_a_forecast",
+   "from": "generated",
+   "won": true,
+   "better": 12.4121,
+   "worse": 7.7155
+  },
+  {
+   "line": 29,
+   "kind": "out_of_range",
+   "from": "generated",
+   "won": true,
+   "better": 27.2725,
+   "worse": 23.8686
+  },
+  {
+   "line": 30,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 23.6348,
+   "worse": 7.0184
+  },
+  {
+   "line": 31,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 13.7418,
+   "worse": 12.5564
+  },
+  {
+   "line": 32,
+   "kind": "refusal",
+   "from": "generated",
+   "won": true,
+   "better": 21.3002,
+   "worse": 1.8676
+  },
+  {
+   "line": 33,
+   "kind": "contradiction",
+   "from": "generated",
+   "won": true,
+   "better": 19.7585,
+   "worse": 16.6792
+  },
+  {
+   "line": 34,
+   "kind": "wrong_window",
+   "from": "generated",
+   "won": true,
+   "better": 19.0785,
+   "worse": 15.3797
+  },
+  {
+   "line": 35,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 22.8817,
+   "worse": 11.1552
+  },
+  {
+   "line": 36,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 16.2055,
+   "worse": 6.5385
+  },
+  {
+   "line": 37,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 31.6954,
+   "worse": 11.0348
+  },
+  {
+   "line": 38,
+   "kind": "missing",
+   "from": "generated",
+   "won": true,
+   "better": 15.7394,
+   "worse": 12.7409
+  },
+  {
+   "line": 39,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 24.8697,
+   "worse": 10.329
+  },
+  {
+   "line": 40,
+   "kind": "contradiction",
+   "from": "generated",
+   "won": true,
+   "better": 26.4939,
+   "worse": 22.8456
+  },
+  {
+   "line": 41,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 17.3926,
+   "worse": 5.3912
+  },
+  {
+   "line": 42,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 23.7529,
+   "worse": 17.2501
+  },
+  {
+   "line": 43,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 22.164,
+   "worse": 6.8727
+  },
+  {
+   "line": 44,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 18.4405,
+   "worse": 7.7843
+  },
+  {
+   "line": 45,
+   "kind": "out_of_range",
+   "from": "generated",
+   "won": true,
+   "better": 23.8828,
+   "worse": 19.109
+  },
+  {
+   "line": 46,
+   "kind": "contradiction",
+   "from": "generated",
+   "won": true,
+   "better": 27.6941,
+   "worse": 22.8324
+  },
+  {
+   "line": 47,
+   "kind": "not_a_forecast",
+   "from": "generated",
+   "won": true,
+   "better": 16.0901,
+   "worse": 2.3254
+  },
+  {
+   "line": 48,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 24.2786,
+   "worse": 24.0776
+  },
+  {
+   "line": 49,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 32.8975,
+   "worse": 12.7258
+  },
+  {
+   "line": 50,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 28.7431,
+   "worse": 12.7854
+  },
+  {
+   "line": 51,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 30.1106,
+   "worse": 21.0849
+  },
+  {
+   "line": 52,
+   "kind": "contradiction",
+   "from": "generated",
+   "won": true,
+   "better": 24.275,
+   "worse": 22.9679
+  },
+  {
+   "line": 53,
+   "kind": "not_a_forecast",
+   "from": "generated",
+   "won": true,
+   "better": 17.6353,
+   "worse": 5.8337
+  },
+  {
+   "line": 54,
+   "kind": "missing",
+   "from": "generated",
+   "won": true,
+   "better": 28.8295,
+   "worse": 5.0874
+  },
+  {
+   "line": 55,
+   "kind": "contradiction",
+   "from": "generated",
+   "won": true,
+   "better": 21.1355,
+   "worse": 20.7239
+  },
+  {
+   "line": 56,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 21.3335,
+   "worse": 13.2803
+  },
+  {
+   "line": 57,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 19.6839,
+   "worse": 14.4123
+  },
+  {
+   "line": 58,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 28.7336,
+   "worse": 10.6106
+  },
+  {
+   "line": 59,
+   "kind": "missing",
+   "from": "generated",
+   "won": true,
+   "better": 28.0305,
+   "worse": 14.2899
+  },
+  {
+   "line": 60,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 22.0812,
+   "worse": 15.9324
+  },
+  {
+   "line": 61,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 26.5331,
+   "worse": 9.2691
+  },
+  {
+   "line": 62,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 27.3561,
+   "worse": 14.4842
+  },
+  {
+   "line": 63,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 24.9354,
+   "worse": 13.501
+  },
+  {
+   "line": 64,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 25.7821,
+   "worse": 5.8876
+  },
+  {
+   "line": 65,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 27.0351,
+   "worse": 9.8821
+  },
+  {
+   "line": 66,
+   "kind": "wrong_window",
+   "from": "generated",
+   "won": true,
+   "better": 17.896,
+   "worse": 12.5625
+  },
+  {
+   "line": 67,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 26.434,
+   "worse": 13.3908
+  },
+  {
+   "line": 68,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 26.4542,
+   "worse": 8.5573
+  },
+  {
+   "line": 69,
+   "kind": "stale",
+   "from": "generated",
+   "won": true,
+   "better": 26.4597,
+   "worse": 18.0145
+  },
+  {
+   "line": 70,
+   "kind": "contradiction",
+   "from": "generated",
+   "won": true,
+   "better": 13.7907,
+   "worse": 12.7457
+  },
+  {
+   "line": 71,
+   "kind": "contradiction",
+   "from": "generated",
+   "won": true,
+   "better": 16.1899,
+   "worse": 15.4443
+  },
+  {
+   "line": 72,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 26.6788,
+   "worse": 17.9983
+  },
+  {
+   "line": 73,
+   "kind": "refusal",
+   "from": "generated",
+   "won": true,
+   "better": 28.7457,
+   "worse": 3.1981
+  },
+  {
+   "line": 74,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 18.5933,
+   "worse": 5.3724
+  },
+  {
+   "line": 75,
+   "kind": "wrong_window",
+   "from": "generated",
+   "won": true,
+   "better": 29.8317,
+   "worse": 22.1736
+  },
+  {
+   "line": 76,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 18.3829,
+   "worse": 7.4815
+  },
+  {
+   "line": 77,
+   "kind": "contradiction",
+   "from": "generated",
+   "won": true,
+   "better": 25.2025,
+   "worse": 25.0092
+  },
+  {
+   "line": 78,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 20.56,
+   "worse": 7.7422
+  },
+  {
+   "line": 79,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 21.1239,
+   "worse": 14.5285
+  },
+  {
+   "line": 80,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 21.2154,
+   "worse": 14.8247
+  },
+  {
+   "line": 81,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 22.553,
+   "worse": 12.7225
+  },
+  {
+   "line": 82,
+   "kind": "missing",
+   "from": "generated",
+   "won": true,
+   "better": 23.138,
+   "worse": 13.219
+  },
+  {
+   "line": 83,
+   "kind": "wrong_window",
+   "from": "generated",
+   "won": false,
+   "better": 12.5873,
+   "worse": 15.7912
+  },
+  {
+   "line": 84,
+   "kind": "contradiction",
+   "from": "generated",
+   "won": true,
+   "better": 15.6207,
+   "worse": 14.7841
+  },
+  {
+   "line": 85,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 28.7911,
+   "worse": 12.6783
+  },
+  {
+   "line": 86,
+   "kind": "out_of_range",
+   "from": "generated",
+   "won": true,
+   "better": 28.0643,
+   "worse": 19.8983
+  },
+  {
+   "line": 87,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 24.0335,
+   "worse": 8.8347
+  },
+  {
+   "line": 88,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 19.425,
+   "worse": 8.6163
+  },
+  {
+   "line": 89,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 30.6248,
+   "worse": 22.7118
+  },
+  {
+   "line": 90,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 14.5085,
+   "worse": 4.6235
+  },
+  {
+   "line": 91,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": false,
+   "better": 14.2408,
+   "worse": 16.2067
+  },
+  {
+   "line": 92,
+   "kind": "missing",
+   "from": "generated",
+   "won": true,
+   "better": 28.9599,
+   "worse": 22.8072
+  },
+  {
+   "line": 93,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 29.5131,
+   "worse": 12.4079
+  },
+  {
+   "line": 94,
+   "kind": "vague",
+   "from": "generated",
+   "won": true,
+   "better": 16.4495,
+   "worse": 1.9081
+  },
+  {
+   "line": 95,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 19.5902,
+   "worse": 12.6875
+  },
+  {
+   "line": 96,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 22.8716,
+   "worse": 13.2757
+  },
+  {
+   "line": 97,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 23.8583,
+   "worse": 8.7207
+  },
+  {
+   "line": 98,
+   "kind": "stale",
+   "from": "generated",
+   "won": true,
+   "better": 28.5217,
+   "worse": 19.2543
+  },
+  {
+   "line": 99,
+   "kind": "out_of_range",
+   "from": "generated",
+   "won": true,
+   "better": 14.6537,
+   "worse": 10.6802
+  },
+  {
+   "line": 100,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 23.1887,
+   "worse": 6.6526
+  },
+  {
+   "line": 101,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 18.7867,
+   "worse": 11.3146
+  },
+  {
+   "line": 102,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 18.1858,
+   "worse": 15.7743
+  },
+  {
+   "line": 103,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 29.4519,
+   "worse": 13.2742
+  },
+  {
+   "line": 104,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 16.0239,
+   "worse": 11.6851
+  },
+  {
+   "line": 105,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 23.8451,
+   "worse": 13.2522
+  },
+  {
+   "line": 106,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 23.4493,
+   "worse": 13.0526
+  },
+  {
+   "line": 107,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 26.7162,
+   "worse": 10.8937
+  },
+  {
+   "line": 108,
+   "kind": "wrong_window",
+   "from": "generated",
+   "won": true,
+   "better": 29.5515,
+   "worse": 17.8058
+  },
+  {
+   "line": 109,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 20.4609,
+   "worse": 10.859
+  },
+  {
+   "line": 110,
+   "kind": "not_a_forecast",
+   "from": "generated",
+   "won": true,
+   "better": 26.4728,
+   "worse": 5.8554
+  },
+  {
+   "line": 111,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 25.8253,
+   "worse": 17.8574
+  },
+  {
+   "line": 112,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 26.8722,
+   "worse": 12.3431
+  },
+  {
+   "line": 113,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 20.7883,
+   "worse": 10.0061
+  },
+  {
+   "line": 114,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 27.2539,
+   "worse": 11.6681
+  },
+  {
+   "line": 115,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 14.7542,
+   "worse": 5.3522
+  },
+  {
+   "line": 116,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 26.9659,
+   "worse": 10.1447
+  },
+  {
+   "line": 117,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 26.6861,
+   "worse": 8.2273
+  },
+  {
+   "line": 118,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 25.9508,
+   "worse": 6.7889
+  },
+  {
+   "line": 119,
+   "kind": "wrong_window",
+   "from": "generated",
+   "won": true,
+   "better": 21.9032,
+   "worse": 16.6463
+  },
+  {
+   "line": 120,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 22.0621,
+   "worse": 12.3206
+  },
+  {
+   "line": 121,
+   "kind": "contradiction",
+   "from": "generated",
+   "won": true,
+   "better": 11.2415,
+   "worse": 9.2792
+  },
+  {
+   "line": 122,
+   "kind": "contradiction",
+   "from": "generated",
+   "won": false,
+   "better": 19.6629,
+   "worse": 19.9734
+  },
+  {
+   "line": 123,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 18.8478,
+   "worse": 13.5145
+  },
+  {
+   "line": 124,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 25.3002,
+   "worse": 12.8784
+  },
+  {
+   "line": 125,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 13.2175,
+   "worse": 11.8519
+  },
+  {
+   "line": 126,
+   "kind": "contradiction",
+   "from": "generated",
+   "won": true,
+   "better": 14.464,
+   "worse": 13.3736
+  },
+  {
+   "line": 127,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 24.693,
+   "worse": 12.9221
+  },
+  {
+   "line": 128,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 29.648,
+   "worse": 13.5524
+  },
+  {
+   "line": 129,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 26.9966,
+   "worse": 13.3067
+  },
+  {
+   "line": 130,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 24.2801,
+   "worse": 11.3878
+  },
+  {
+   "line": 131,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 28.4809,
+   "worse": 12.7348
+  },
+  {
+   "line": 132,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 15.2122,
+   "worse": 12.3294
+  },
+  {
+   "line": 133,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 30.5581,
+   "worse": 14.5829
+  },
+  {
+   "line": 134,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 20.8642,
+   "worse": 5.2272
+  },
+  {
+   "line": 135,
+   "kind": "out_of_range",
+   "from": "generated",
+   "won": true,
+   "better": 21.7895,
+   "worse": 19.5738
+  },
+  {
+   "line": 136,
+   "kind": "missing",
+   "from": "generated",
+   "won": true,
+   "better": 9.2326,
+   "worse": 7.4367
+  },
+  {
+   "line": 137,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 15.1753,
+   "worse": 3.9688
+  },
+  {
+   "line": 138,
+   "kind": "out_of_range",
+   "from": "generated",
+   "won": true,
+   "better": 24.6706,
+   "worse": 23.8855
+  },
+  {
+   "line": 139,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 23.8106,
+   "worse": 10.3901
+  },
+  {
+   "line": 140,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 23.9568,
+   "worse": 10.0894
+  },
+  {
+   "line": 141,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 22.0194,
+   "worse": 13.6542
+  },
+  {
+   "line": 142,
+   "kind": "missing",
+   "from": "generated",
+   "won": true,
+   "better": 28.579,
+   "worse": 6.2189
+  },
+  {
+   "line": 143,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 17.5733,
+   "worse": 6.9648
+  },
+  {
+   "line": 144,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 25.987,
+   "worse": 16.3809
+  },
+  {
+   "line": 145,
+   "kind": "vague",
+   "from": "generated",
+   "won": true,
+   "better": 27.3574,
+   "worse": 3.1588
+  },
+  {
+   "line": 146,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 24.1073,
+   "worse": 9.7085
+  },
+  {
+   "line": 147,
+   "kind": "contradiction",
+   "from": "generated",
+   "won": true,
+   "better": 26.1565,
+   "worse": 24.7246
+  },
+  {
+   "line": 148,
+   "kind": "wrong_window",
+   "from": "generated",
+   "won": true,
+   "better": 27.2949,
+   "worse": 16.6411
+  },
+  {
+   "line": 149,
+   "kind": "out_of_range",
+   "from": "generated",
+   "won": true,
+   "better": 23.4838,
+   "worse": 21.2406
+  },
+  {
+   "line": 150,
+   "kind": "missing",
+   "from": "generated",
+   "won": true,
+   "better": 24.4507,
+   "worse": 2.0887
+  },
+  {
+   "line": 151,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 20.8111,
+   "worse": 13.9346
+  },
+  {
+   "line": 152,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 29.6033,
+   "worse": 22.9822
+  },
+  {
+   "line": 153,
+   "kind": "refusal",
+   "from": "generated",
+   "won": true,
+   "better": 23.2503,
+   "worse": 2.6859
+  },
+  {
+   "line": 154,
+   "kind": "refusal",
+   "from": "generated",
+   "won": true,
+   "better": 26.1746,
+   "worse": 1.9101
+  },
+  {
+   "line": 155,
+   "kind": "vague",
+   "from": "generated",
+   "won": true,
+   "better": 21.9536,
+   "worse": 1.6016
+  },
+  {
+   "line": 156,
+   "kind": "not_a_forecast",
+   "from": "generated",
+   "won": true,
+   "better": 21.7918,
+   "worse": 7.3592
+  },
+  {
+   "line": 157,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 26.4015,
+   "worse": 13.1181
+  },
+  {
+   "line": 158,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 20.706,
+   "worse": 9.6789
+  },
+  {
+   "line": 159,
+   "kind": "missing",
+   "from": "generated",
+   "won": true,
+   "better": 26.1466,
+   "worse": 22.3658
+  },
+  {
+   "line": 160,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 30.9643,
+   "worse": 13.3911
+  },
+  {
+   "line": 161,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": false,
+   "better": 27.4716,
+   "worse": 29.6041
+  },
+  {
+   "line": 162,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 22.7852,
+   "worse": 16.4705
+  },
+  {
+   "line": 163,
+   "kind": "contradiction",
+   "from": "generated",
+   "won": true,
+   "better": 25.7091,
+   "worse": 24.8223
+  },
+  {
+   "line": 164,
+   "kind": "missing",
+   "from": "generated",
+   "won": true,
+   "better": 17.5612,
+   "worse": 11.9098
+  },
+  {
+   "line": 165,
+   "kind": "out_of_range",
+   "from": "generated",
+   "won": true,
+   "better": 22.7307,
+   "worse": 15.4735
+  },
+  {
+   "line": 166,
+   "kind": "wrong_window",
+   "from": "generated",
+   "won": false,
+   "better": 13.2733,
+   "worse": 15.6515
+  },
+  {
+   "line": 167,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 28.7171,
+   "worse": 6.9491
+  },
+  {
+   "line": 168,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 24.0894,
+   "worse": 8.1701
+  },
+  {
+   "line": 169,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 25.4077,
+   "worse": 7.758
+  },
+  {
+   "line": 170,
+   "kind": "stale",
+   "from": "generated",
+   "won": true,
+   "better": 12.7648,
+   "worse": 8.4505
+  },
+  {
+   "line": 171,
+   "kind": "contradiction",
+   "from": "generated",
+   "won": true,
+   "better": 22.4276,
+   "worse": 21.2594
+  },
+  {
+   "line": 172,
+   "kind": "contradiction",
+   "from": "generated",
+   "won": true,
+   "better": 30.8503,
+   "worse": 29.8376
+  },
+  {
+   "line": 173,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 23.038,
+   "worse": 10.6119
+  },
+  {
+   "line": 174,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 22.061,
+   "worse": 9.211
+  },
+  {
+   "line": 175,
+   "kind": "wrong_window",
+   "from": "generated",
+   "won": true,
+   "better": 21.4049,
+   "worse": 14.8911
+  },
+  {
+   "line": 176,
+   "kind": "wrong_window",
+   "from": "generated",
+   "won": true,
+   "better": 16.3266,
+   "worse": 9.5901
+  },
+  {
+   "line": 177,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 17.2147,
+   "worse": 11.4514
+  },
+  {
+   "line": 178,
+   "kind": "missing",
+   "from": "generated",
+   "won": true,
+   "better": 16.6275,
+   "worse": 14.6706
+  },
+  {
+   "line": 179,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 15.412,
+   "worse": 8.7849
+  },
+  {
+   "line": 180,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 15.7968,
+   "worse": 10.1361
+  },
+  {
+   "line": 181,
+   "kind": "wrong_window",
+   "from": "generated",
+   "won": true,
+   "better": 29.2375,
+   "worse": 19.7027
+  },
+  {
+   "line": 182,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 27.5509,
+   "worse": 18.9555
+  },
+  {
+   "line": 183,
+   "kind": "missing",
+   "from": "generated",
+   "won": true,
+   "better": 25.5243,
+   "worse": 2.0767
+  },
+  {
+   "line": 184,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 22.0146,
+   "worse": 13.1404
+  },
+  {
+   "line": 185,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 24.6204,
+   "worse": 11.4611
+  },
+  {
+   "line": 186,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 31.855,
+   "worse": 13.2561
+  },
+  {
+   "line": 187,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 8.5128,
+   "worse": 6.8335
+  },
+  {
+   "line": 188,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 21.5278,
+   "worse": 14.7161
+  },
+  {
+   "line": 189,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 17.5581,
+   "worse": 13.4855
+  },
+  {
+   "line": 190,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 30.6602,
+   "worse": 17.9922
+  },
+  {
+   "line": 191,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 16.8876,
+   "worse": 11.5977
+  },
+  {
+   "line": 192,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 19.4123,
+   "worse": 10.1888
+  },
+  {
+   "line": 193,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 22.3044,
+   "worse": 12.7145
+  },
+  {
+   "line": 194,
+   "kind": "wrong_window",
+   "from": "generated",
+   "won": true,
+   "better": 15.8307,
+   "worse": 13.0296
+  },
+  {
+   "line": 195,
+   "kind": "wrong_window",
+   "from": "generated",
+   "won": true,
+   "better": 29.5103,
+   "worse": 15.1725
+  },
+  {
+   "line": 196,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 25.0334,
+   "worse": 10.0586
+  },
+  {
+   "line": 197,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 25.0202,
+   "worse": 9.7303
+  },
+  {
+   "line": 198,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 12.5405,
+   "worse": 3.1768
+  },
+  {
+   "line": 199,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 29.4943,
+   "worse": 16.2624
+  },
+  {
+   "line": 200,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 23.856,
+   "worse": 20.8809
+  },
+  {
+   "line": 201,
+   "kind": "missing",
+   "from": "generated",
+   "won": true,
+   "better": 26.8096,
+   "worse": 21.0318
+  },
+  {
+   "line": 202,
+   "kind": "out_of_range",
+   "from": "generated",
+   "won": true,
+   "better": 29.5353,
+   "worse": 27.2992
+  },
+  {
+   "line": 203,
+   "kind": "wrong_window",
+   "from": "generated",
+   "won": true,
+   "better": 25.3827,
+   "worse": 17.831
+  },
+  {
+   "line": 204,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 23.2185,
+   "worse": 9.0508
+  },
+  {
+   "line": 205,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 24.6988,
+   "worse": 17.9103
+  },
+  {
+   "line": 206,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 29.6211,
+   "worse": 21.9682
+  },
+  {
+   "line": 207,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 28.9276,
+   "worse": 12.4537
+  },
+  {
+   "line": 208,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 30.2681,
+   "worse": 9.7371
+  },
+  {
+   "line": 209,
+   "kind": "stale",
+   "from": "generated",
+   "won": true,
+   "better": 15.7743,
+   "worse": 12.5354
+  },
+  {
+   "line": 210,
+   "kind": "wrong_window",
+   "from": "generated",
+   "won": true,
+   "better": 26.4362,
+   "worse": 13.8568
+  },
+  {
+   "line": 211,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 27.0863,
+   "worse": 9.1489
+  },
+  {
+   "line": 212,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 22.9569,
+   "worse": 8.3352
+  },
+  {
+   "line": 213,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 25.7041,
+   "worse": 13.5213
+  },
+  {
+   "line": 214,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 28.2537,
+   "worse": 14.407
+  },
+  {
+   "line": 215,
+   "kind": "wrong_window",
+   "from": "generated",
+   "won": true,
+   "better": 24.959,
+   "worse": 19.5425
+  },
+  {
+   "line": 216,
+   "kind": "missing",
+   "from": "generated",
+   "won": true,
+   "better": 22.0374,
+   "worse": 18.1804
+  },
+  {
+   "line": 217,
+   "kind": "wrong_city",
+   "from": "generated",
+   "won": true,
+   "better": 18.2544,
+   "worse": 9.3005
+  },
+  {
+   "line": 218,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": true,
+   "better": 28.4677,
+   "worse": 20.1796
+  },
+  {
+   "line": 219,
+   "kind": "vague",
+   "from": "generated",
+   "won": true,
+   "better": 20.6279,
+   "worse": 2.7689
+  },
+  {
+   "line": 220,
+   "kind": "wrong_place",
+   "from": "generated",
+   "won": false,
+   "better": 17.2449,
+   "worse": 18.1048
+  },
+  {
+   "line": 221,
+   "kind": "missing",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 23.4215,
+   "worse": 11.824
+  },
+  {
+   "line": 222,
+   "kind": "wrong_place",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 24.0296,
+   "worse": 10.9377
+  },
+  {
+   "line": 223,
+   "kind": "wrong_place",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 25.6495,
+   "worse": 8.6123
+  },
+  {
+   "line": 224,
+   "kind": "wrong_place",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 18.4788,
+   "worse": 11.1167
+  },
+  {
+   "line": 225,
+   "kind": "wrong_place",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 17.5035,
+   "worse": 4.843
+  },
+  {
+   "line": 226,
+   "kind": "not_a_forecast",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 25.1972,
+   "worse": 6.0092
+  },
+  {
+   "line": 227,
+   "kind": "wrong_place",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 30.9372,
+   "worse": 18.1509
+  },
+  {
+   "line": 228,
+   "kind": "missing",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 24.6683,
+   "worse": 14.7254
+  },
+  {
+   "line": 229,
+   "kind": "wrong_place",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 10.4133,
+   "worse": 9.1451
+  },
+  {
+   "line": 230,
+   "kind": "wrong_place",
+   "from": "uploaded pack",
+   "won": false,
+   "better": 17.5292,
+   "worse": 19.6296
+  },
+  {
+   "line": 231,
+   "kind": "contradiction",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 25.4581,
+   "worse": 24.0508
+  },
+  {
+   "line": 232,
+   "kind": "not_a_forecast",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 19.329,
+   "worse": 5.0686
+  },
+  {
+   "line": 233,
+   "kind": "wrong_place",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 24.4623,
+   "worse": 3.7647
+  },
+  {
+   "line": 234,
+   "kind": "wrong_place",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 25.8887,
+   "worse": 9.8493
+  },
+  {
+   "line": 235,
+   "kind": "wrong_place",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 19.5442,
+   "worse": 12.8215
+  },
+  {
+   "line": 236,
+   "kind": "wrong_place",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 27.6411,
+   "worse": 13.7474
+  },
+  {
+   "line": 237,
+   "kind": "wrong_place",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 23.3665,
+   "worse": 7.2305
+  },
+  {
+   "line": 238,
+   "kind": "wrong_place",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 22.8623,
+   "worse": 11.004
+  },
+  {
+   "line": 239,
+   "kind": "wrong_place",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 22.4437,
+   "worse": 9.9072
+  },
+  {
+   "line": 240,
+   "kind": "not_a_forecast",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 23.8933,
+   "worse": 3.1493
+  },
+  {
+   "line": 241,
+   "kind": "wrong_place",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 26.5222,
+   "worse": 16.2322
+  },
+  {
+   "line": 242,
+   "kind": "wrong_place",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 24.2442,
+   "worse": 11.3404
+  },
+  {
+   "line": 243,
+   "kind": "wrong_place",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 27.6904,
+   "worse": 9.5363
+  },
+  {
+   "line": 244,
+   "kind": "wrong_place",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 19.1679,
+   "worse": 9.1673
+  },
+  {
+   "line": 245,
+   "kind": "contradiction",
+   "from": "uploaded pack",
+   "won": false,
+   "better": 28.279,
+   "worse": 28.4108
+  },
+  {
+   "line": 246,
+   "kind": "out_of_range",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 26.3088,
+   "worse": 16.8083
+  },
+  {
+   "line": 247,
+   "kind": "wrong_place",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 26.6032,
+   "worse": 12.7024
+  },
+  {
+   "line": 248,
+   "kind": "wrong_place",
+   "from": "uploaded pack",
+   "won": true,
+   "better": 21.7313,
+   "worse": 8.6874
+  }
+ ]
+}
