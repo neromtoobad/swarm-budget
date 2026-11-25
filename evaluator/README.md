@@ -4,7 +4,7 @@
 
 - Telegraph Hackathon Season II, Evaluators track (evaluation material)
 - Uploaded to the Telegraph evaluation pool on 25 November 2026 from `0x8482E592d6B28d3F5B713CC4576D6Ce216B2A78E`
-- A scorer trained on this kind of material is registered for the `WEATHER_FORECAST` family (registration 244): [adapter/](adapter/README.md)
+- A scorer trained on this kind of material was registered for the `WEATHER_FORECAST` family (registration 244) and **rejected** by the node: 43.3% on its hidden 30-pair sample against a 70% floor. Details: [adapter/](adapter/README.md)
 - Built by the [Swarm Budget](../README.md) team
 
 | Intent | Rows sent | Admitted by the node | Contributors before → after | Read back |
@@ -148,7 +148,7 @@ cd evaluator && node check/compare.mjs
 ## Disclosures and limits
 
 - **The same wallet runs a miner on these three intents** ([Pinpoint Weather](../miner/README.md)) and the Swarm Budget app. The rows reward naming the right place, which that miner does. The miner has no special handling for these questions, and the pack is public here so anyone can check that.
-- **One scorer is registered, for forecasts only** ([adapter/](adapter/README.md), registration 244). What the node decided is in [adapter/results/registration-244.jsonl](adapter/results/registration-244.jsonl); we claim only what that log shows. There is no scorer for storm alerts (that pool has four contributors, and the node needs five before it will compete one) and none for past-day records (that family already has a canonical scorer, which we did not challenge). We claim no ranking change and no paid use of the material.
+- **One scorer was registered, for forecasts only, and the node rejected it** ([adapter/](adapter/README.md), registration 244): it won 43.3% of a hidden 30-pair sample drawn from other contributors' material, below the 70% floor. The log is [adapter/results/registration-244.jsonl](adapter/results/registration-244.jsonl). There is no scorer for storm alerts (that pool has four contributors, and the node needs five before it will compete one) and none for past-day records (that family already has a canonical scorer, which we did not challenge). We claim no ranking change and no paid use of the material.
 - **Better answers are dated.** A storm or forecast answer was true for the hours after 13:00 UTC on 25 November 2026. What makes it the better answer (right place, right window, complete, consistent) does not go stale; its numbers do. Past-day rows use days between 20 August and 7 November 2026 and stay true.
 - **Better answers are model data, not measurements.** They come from Open-Meteo forecasts and its reanalysis archive.
 - **Generated wording.** Questions and answer sentences come from templates filled by code. No language model wrote them, but they are not human-written either. Five rows are real traffic.

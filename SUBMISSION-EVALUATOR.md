@@ -7,7 +7,7 @@ What the submission form asks for (rules, section 08), in order. Lines marked **
 | Field | Answer |
 |---|---|
 | Team / contact | **[you]** same as the Swarm Budget entry |
-| Track | Evaluators (evaluation material; no adapter registered) |
+| Track | Evaluators (evaluation material; one adapter registered and rejected) |
 | Project name | Place-trap evaluation packs |
 | Intents and material version | `STORM_ALERT_GENERAL` (220 rows), `WEATHER_FORECAST_GENERAL` (220), `WEATHER_FORECAST_VERIFY_GENERAL` (130). Version 1, uploaded 25 November 2026; each file's sha256 is in [evaluator/results/](evaluator/results/) |
 | Missions these intents serve | 06 Resources & Agriculture and 11 Autonomous Systems. `WEATHER_FORECAST_VERIFY_GENERAL` is also in the starting map of 05, 08 and 12 |
@@ -28,7 +28,9 @@ What the submission form asks for (rules, section 08), in order. Lines marked **
 >
 > A check that only asks "are the fields there and in range?" wins 64% of the pairs, and exactly half of the wrong-place, wrong-time and contradiction pairs, which are seven rows in ten. Explicit published rules decide all of them.
 >
-> `WEATHER_FORECAST_GENERAL` had material from four contributors; an Evaluator adapter can only compete once there are five. This upload is the fifth. We registered no adapter and claim no canonical status or ranking change.
+> `WEATHER_FORECAST_GENERAL` had material from four contributors; an Evaluator adapter can only compete once there are five. This upload is the fifth.
+>
+> We also trained a scorer for forecasts on this kind of material (96.8% on our own held-out towns) and registered it. The node rejected it: on a hidden sample of 30 pairs from other contributors' material it won 43.3%, against a 70% floor. We claim no canonical status or ranking change.
 
 ## 4. How to run it
 
