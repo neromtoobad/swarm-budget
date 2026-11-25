@@ -1,0 +1,239 @@
+{
+ "what": "The Swarm Budget wallet buying from Pinpoint Weather through the Telegraph node (escrow rail, testnet). Same team on both sides: an integration test, not outside demand.",
+ "buyer": "0x8482E592d6B28d3F5B713CC4576D6Ce216B2A78E",
+ "miner_id": "3672120",
+ "at": "2026-11-25T13:43:34.244Z",
+ "purchases": [
+  {
+   "intent": "STORM_ALERT_GENERAL",
+   "params": {
+    "location": "Kerman, California",
+    "window_hours": 6
+   },
+   "http_status": 200,
+   "ms": 6982,
+   "miner_id": "3672120",
+   "signal_hash": "0x60ddbf0eecc1555604f727cdb758bbe8cf473b4b2db511a76afea65cdde34117",
+   "signal_url": "https://devnode.telegraphprotocol.com/engine/v1/signal/0x60ddbf0eecc1555604f727cdb758bbe8cf473b4b2db511a76afea65cdde34117",
+   "receipt_hash": "0x289aec4cf9d99519513028e2856ce9ab997e396f1ee3fca996887b1e90ecdedf",
+   "result": {
+    "location": "Kerman, California, United States (36.7236, -120.0599)",
+    "risk_score": 0.083,
+    "risk_level": "LOW",
+    "peak_gust_kmh": 13.3,
+    "precipitation_mm": 0,
+    "window": "2026-11-25T13:00:00Z/2026-11-25T19:00:00Z"
+   },
+   "field_status": {
+    "location": "ok",
+    "risk_score": "ok",
+    "risk_level": "ok",
+    "peak_gust_kmh": "ok",
+    "precipitation_mm": "ok",
+    "window": "ok"
+   },
+   "guard": "accepted",
+   "guard_checks": [
+    {
+     "pass": true,
+     "why": "echoed coordinates 0 km from the farm"
+    },
+    {
+     "pass": true,
+     "why": "peak gust 13.3 km/h"
+    }
+   ],
+   "error": null
+  },
+  {
+   "intent": "WEATHER_FORECAST_GENERAL",
+   "params": {
+    "location": "Kerman, California",
+    "window_hours": 24
+   },
+   "http_status": 200,
+   "ms": 8447,
+   "miner_id": "3672120",
+   "signal_hash": "0x209011a574e996fe2288d934196c0d15b2c2ad7c227d80bc2bc05959acf3958f",
+   "signal_url": "https://devnode.telegraphprotocol.com/engine/v1/signal/0x209011a574e996fe2288d934196c0d15b2c2ad7c227d80bc2bc05959acf3958f",
+   "receipt_hash": "0x08ca5b3a77b3b4d76aba44d009e83fefd9e4ebebb29ee626832cbe30d2d1973c",
+   "result": {
+    "location": "Kerman, California, United States (36.7236, -120.0599)",
+    "when": "2026-11-25T13:00:00Z/2026-11-26T13:00:00Z",
+    "temp_max_c": 18.9,
+    "temp_min_c": 5,
+    "precipitation_probability_pct": 2,
+    "condition": "Clear sky, with fog at times"
+   },
+   "field_status": {
+    "location": "ok",
+    "when": "ok",
+    "temp_max_c": "ok",
+    "temp_min_c": "ok",
+    "precipitation_probability_pct": "ok",
+    "condition": "ok"
+   },
+   "guard": "accepted",
+   "guard_checks": [
+    {
+     "pass": true,
+     "why": "echoed coordinates 0 km from the farm"
+    },
+    {
+     "pass": true,
+     "why": "rain chance 2%"
+    }
+   ],
+   "error": null
+  },
+  {
+   "intent": "WEATHER_FORECAST_VERIFY_GENERAL",
+   "params": {
+    "location": "Kerman, California",
+    "date": "2026-11-22"
+   },
+   "http_status": 200,
+   "ms": 4587,
+   "miner_id": "3672120",
+   "signal_hash": "0x5867f0d41a30f95f2dfecef5447d09082e5e701e7d26a9f636de848cf07a5e2a",
+   "signal_url": "https://devnode.telegraphprotocol.com/engine/v1/signal/0x5867f0d41a30f95f2dfecef5447d09082e5e701e7d26a9f636de848cf07a5e2a",
+   "receipt_hash": "0x2547d3421acb2fa4e94a01e1e9f492e89fcc12e92b295a5611b9471bbda0102a",
+   "result": {
+    "location": "Kerman, California",
+    "date": "2026-11-22",
+    "temp_max_c": 12.1,
+    "temp_min_c": 2.9,
+    "precipitation_mm": 0,
+    "condition": "Overcast"
+   },
+   "field_status": {
+    "location": "ok",
+    "date": "ok",
+    "temp_max_c": "ok",
+    "temp_min_c": "ok",
+    "precipitation_mm": "ok",
+    "condition": "ok"
+   },
+   "guard": "accepted",
+   "guard_checks": [
+    {
+     "pass": true,
+     "why": "echoed \"Kerman, California\""
+    },
+    {
+     "pass": true,
+     "why": "records for 2026-11-22"
+    }
+   ],
+   "error": null
+  },
+  {
+   "intent": "WEATHER_CHECK_TEMPERATURE",
+   "params": {
+    "location": "Kerman, California"
+   },
+   "http_status": 200,
+   "ms": 2094,
+   "miner_id": "3672120",
+   "signal_hash": "0xf3bfaf69ac8f2362396264d28f68858596aef94f823c0f83c40e464c69bdd62c",
+   "signal_url": "https://devnode.telegraphprotocol.com/engine/v1/signal/0xf3bfaf69ac8f2362396264d28f68858596aef94f823c0f83c40e464c69bdd62c",
+   "receipt_hash": "0x0ca6411e75334e12319d8e67ce3453d2ac57b9ffc52a17d1250d65a15ff951af",
+   "result": {
+    "temperature_c": 5.8
+   },
+   "field_status": {
+    "temperature_c": "ok"
+   },
+   "guard": "accepted",
+   "guard_checks": [
+    {
+     "pass": true,
+     "why": "5.8 °C"
+    }
+   ],
+   "error": null
+  },
+  {
+   "intent": "STORM_ALERT_GENERAL",
+   "params": {
+    "location": "Paris, Texas",
+    "window_hours": 24
+   },
+   "http_status": 200,
+   "ms": 5207,
+   "miner_id": "3672120",
+   "signal_hash": "0x0f2260eed57627076757c50a48d21eba80871534f123a73a45bd27ef10d1fb89",
+   "signal_url": "https://devnode.telegraphprotocol.com/engine/v1/signal/0x0f2260eed57627076757c50a48d21eba80871534f123a73a45bd27ef10d1fb89",
+   "receipt_hash": "0x521e4b5774518a1fcdbdd3a8179d8eefd47d4e23124dd8a153a3c5a8cfafc7fa",
+   "result": {
+    "location": "Paris, Texas, United States (33.6609, -95.5555)",
+    "risk_score": 0.65,
+    "risk_level": "HIGH",
+    "peak_gust_kmh": 37.8,
+    "precipitation_mm": 0,
+    "window": "2026-11-25T13:00:00Z/2026-11-26T13:00:00Z"
+   },
+   "field_status": {
+    "location": "ok",
+    "risk_score": "ok",
+    "risk_level": "ok",
+    "peak_gust_kmh": "ok",
+    "precipitation_mm": "ok",
+    "window": "ok"
+   },
+   "guard": "accepted",
+   "guard_checks": [
+    {
+     "pass": true,
+     "why": "echoed coordinates 0 km from the farm"
+    },
+    {
+     "pass": true,
+     "why": "peak gust 37.8 km/h"
+    }
+   ],
+   "error": null
+  },
+  {
+   "intent": "WEATHER_FORECAST_GENERAL",
+   "params": {
+    "location": "Cairo, Illinois",
+    "window_hours": 24
+   },
+   "http_status": 200,
+   "ms": 5717,
+   "miner_id": "3672120",
+   "signal_hash": "0x0cd9e6e1469d127c82d423b9d354f2ea21cc9bb8ff0741db4fcd2b63b07e0978",
+   "signal_url": "https://devnode.telegraphprotocol.com/engine/v1/signal/0x0cd9e6e1469d127c82d423b9d354f2ea21cc9bb8ff0741db4fcd2b63b07e0978",
+   "receipt_hash": "0x1a066433a4cb9ffca6d08ce19bf5296e42b7b480c6a20dfbb87a2e498166ff43",
+   "result": {
+    "location": "Cairo, Illinois, United States (37.0053, -89.1765)",
+    "when": "2026-11-25T13:00:00Z/2026-11-26T13:00:00Z",
+    "temp_max_c": 4,
+    "temp_min_c": 2.6,
+    "precipitation_probability_pct": 100,
+    "condition": "Light rain, with rain at times"
+   },
+   "field_status": {
+    "location": "ok",
+    "when": "ok",
+    "temp_max_c": "ok",
+    "temp_min_c": "ok",
+    "precipitation_probability_pct": "ok",
+    "condition": "ok"
+   },
+   "guard": "accepted",
+   "guard_checks": [
+    {
+     "pass": true,
+     "why": "echoed coordinates 0 km from the farm"
+    },
+    {
+     "pass": true,
+     "why": "rain chance 100%"
+    }
+   ],
+   "error": null
+  }
+ ]
+}

@@ -79,6 +79,13 @@ async function hourly(place, hours) {
   return { url, start, end: new Date(start.getTime() + hours * 3600e3), times: h.time.slice(0, hours + 1), series, grid: { latitude: data.latitude, longitude: data.longitude, elevation_m: data.elevation } };
 }
 
+// Which official alerts are about storms? A Freeze Warning or a Heat Advisory is real weather, and it is
+// listed in the answer, but it is not wind, rain, snow or lightning and must not raise a STORM grade.
+// (Found on 25 Nov 2026: a Freeze Warning had graded Paris, Texas HIGH with 38 km/h gusts and no rain.)
+export const isStormAlert = (event) =>
+  /tornado|thunderstorm|hurricane|tropical|typhoon|cyclone|wind|gale|storm|flood|blizzard|snow|squall|hail|surge|dust/i.test(event ?? "") &&
+  !/chill|freeze|frost|heat|fog|air quality|fire|red flag|rip current|small craft/i.test(event ?? "");
+
 async function nwsAlerts(place) {
   if (place.country_code && place.country_code !== "US") return { covered: false, alerts: [] };
   // Without a country code (bare coordinates with no label) only try inside a box around the US.
@@ -86,11 +93,10 @@ async function nwsAlerts(place) {
   const url = `${NWS}/alerts/active?point=${fix4(place.lat)},${fix4(place.lon)}`;
   try {
     const data = await cached(`nws:${fix4(place.lat)},${fix4(place.lon)}`, 5 * 60e3, () => getJson(url, { timeoutMs: 2500, retries: 0, headers: { "User-Agent": UA, accept: "application/geo+json" } }));
-    const weather = /wind|storm|tornado|hurricane|flood|rain|snow|blizzard|ice|thunder|gale|typhoon|squall|freez|winter|tropical|surge|dust|hail/i;
     const alerts = (data?.features ?? [])
       .map((f) => f.properties)
-      .filter((p) => p && weather.test(p.event ?? ""))
-      .map((p) => ({ event: p.event, severity: p.severity, certainty: p.certainty, headline: p.headline, expires: p.expires }));
+      .filter((p) => p?.event)
+      .map((p) => ({ event: p.event, severity: p.severity, certainty: p.certainty, headline: p.headline, expires: p.expires, counts_toward_storm_risk: isStormAlert(p.event) }));
     return { covered: true, alerts, url };
   } catch {
     return { covered: true, alerts: [], url, failed: true };
@@ -143,7 +149,8 @@ export async function stormAlert(place, { window_hours, question } = {}) {
   const main = perModel.best_match ?? Object.values(perModel)[0];
   if (!main) throw new UpstreamError("No forecast model returned wind or precipitation for this point", { url: fc.url });
 
-  const { risk_score, risk_level, drivers } = assess({ ...main, alerts: official.alerts });
+  const stormAlerts = official.alerts.filter((a) => a.counts_toward_storm_risk);
+  const { risk_score, risk_level, drivers } = assess({ ...main, alerts: stormAlerts });
   const limitations = [
     "Risk is a published threshold rule over forecast gusts, precipitation, snowfall, thunderstorms and official alerts. It is not a calibrated probability and not an official warning.",
     "Forecast values are for the model grid cell that contains the coordinates, not a station reading.",
@@ -168,7 +175,9 @@ export async function stormAlert(place, { window_hours, question } = {}) {
     main.total == null ? "no precipitation forecast" : `${r1(main.total)} mm of precipitation`,
     thunder ? `thunderstorms forecast (${main.thunderCodes.map(wmoText).join(", ").toLowerCase()})` : "no thunderstorms forecast",
   ];
-  if (official.alerts.length) bits.push(`${official.alerts.length} official alert${official.alerts.length > 1 ? "s" : ""} active (${official.alerts.map((a) => a.event).join("; ")})`);
+  if (stormAlerts.length) bits.push(`${stormAlerts.length} official storm alert${stormAlerts.length > 1 ? "s" : ""} active (${stormAlerts.map((a) => a.event).join("; ")})`);
+  const otherAlerts = official.alerts.filter((a) => !a.counts_toward_storm_risk);
+  if (otherAlerts.length) limitations.push(`Other official alerts are active (${otherAlerts.map((a) => a.event).join("; ")}). They are listed but do not change the storm grade.`);
 
   return {
     answer: `${risk_level} storm risk for ${place.location} over the next ${hours} hours: ${bits.join(", ")}.`,

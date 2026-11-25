@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { assess, bandScore, levelOf, conditionOver, BANDS } from "../src/risk.mjs";
-import { readWindowHours, readDate, wettest, RequestError } from "../src/weather.mjs";
+import { readWindowHours, readDate, wettest, isStormAlert, RequestError } from "../src/weather.mjs";
 
 test("risk bands: each factor maps onto the same four grades", () => {
   assert.equal(bandScore(0, BANDS.gust_kmh), 0);
@@ -87,4 +87,9 @@ test("conditions: what the sky mostly does, plus the worst thing that happens", 
   assert.equal(conditionOver([3, 3, 3, 3, 61]), "Overcast, with light rain at times");
   assert.equal(conditionOver([95, 95, 95, 3]), "Thunderstorm");
   assert.equal(conditionOver([]), null);
+});
+
+test("only storm alerts raise a storm grade: a Freeze Warning is listed, not scored", () => {
+  for (const e of ["Tornado Warning", "Severe Thunderstorm Watch", "High Wind Warning", "Wind Advisory", "Flash Flood Warning", "Flood Watch", "Winter Storm Warning", "Blizzard Warning", "Hurricane Warning", "Tropical Storm Watch", "Storm Surge Warning", "Dust Storm Warning", "Coastal Flood Statement"]) assert.ok(isStormAlert(e), e);
+  for (const e of ["Freeze Warning", "Frost Advisory", "Heat Advisory", "Dense Fog Advisory", "Air Quality Alert", "Red Flag Warning", "Wind Chill Advisory", "Rip Current Statement", "Small Craft Advisory"]) assert.ok(!isStormAlert(e), e);
 });
